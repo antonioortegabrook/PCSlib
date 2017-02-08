@@ -93,7 +93,7 @@ void *pcs_parts_new() {
 
 void pcs_parts_assist(t_pcs_parts *x, void *b, long m, long a, char *s) {
 	if (m == ASSIST_INLET)
-		sprintf(s,"Pointer to a PCS structure");
+		sprintf(s,"PCS");
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):

@@ -96,7 +96,7 @@ void pcs_perm_assist(t_pcs_perm *x, void *b, long m, long a, char *s) {
                 sprintf(s,"bang outputs all the permutations, int outputs a specific one");
                 break;
             case(1):
-                sprintf(s,"Pointer to a PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }

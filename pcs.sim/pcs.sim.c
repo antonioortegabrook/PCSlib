@@ -161,6 +161,7 @@ void ext_main(void *r)
     class_addmethod(c, (method)pcs_sim_reset,           "reset",             0);
     
 	class_addmethod(c, (method)pcs_sim_assist,         "assist",	A_CANT, 0);	// (optional) assistance method
+    class_addmethod(c, (method)stdinletinfo,           "inletinfo",   A_CANT,  0);
 
 	class_register(CLASS_BOX, c);
 	pcs_sim_class = c;
@@ -205,10 +206,10 @@ void pcs_sim_assist(t_pcs_sim *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET) {
         switch(a) {
             case(0):
-                sprintf(s,"relation to compute, 'reset' clears the PCS list");
+                sprintf(s,"Relation to compute, 'reset' clears the PCS list");
                 break;
             case(1):
-                sprintf(s,"Pointer to a PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
@@ -218,7 +219,7 @@ void pcs_sim_assist(t_pcs_sim *x, void *b, long m, long a, char *s) {
                 sprintf(s,"Series of lists with the values found");
                 break;
             case(1):
-                sprintf(s,"Maximal and minimal vallue found (list)");
+                sprintf(s,"Maximal and minimal value found (list)");
                 break;
         }
     }

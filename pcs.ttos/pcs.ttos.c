@@ -105,15 +105,18 @@ void pcs_ttos_assist(t_pcs_ttos *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET) {
         switch(a) {
             case(0):
-                sprintf(s,"Pointer to a PCS structure, (int) operator, (list) operator and transposition factor");
+                sprintf(s,"(symbol) Operator, (list) Operator and transposition factor");
                 break;
             case(1):
                 sprintf(s,"(int) Transposition factor");
                 break;
+            case(2):
+                sprintf(s,"PCS");
+                break;
         }
     }
     if (m == ASSIST_OUTLET) {
-        sprintf(s,"Pointer to a PCS structure");
+        sprintf(s,"PCS");
     }
 }
 

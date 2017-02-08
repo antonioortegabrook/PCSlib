@@ -91,7 +91,7 @@ void cm_ttog_assist(t_cm_ttog *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET) {
         switch(a) {
             case(0):
-                sprintf(s,"(pointer to a PCS structure) PCS for the horizontal norm");
+                sprintf(s,"(PCS) Horizontal norm");
                 break;
             case(1):
                 sprintf(s,"(list) Group Type, Class and Member");
@@ -101,7 +101,7 @@ void cm_ttog_assist(t_cm_ttog *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
             case(1):
                 sprintf(s,"(list) Number of rows and columns");

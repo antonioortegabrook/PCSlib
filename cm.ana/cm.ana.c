@@ -85,7 +85,7 @@ void *cm_ana_new() {
 
 void cm_ana_assist(t_cm_ana *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET)
-        sprintf(s,"Pointer to a CM structure");
+        sprintf(s,"CM");
         
     if (m == ASSIST_OUTLET) {
         switch(a) {

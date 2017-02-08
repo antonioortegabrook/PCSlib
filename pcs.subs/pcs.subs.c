@@ -93,14 +93,14 @@ void pcs_subs_assist(t_pcs_subs *x, void *b, long m, long a, char *s) // 4 final
                 sprintf(s,"(int) Cardinal number of the subsets to be calculated");
                 break;
             case 1:
-                sprintf(s,"Pointer to a PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case 0:
-                sprintf(s,"Series of PCS pointers");
+                sprintf(s,"Series of PCS");
                 break;
             case 1:
                 sprintf(s,"(int) Number of subsets");

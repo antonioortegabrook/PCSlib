@@ -96,7 +96,7 @@ void pcs_invar_assist(t_pcs_invar *x, void *b, long m, long a, char *s) {
                 sprintf(s,"bang outputs the invariant set, 'reset' clears the PCS list");
                 break;
             case(1):
-                sprintf(s,"Two or more pointers to PCS");
+                sprintf(s,"Two or more PCS");
                 break;
         }
     }

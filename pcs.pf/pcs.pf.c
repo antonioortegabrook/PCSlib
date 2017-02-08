@@ -70,7 +70,7 @@ void pcs_pf_assist(t_pcs_pf *x, void *b, long m, long a, char *s) // 4 final arg
 	if (m == ASSIST_INLET)
 		sprintf(s,"(list) List of Pitch Classes");
     if (m == ASSIST_OUTLET)
-        sprintf(s,"Pointer to a PCS structure");
+        sprintf(s,"PCS");
 }
 
 void pcs_pf_free(t_pcs_pf *x){

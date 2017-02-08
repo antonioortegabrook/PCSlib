@@ -76,11 +76,11 @@ void *cm_t1b_new() {
 
 void cm_t1b_assist(t_cm_t1b *x, void *b, long m, long a, char *s) {
 	if (m == ASSIST_INLET)
-		sprintf(s,"Pointer to a PCS structure");
+		sprintf(s,"PCS");
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
             case(1):
                 sprintf(s,"Number of rows and columns (list)");

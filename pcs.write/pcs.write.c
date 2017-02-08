@@ -91,7 +91,7 @@ void pcs_write_assist(t_pcs_write *x, void *b, long m, long a, char *s) // 4 fin
 	if (m == ASSIST_INLET)
 		sprintf(s,"(list) Ordinal (int), Cardinal (int), Transposition factor (int), I (symbol, optional)");
     if (m == ASSIST_OUTLET)
-        sprintf(s,"Pointer to a PCS structure");
+        sprintf(s,"PCS");
 }
 
 void pcs_write_free(t_pcs_write *x){

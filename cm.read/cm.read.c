@@ -76,7 +76,7 @@ void *cm_read_new() {
 
 void cm_read_assist(t_cm_read *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET)
-        sprintf(s,"bang, Pointer to a CM structure");
+        sprintf(s,"bang, CM");
         
     if (m == ASSIST_OUTLET) {
         switch(a) {

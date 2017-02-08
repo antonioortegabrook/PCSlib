@@ -131,15 +131,15 @@ void cm_trans_assist(t_cm_trans *x, void *b, long m, long a, char *s) {
                 sprintf(s,"ec #row #column, er #row #column, t(n), it(n), r90, rd (0=R->L, 1=L->R), swap, wri #row #column, del #row #column, add #row #column");
                 break;
             case(1):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
             case(2):
-                sprintf(s,"Pointer to a PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
     if (m == ASSIST_OUTLET) {
-            sprintf(s,"Pointer to a CM structure");
+            sprintf(s,"CM");
     }
 }
 

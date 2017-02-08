@@ -76,7 +76,7 @@ void *pcs_print_new() {
 
 void pcs_print_assist(t_pcs_print *x, void *b, long m, long a, char *s) {
 	if (m == ASSIST_INLET)
-		sprintf(s,"Pointer to a PCS structure");
+		sprintf(s,"PCS");
     if (m == ASSIST_OUTLET) {
         sprintf(s,"(series of lists) PCS data");
     }

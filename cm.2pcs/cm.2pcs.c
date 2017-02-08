@@ -102,12 +102,12 @@ void cm_2pcs_assist(t_cm_2pcs *x, void *b, long m, long a, char *s) {
                 sprintf(s,"pos (row, column), row (n), col (n), all");
                 break;
             case(1):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
         }
     }
     if (m == ASSIST_OUTLET) {
-            sprintf(s,"Pointer to a PCS structure");
+            sprintf(s,"PCS");
     }
 }
 

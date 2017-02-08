@@ -67,7 +67,7 @@ void *cm_print_new() {
 
 void cm_print_assist(t_cm_print *x, void *b, long m, long a, char *s) {
 	if (m == ASSIST_INLET)
-		sprintf(s,"Pointer to a CM structure");
+		sprintf(s,"CM");
 }
 
 void cm_print_free(t_cm_print *x){

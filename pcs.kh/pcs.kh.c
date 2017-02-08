@@ -119,10 +119,10 @@ void pcs_kh_assist(t_pcs_kh *x, void *b, long m, long a, char *s) {
                 sprintf(s,"bang, kh, khall");
                 break;
             case(1):
-                sprintf(s,"pointer to PCS structure");
+                sprintf(s,"PCS");
                 break;
             case(2):
-                sprintf(s,"pointer to PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
@@ -132,7 +132,7 @@ void pcs_kh_assist(t_pcs_kh *x, void *b, long m, long a, char *s) {
                 sprintf(s,"bang");
                 break;
             case(1):
-                sprintf(s,"succesion of lists");
+                sprintf(s,"Succesion of lists");
                 break;
         }
     }
@@ -155,7 +155,7 @@ void pcs_kh_pcs_ptr(t_pcs_kh *x, t_symbol *s, long argc, t_atom *argv) {    //- 
     long inlet = proxy_getinlet((t_object *)x);     //- leftmost (default) inlet is #0 (so our proxies counts from 1)
     
     if(inlet==0) {
-        object_error((t_object*)x, "left inlet doesn't accept pointers");
+        object_error((t_object*)x, "left inlet doesn't accept PCS");
         return;
     }
     
@@ -178,7 +178,7 @@ void pcs_kh_bang(t_pcs_kh *x) {    //- bang (compute everything)
     long inlet = proxy_getinlet((t_object *)x);
     
     if(inlet!=0) {
-        object_error((t_object*)x, "no PCS pointer received");
+        object_error((t_object*)x, "no PCS received");
         return;
     }
     if(pcs_kh_check_input_errs(x)!=0)

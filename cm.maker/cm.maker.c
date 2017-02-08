@@ -60,6 +60,7 @@ void ext_main(void *r)
     class_addmethod(c, (method)cm_maker_close,          "close",                0);
     
     class_addmethod(c, (method)cm_maker_assist,         "assist",      A_CANT,  0);	// (optional) assistance method
+    class_addmethod(c, (method)stdinletinfo,            "inletinfo",   A_CANT,  0);
 
 	class_register(CLASS_BOX, c);
 	cm_maker_class = c;
@@ -98,14 +99,14 @@ void cm_maker_assist(t_cm_maker *x, void *b, long m, long a, char *s) {
                 sprintf(s,"reset, close");
                 break;
             case(1):
-                sprintf(s,"Pointer to a PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
             case(1):
                 sprintf(s,"Number of rows and columns (list)");

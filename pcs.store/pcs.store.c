@@ -84,15 +84,15 @@ void pcs_store_assist(t_pcs_store *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET) {
         switch(a) {
             case(0):
-                sprintf(s,"bang, Pointer to a PCS structure");
+                sprintf(s,"bang, PCS");
                 break;
             case(1):
-                sprintf(s,"Pointer to a PCs structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
 	if (m == ASSIST_OUTLET)
-        sprintf(s,"Pointer to a PCS structure");
+        sprintf(s,"PCS");
 }
 
 void pcs_store_free(t_pcs_store *x){

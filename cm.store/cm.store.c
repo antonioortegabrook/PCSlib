@@ -84,15 +84,15 @@ void cm_store_assist(t_cm_store *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET) {
         switch(a) {
             case(0):
-                sprintf(s,"bang, Pointer to a CM structure");
+                sprintf(s,"bang, CM");
                 break;
             case(1):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
         }
     }
 	if (m == ASSIST_OUTLET)
-        sprintf(s,"Pointer to a CM structure");
+        sprintf(s,"CM");
 }
 
 void cm_store_free(t_cm_store *x){

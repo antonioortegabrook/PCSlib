@@ -50,6 +50,7 @@ void ext_main(void *r)
     class_addmethod(c, (method)cm_opcy_int,            "int",         A_LONG,  0);
     
     class_addmethod(c, (method)cm_opcy_assist,         "assist",      A_CANT,  0);	// (optional) assistance method
+    class_addmethod(c, (method)stdinletinfo,           "inletinfo",   A_CANT,  0);
 
 	class_register(CLASS_BOX, c);
 	cm_opcy_class = c;
@@ -86,14 +87,14 @@ void cm_opcy_assist(t_cm_opcy *x, void *b, long m, long a, char *s) {
                 sprintf(s,"Cycles operator to be used: 6, -6(inversion), 3, 9, 4, 8, 2 or 10");
                 break;
             case(1):
-                sprintf(s,"Pointer to a PCS structure");
+                sprintf(s,"PCS");
                 break;
         }
     }
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
             case(1):
                 sprintf(s,"Number of rows and columns (list)");

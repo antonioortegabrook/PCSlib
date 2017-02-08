@@ -240,7 +240,7 @@ void *pcs_chain_new() {
 
 void pcs_chain_assist(t_pcs_chain *x, void *b, long m, long a, char *s) {
 	if (m == ASSIST_INLET)
-		sprintf(s,"Pointer to a PCS structure, start, add, reset");
+		sprintf(s,"PCS, start, add, reset");
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):

@@ -47,7 +47,8 @@ void ext_main(void *r)
     
     class_addmethod(c, (method)cm_t2_pcs_ptr,        MPID,          A_GIMME, 0);    // pointer to PCS
     
-    class_addmethod(c, (method)cm_t2_assist,         "assist",      A_CANT, 0);	// (optional) assistance method
+    class_addmethod(c, (method)cm_t2_assist,         "assist",      A_CANT,  0);	// (optional) assistance method
+    class_addmethod(c, (method)stdinletinfo,         "inletinfo",   A_CANT,  0);
 
 	class_register(CLASS_BOX, c);
 	cm_t2_class = c;
@@ -84,17 +85,17 @@ void cm_t2_assist(t_cm_t2 *x, void *b, long m, long a, char *s) {
     if (m == ASSIST_INLET) {
         switch(a) {
             case(0):
-                sprintf(s,"(pointer to a PCS structure) Horizontal norm");
+                sprintf(s,"(PCS) Horizontal norm");
                 break;
             case(1):
-                sprintf(s,"(pointer to a PCS structure) Vertical norm");
+                sprintf(s,"(PCS) Vertical norm");
                 break;
         }
     }
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):
-                sprintf(s,"Pointer to a CM structure");
+                sprintf(s,"CM");
                 break;
             case(1):
                 sprintf(s,"Number of rows and columns (list)");

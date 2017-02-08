@@ -83,7 +83,7 @@ void pcs_zmate_assist(t_pcs_zmate *x, void *b, long m, long a, char *s) // 4 fin
     if (m == ASSIST_OUTLET) {
         switch(a) {
             case(0):
-                sprintf(s,"(Pointer to a PCS) Z mate if exists");
+                sprintf(s,"(PCS) Z mate if exists");
                 break;
             case(1):
                 sprintf(s, "Bang if there's no Z mate");
