@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:../pcslib-includes">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "PCS">
+      <FileRef
+         location = "group:../pcs.zmate/pcs.zmate.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.print/pcs.print.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.store/pcs.store.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.pf/pcs.pf.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.chain/pcs.chain.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.invar/pcs.invar.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.kh/pcs.kh.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.parts/pcs.parts.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.perm/pcs.perm.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.read/pcs.read.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.sim/pcs.sim.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.subs/pcs.subs.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.ttos/pcs.ttos.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../pcs.write/pcs.write.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "CM">
+      <FileRef
+         location = "group:../cm.2pcs/cm.2pcs.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.ttog/cm.ttog.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.t2/cm.t2.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.ana/cm.ana.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.opcy/cm.opcy.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.read/cm.read.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.store/cm.store.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.t1a/cm.t1a.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.roman/cm.roman.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.trans/cm.trans.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.maker/cm.maker.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.print/cm.print.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:../cm.t1b/cm.t1b.xcodeproj">
+      </FileRef>
+   </Group>
+</Workspace>
