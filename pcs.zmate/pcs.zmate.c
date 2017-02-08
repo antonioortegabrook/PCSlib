@@ -2,7 +2,7 @@
                                                 Requires Max6/7 & OS X 10.7 or later
                                                 September 2016
 ------- 
- The pcs_zmate object expects a pointer to a PCS structure. It outputs the z mate of the received pcs, if exist, trough the letf outlet or a bang trow the right one if it doesn't
+ The pcs_zmate object expects a pointer to a PCS structure. It outputs the z mate of the received pcs, if exist, trough the letf outlet or a bang trough the right one if it doesn't
 */
 
 /*
