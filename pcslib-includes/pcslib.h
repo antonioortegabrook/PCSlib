@@ -38,8 +38,8 @@ PCSLIB.H by Oscar Pablo Di Liscia and Pablo Cetta
 #define EOP		    -1 /*End of position*/
 #define EOC		    -2 /*End of chain*/
 #define ETY         -3 /*Empty position*/
-#define NEXTC		9  /*Maximal Number of PCS per position of a CM*/   //- tal vez debería ser 12, ya que el objeto pcs.pf puede generar PCS de hasta 12 elementos
-#define MAXELEM		90
+#define NEXTC		12  /*Maximal Number of PCS per position of a CM*/   //- tal vez debería ser 12, ya que el objeto pcs.pf puede generar PCS de hasta 12 elementos
+#define MAXELEM		144 // NEXTC*12?
 #define MAXROWS		11
 #define SPAC		-4
 #define MIN_CAD	     2
