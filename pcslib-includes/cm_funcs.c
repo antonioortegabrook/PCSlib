@@ -271,7 +271,7 @@ void RomanSq(CM* cm, PCS *pcs)
     i=0;                    //-    agregado por m’; es un parche, quiz‡s poco elegante, pero permite obtener
     int eop_count=0;                //-     un elemento por posici—n cuando no se ingresa EOP igual que los otros;
     while(pcs->find[i] != EOC) {    //-     provisorio hasta evaluar si hay una manera m‡s correcta de hacerlo;
-        if(pcs->find[i]==EOP)
+        if(pcs->find[i]==EOP)       //-- REVISAR ---
             eop_count++;
         i++;
     }

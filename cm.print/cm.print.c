@@ -139,7 +139,7 @@ void cm_print_cm_ptr(t_cm_print *x, t_symbol *s, long argc, t_atom *argv) {
             elemIndex=0;
             npos=0;
             ddpos=0;
-            while(x->cm->mat[columna*NEXTC+elemIndex][fila] != SPAC) {
+            while(x->cm->mat[columna*NEXTC+elemIndex][fila] != SPAC && elemIndex < x->cm->MaxElemxPos) {
                 if(x->cm->mat[columna*NEXTC+elemIndex][fila] > 9) {
                     ddpos++;
                 }

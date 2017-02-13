@@ -34,13 +34,13 @@ PCSLIB.H by Oscar Pablo Di Liscia and Pablo Cetta
 #define TIVL		12 /*invariant vector size*/
 #define AGL			12 /*Aggregate size*/
 #define ICVL		6  /*Interval-Class vector size*/
-#define PCSL		36 /*PCS vector size*/
+#define PCSL		36 /*PCS vector size*/ //- Podría ser mayor...
 #define EOP		    -1 /*End of position*/
 #define EOC		    -2 /*End of chain*/
 #define ETY         -3 /*Empty position*/
 #define NEXTC		12  /*Maximal Number of PCS per position of a CM*/   //- tal vez debería ser 12, ya que el objeto pcs.pf puede generar PCS de hasta 12 elementos
 #define MAXELEM		144 // NEXTC*12?
-#define MAXROWS		11
+#define MAXROWS		12
 #define SPAC		-4
 #define MIN_CAD	     2
 #define MAX_CAD	     9  
@@ -183,7 +183,7 @@ typedef struct {
 
 
 typedef struct {
-  int mat[MAXELEM + 1][MAXROWS + 1];
+  int mat[MAXELEM /*+ 1*/][MAXROWS /*+ 1*/];
   int NroFilas;
   int NroCols;
   int MaxElemxPos;
