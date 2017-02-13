@@ -183,7 +183,7 @@ typedef struct {
 
 
 typedef struct {
-  int mat[MAXELEM /*+ 1*/][MAXROWS /*+ 1*/];
+  int mat[MAXELEM][MAXROWS];
   int NroFilas;
   int NroCols;
   int MaxElemxPos;

@@ -131,7 +131,7 @@ void cm_print_cm_ptr(t_cm_print *x, t_symbol *s, long argc, t_atom *argv) {
     spa=(char*)malloc(sizeof(char)*4);
     *spa=0;
     
-    object_post((t_object*)x, "CM");
+    object_post((t_object*)x, "CM · %i x %i · Max elems per position: %i", x->cm->NroFilas, x->cm->NroCols, x->cm->MaxElemxPos);
     for(int fila=0; fila < x->cm->NroFilas; fila++) {
         *row=0;
         for(int columna=0; columna < x->cm->NroCols; columna++) {
