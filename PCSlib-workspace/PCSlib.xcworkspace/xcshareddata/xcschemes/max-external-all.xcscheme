@@ -17,7 +17,7 @@
                BlueprintIdentifier = "2FBBEAD608F335360078DB84"
                BuildableName = "cm.2pcs.mxo"
                BlueprintName = "max-external"
-               ReferencedContainer = "container:cm.2pcs.xcodeproj">
+               ReferencedContainer = "container:../cm.2pcs/cm.2pcs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -399,7 +399,7 @@
             BlueprintIdentifier = "2FBBEAD608F335360078DB84"
             BuildableName = "cm.2pcs.mxo"
             BlueprintName = "max-external"
-            ReferencedContainer = "container:cm.2pcs.xcodeproj">
+            ReferencedContainer = "container:../cm.2pcs/cm.2pcs.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -421,7 +421,7 @@
             BlueprintIdentifier = "2FBBEAD608F335360078DB84"
             BuildableName = "cm.2pcs.mxo"
             BlueprintName = "max-external"
-            ReferencedContainer = "container:cm.2pcs.xcodeproj">
+            ReferencedContainer = "container:../cm.2pcs/cm.2pcs.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -439,7 +439,7 @@
             BlueprintIdentifier = "2FBBEAD608F335360078DB84"
             BuildableName = "cm.2pcs.mxo"
             BlueprintName = "max-external"
-            ReferencedContainer = "container:cm.2pcs.xcodeproj">
+            ReferencedContainer = "container:../cm.2pcs/cm.2pcs.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
