@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/antonioortegabrook/Documents/Max 7/Packages/max-sdk-7.1.0/source/PCSlib/pcs.perm/pcs.perm.xcodeproj">
+      location = "self:~/Documents/Max 7/Packages/max-sdk-7.1.0/source/PCSlib/pcs.perm/pcs.perm.xcodeproj">
    </FileRef>
 </Workspace>
