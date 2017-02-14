@@ -69,7 +69,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 275.0, 211.0, 164.0, 20.0 ],
-					"presentation_rect" : [ 304.0, 222.5, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "store a CM without output"
 				}
