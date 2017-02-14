@@ -38,52 +38,77 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-49",
+					"id" : "obj-11",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 138.0, 177.0, 150.0, 20.0 ],
+					"style" : "",
+					"text" : "send a PCS to evaluate"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-7",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 102.0, 176.0, 34.0, 22.0 ],
+					"style" : "",
+					"text" : "5 23"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-5",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 133.0, 291.0, 150.0, 20.0 ],
+					"style" : "",
+					"text" : "bang if there's no Z mate"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-3",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 107.0, 289.0, 24.0, 24.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-52",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "bang" ],
+					"patching_rect" : [ 61.0, 260.0, 65.0, 22.0 ],
+					"style" : "",
+					"text" : "pcs.zmate"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 12.0,
+					"id" : "obj-51",
 					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 226.0, 263.5, 199.0, 33.0 ],
+					"patching_rect" : [ 2.0, 73.0, 388.0, 33.0 ],
 					"style" : "",
-					"text" : "except for the case of \"-1\" absolute values are taken"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-47",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 128.5, 269.0, 88.0, 22.0 ],
-					"style" : "",
-					"text" : "0 3 4 6 -11 -10"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-45",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 127.5, 205.0, 216.0, 20.0 ],
-					"style" : "",
-					"text" : "Pitch-Classes are taken as modulo-12"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-43",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 78.5, 204.0, 44.0, 22.0 ],
-					"style" : "",
-					"text" : "0 4 20"
+					"text" : "pcs.zmate will output the Z mate of a given PCS, if exists; otherwise, a bang is sent through the right outlet."
 				}
 
 			}
@@ -96,7 +121,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 7.0, 428.0, 252.0, 33.0 ],
 					"style" : "",
-					"text" : "Input: list of two or more pitch-classes\nOutput: PCS"
+					"text" : "Input: PCS\nOutput: PCS, bang"
 				}
 
 			}
@@ -106,22 +131,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 89.0, 351.0, 150.0, 20.0 ],
+					"patching_rect" : [ 119.0, 328.0, 150.0, 20.0 ],
 					"style" : "",
 					"text" : "print PCS data"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-28",
-					"linecount" : 2,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 202.0, 230.5, 223.0, 33.0 ],
-					"style" : "",
-					"text" : "\"-1\" means a new position (a new group of pitch-classes inside the same PCS)"
 				}
 
 			}
@@ -131,35 +143,9 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 29.0, 351.0, 56.0, 22.0 ],
+					"patching_rect" : [ 61.0, 327.0, 56.0, 22.0 ],
 					"style" : "",
 					"text" : "pcs.print"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-25",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 101.0, 236.0, 94.0, 22.0 ],
-					"style" : "",
-					"text" : "0 3 4 -1 6 11 10"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-14",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 48.5, 174.0, 63.0, 22.0 ],
-					"style" : "",
-					"text" : "0 3 7 11 2"
 				}
 
 			}
@@ -170,9 +156,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 29.0, 145.0, 47.0, 22.0 ],
+					"patching_rect" : [ 61.0, 176.0, 34.0, 22.0 ],
 					"style" : "",
-					"text" : "0 1 2 4"
+					"text" : "4 15"
 				}
 
 			}
@@ -185,7 +171,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2.0, 51.0, 286.0, 22.0 ],
 					"style" : "",
-					"text" : "Creates a PCS from a list of Pitch-Classes"
+					"text" : "Outputs the Z mate of a PCS"
 				}
 
 			}
@@ -198,7 +184,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2.0, 2.0, 387.0, 47.0 ],
 					"style" : "",
-					"text" : "pcs.pf"
+					"text" : "pcs.zmate"
 				}
 
 			}
@@ -209,16 +195,16 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 29.0, 306.0, 43.0, 22.0 ],
+					"patching_rect" : [ 61.0, 224.0, 58.0, 22.0 ],
 					"style" : "",
-					"text" : "pcs.pf"
+					"text" : "pcs.write"
 				}
 
 			}
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-26", 0 ],
+					"destination" : [ "obj-52", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-1", 0 ]
@@ -236,10 +222,19 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
+					"destination" : [ "obj-26", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-14", 0 ]
+					"source" : [ "obj-52", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-52", 1 ]
 				}
 
 			}
@@ -248,35 +243,21 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-25", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-43", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-47", 0 ]
+					"source" : [ "obj-7", 0 ]
 				}
 
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "pcs.pf.mxo",
+				"name" : "pcs.write.mxo",
 				"type" : "iLaX"
 			}
 , 			{
 				"name" : "pcs.print.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "pcs.zmate.mxo",
 				"type" : "iLaX"
 			}
  ],

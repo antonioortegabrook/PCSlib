@@ -38,52 +38,103 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"id" : "obj-49",
+					"id" : "obj-64",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 252.0, 211.0, 164.0, 20.0 ],
+					"style" : "",
+					"text" : "store a PCS without output"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-63",
 					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 226.0, 263.5, 199.0, 33.0 ],
+					"patching_rect" : [ 207.0, 168.5, 155.0, 33.0 ],
 					"style" : "",
-					"text" : "except for the case of \"-1\" absolute values are taken"
+					"text" : "store a PCS and outputs it immediately"
 				}
 
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-47",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 128.5, 269.0, 88.0, 22.0 ],
-					"style" : "",
-					"text" : "0 3 4 6 -11 -10"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-45",
+					"id" : "obj-59",
+					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 127.5, 205.0, 216.0, 20.0 ],
+					"patching_rect" : [ 20.0, 235.5, 97.0, 33.0 ],
 					"style" : "",
-					"text" : "Pitch-Classes are taken as modulo-12"
+					"text" : "bang outputs the stored PCS"
 				}
 
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-43",
+					"id" : "obj-57",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 119.0, 240.0, 24.0, 24.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-55",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 78.5, 204.0, 44.0, 22.0 ],
+					"patching_rect" : [ 218.0, 211.0, 33.0, 22.0 ],
 					"style" : "",
-					"text" : "0 4 20"
+					"text" : "5 11"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-53",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 218.0, 240.0, 58.0, 22.0 ],
+					"style" : "",
+					"text" : "pcs.write"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-52",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 158.0, 275.0, 59.0, 22.0 ],
+					"style" : "",
+					"text" : "pcs.store"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 12.0,
+					"id" : "obj-51",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 2.0, 73.0, 388.0, 20.0 ],
+					"style" : "",
+					"text" : "pcs.store works like the int and float object, but for PCS"
 				}
 
 			}
@@ -96,7 +147,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 7.0, 428.0, 252.0, 33.0 ],
 					"style" : "",
-					"text" : "Input: list of two or more pitch-classes\nOutput: PCS"
+					"text" : "Input: bang, PCS\nOutput: PCS"
 				}
 
 			}
@@ -106,22 +157,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 89.0, 351.0, 150.0, 20.0 ],
+					"patching_rect" : [ 218.0, 325.0, 150.0, 20.0 ],
 					"style" : "",
 					"text" : "print PCS data"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-28",
-					"linecount" : 2,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 202.0, 230.5, 223.0, 33.0 ],
-					"style" : "",
-					"text" : "\"-1\" means a new position (a new group of pitch-classes inside the same PCS)"
 				}
 
 			}
@@ -131,35 +169,9 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 29.0, 351.0, 56.0, 22.0 ],
+					"patching_rect" : [ 158.0, 325.0, 56.0, 22.0 ],
 					"style" : "",
 					"text" : "pcs.print"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-25",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 101.0, 236.0, 94.0, 22.0 ],
-					"style" : "",
-					"text" : "0 3 4 -1 6 11 10"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-14",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 48.5, 174.0, 63.0, 22.0 ],
-					"style" : "",
-					"text" : "0 3 7 11 2"
 				}
 
 			}
@@ -170,7 +182,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 29.0, 145.0, 47.0, 22.0 ],
+					"patching_rect" : [ 158.0, 174.0, 47.0, 22.0 ],
 					"style" : "",
 					"text" : "0 1 2 4"
 				}
@@ -185,7 +197,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2.0, 51.0, 286.0, 22.0 ],
 					"style" : "",
-					"text" : "Creates a PCS from a list of Pitch-Classes"
+					"text" : "Store a PCS"
 				}
 
 			}
@@ -198,7 +210,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 2.0, 2.0, 387.0, 47.0 ],
 					"style" : "",
-					"text" : "pcs.pf"
+					"text" : "pcs.store"
 				}
 
 			}
@@ -209,7 +221,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 29.0, 306.0, 43.0, 22.0 ],
+					"patching_rect" : [ 158.0, 240.0, 43.0, 22.0 ],
 					"style" : "",
 					"text" : "pcs.pf"
 				}
@@ -218,7 +230,7 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-26", 0 ],
+					"destination" : [ "obj-52", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-1", 0 ]
@@ -236,37 +248,37 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
+					"destination" : [ "obj-26", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-14", 0 ]
+					"source" : [ "obj-52", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
+					"destination" : [ "obj-52", 1 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-25", 0 ]
+					"source" : [ "obj-53", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
+					"destination" : [ "obj-53", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-43", 0 ]
+					"source" : [ "obj-55", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
+					"destination" : [ "obj-52", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-47", 0 ]
+					"source" : [ "obj-57", 0 ]
 				}
 
 			}
@@ -277,6 +289,14 @@
 			}
 , 			{
 				"name" : "pcs.print.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "pcs.store.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "pcs.write.mxo",
 				"type" : "iLaX"
 			}
  ],
