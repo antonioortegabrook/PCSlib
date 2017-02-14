@@ -257,7 +257,7 @@ int cm_ttog(CM *cm, TTOG *ttog, PCS *pcs)
 
 void RomanSq(CM* cm, PCS *pcs)
 {
-	int vector[PCSL];
+	int vector[PCSL];   //- cuidado con esto! el vector es m‡s grande que las posiciones de la matriz
 	int salto;
 	int nro_filas_col = 0, i = 0, j, k = 0, incr, nro_pos = 0 /* , h=0 */ ;     //- unused variable 'h'
 	
