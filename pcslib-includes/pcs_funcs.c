@@ -740,8 +740,11 @@ void OrdenaPCS(PCS* pcs)
 	if(!flag){
 		qsort((void *)temp, j, sizeof(int), sort_function);
 		n = 0;
-		while(pcs->find[n] != EOC)pcs->find[n] = temp[n++];
-            post("unsequenced modification and access to n 2"); //- borrar
+//		while(pcs->find[n] != EOC)pcs->find[n] = temp[n++];     //- unsequenced modification and access to n
+        while(pcs->find[n] != EOC) {
+            pcs->find[n] = temp[n];
+            n++;
+        }
 	}
 }
 // --------------------------------------------------------------------
