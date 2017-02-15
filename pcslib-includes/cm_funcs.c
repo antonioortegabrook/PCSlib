@@ -548,6 +548,9 @@ void Inicializar(CM* cm)
 // -----------------------------------------------------------
 //	Corrige un vector, ubicando solo un elemento por posicion
 // -----------------------------------------------------------
+/*
+ Revisar: la cantidad m‡xima de elementos en el vector debe ser igual a (PCSL-1)/2; esto es: tantos espacios para EOPs como elementos, m‡s uno para EOC.
+ */
 void OneXPos(int* vector)
 {
 	int k = 0, i = 0, temp[PCSL];
