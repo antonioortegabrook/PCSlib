@@ -235,6 +235,7 @@ int cm_ttog(CM *cm, TTOG *ttog, PCS *pcs)
 			}
 		}
 		//post_pmat(Pmat,ttog->or,ttog->or);
+        cm->MaxElemxPos = 1;    //- revisar
 		cm->NroCols=cm->NroFilas=ttog->or;
 	}
 	
