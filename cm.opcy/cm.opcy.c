@@ -136,7 +136,7 @@ void cm_opcy_int(t_cm_opcy *x, long argv) {
         object_warn((t_object*)x, "pointer to pcs not received");
         return;
     }
-    TnI = argv;
+    TnI = (int)argv;
     
     if(TnI == 5 || TnI == 7 || TnI > 10) {
         object_post((t_object*)x, "wrong cycles operator, valid choices are: -6, 6, 2, 3, 4, 8, 9 or 10");

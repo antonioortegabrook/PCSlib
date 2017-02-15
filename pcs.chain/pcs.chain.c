@@ -133,9 +133,9 @@ typedef struct _pcs_chain {	// defines our object's internal variables for each 
     PCS *ch ; /*pointer to a chain(a row of PCS)*/
     PART  *part;
     
-    t_int chn; /*chain size*/
-    t_int n;   /*number of partition requested to chain*/
-    t_int prev;/*the previous number of partition chained*/
+    int chn; /*chain size*/
+    int n;   /*number of partition requested to chain*/
+    int prev;/*the previous number of partition chained*/
     int max; /*max. partition number allowed according to the cardinal of the norm */
     int min; /*min. partition number allowed according to the cardinal of the norm */
     CAND  candidates[100]; /*must be allocate dinamically?*/

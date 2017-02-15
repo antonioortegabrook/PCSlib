@@ -22,10 +22,10 @@ typedef struct _cm_trans {	// defines our object's internal variables for each i
     CM *cm1;		  /*pointers to CM structs*/
     CM *cm2;
     PCS *pcs;
-    t_int n;        /*transposition operator*/
-    t_int cmnew;
-    t_int row[2];
-    t_int col[2];
+    int n;        /*transposition operator*/
+    int cmnew;
+    int row[2];
+    int col[2];
     
     long p_in;
     void *pcs_in;
@@ -194,7 +194,7 @@ void cm_trans_ec(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {     // c
         return;
     }
     
-    t_int i, n[2];
+    int i, n[2];
     
     CopiaMatriz(x->cm1,x->cm2);
     
@@ -208,7 +208,7 @@ void cm_trans_ec(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {     // c
             break;
             return;
         }
-        n[i]= atom_getlong(argv+i);
+        n[i] = (int)atom_getlong(argv+i);
     }
     if(n[0] > x->cm2->NroCols || n[1] > x->cm2->NroCols){
         object_warn((t_object*)x, "the CM doesn't have the number of column requested");
@@ -220,7 +220,7 @@ void cm_trans_ec(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {     // c
 }
 
 void cm_trans_er(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {     // row exchange
-    t_int i, n[2];
+    int i, n[2];
     
     CopiaMatriz(x->cm1,x->cm2);     //- deberíamos copiar la cm después de checkear los argumentos
     
@@ -234,7 +234,7 @@ void cm_trans_er(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {     // r
             break;
             return;
         }
-        n[i]= atom_getlong(argv+i);
+        n[i] = (int)atom_getlong(argv+i);
     }
     if(n[0] > x->cm2->NroFilas || n[1] > x->cm2->NroFilas ){
         object_warn((t_object*)x, "the CM doesn't have the number of row requested");
@@ -261,7 +261,7 @@ void cm_trans_t(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
             object_error((t_object *)x, "bad arguments for message t");
             return;
         }
-        x->n = atom_getlong(argv);
+        x->n = (int)atom_getlong(argv);
     } else {
         x->n=0; // default 0
     }
@@ -289,7 +289,7 @@ void cm_trans_i(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
             object_error((t_object *)x, "bad arguments for message i");
             return;
         }
-        x->n = atom_getlong(argv);
+        x->n = (int)atom_getlong(argv);
     } else {
         x->n=0; // default 0
     }
@@ -317,7 +317,7 @@ void cm_trans_m(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
             object_error((t_object *)x, "bad arguments for message m");
             return;
         }
-        x->n = atom_getlong(argv);
+        x->n = (int)atom_getlong(argv);
     } else {
         x->n=0; // default 0
     }
@@ -344,7 +344,7 @@ void cm_trans_mi(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
             object_error((t_object *)x, "bad arguments for message mi");
             return;
         }
-        x->n = atom_getlong(argv);
+        x->n = (int)atom_getlong(argv);
     } else {
         x->n=0; // default 0
     }
@@ -384,7 +384,7 @@ void cm_trans_rd(t_cm_trans *x, t_symbol *s, long n) {
         return;
     }
     
-    x->n = n;
+    x->n = (int)n;
     CopiaMatriz(x->cm1,x->cm2);
     RotaDiag(x->cm2, x->n);
     
@@ -400,9 +400,9 @@ void cm_trans_swap(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {   // s
         return;
     }
     
-    t_int i;
-    t_int flag = FALSE, tipo = 0, nop=0;
-    t_int j, z, w, h, c, d;
+    int i;
+    int flag = FALSE, tipo = 0, nop=0;
+    int j, z, w, h, c, d;
     int dens[MAXROWS][MAXROWS];
     PCS p1, p2, target;
     
@@ -425,7 +425,7 @@ void cm_trans_swap(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {   // s
             return;
         }
                             // perform the requested number of swapping operations and outputs all the results
-        x->n = atom_getlong(argv);
+        x->n = (int)atom_getlong(argv);
         
         for(h = 0; h < 2; h++){
             if(h && flag==FALSE) tipo = TRUE;
@@ -481,8 +481,8 @@ void cm_trans_swap(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {   // s
         }
                             // swap two specific positions of a CM without density checking
         for(int i=0; i<2; i++) {
-            x->row[i] = atom_getlong(argv + i*2);
-            x->col[i] = atom_getlong(argv + (i*2+1));
+            x->row[i] = (int)atom_getlong(argv + i*2);
+            x->col[i] = (int)atom_getlong(argv + (i*2+1));
             if(x->row[i] > x->cm2->NroFilas-1 || x->col[i] > x->cm2->NroCols-1) {
                 object_warn((t_object*)x, "out of range Row and/or Column number, no action taken");
                 return;
@@ -533,8 +533,8 @@ void cm_trans_del(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
     }
     
     CopiaMatriz(x->cm1,x->cm2);
-    x->row[0]= atom_getlong(argv);
-    x->col[0]= atom_getlong(argv+1);
+    x->row[0] = (int)atom_getlong(argv);
+    x->col[0] = (int)atom_getlong(argv+1);
     
     if(x->row[0] > x->cm2->NroFilas || x->col[0] > x->cm2->NroCols) {
         object_warn((t_object*)x, "out of range Row and/or Column number, no action taken");
@@ -569,8 +569,8 @@ void cm_trans_wri(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
     }
     
     CopiaMatriz(x->cm1,x->cm2);
-    x->row[0]= atom_getlong(argv);
-    x->col[0]= atom_getlong(argv+1);
+    x->row[0] = (int)atom_getlong(argv);
+    x->col[0] = (int)atom_getlong(argv+1);
     
     if(x->row[0] > x->cm2->NroFilas || x->col[0] > x->cm2->NroCols) {
         object_warn((t_object*)x, "out of range Row and/or Column number, no action taken");
@@ -610,8 +610,8 @@ void cm_trans_add(t_cm_trans *x, t_symbol *s, long argc, t_atom *argv) {
     }
     
     CopiaMatriz(x->cm1,x->cm2);
-    x->row[0]= atom_getlong(argv);
-    x->col[0]= atom_getlong(argv+1);
+    x->row[0] = (int)atom_getlong(argv);
+    x->col[0] = (int)atom_getlong(argv+1);
     
     if(x->row[0] > x->cm2->NroFilas || x->col[0] > x->cm2->NroCols) {
         object_warn((t_object*)x, "out of range Row and/or Column number, no action taken");

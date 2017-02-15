@@ -180,10 +180,10 @@ void cm_ttog_ttog(t_cm_ttog *x, t_symbol *s, long argc, t_atom *argv) {
             return;
         }
     }
-    x->ttog->ty = atom_getlong(argv);
-    x->ttog->cl = atom_getlong(argv+1);
+    x->ttog->ty = (int)atom_getlong(argv);
+    x->ttog->cl = (int)atom_getlong(argv+1);
     if(argc >=3)
-        x->ttog->mb = atom_getlong(argv+2);
+        x->ttog->mb = (int)atom_getlong(argv+2);
     else
         x->ttog->mb=1;
     

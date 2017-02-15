@@ -19,8 +19,8 @@
 typedef struct _pcs_perm {	// defines our object's internal variables for each instance in a patch
 	t_object x_obj;			// object header - ALL objects MUST begin with this...
 	
-    t_int np;	      /*number of different permutations*/
-    t_int n;		  /*size of the PCS (without repetitions and/or spaces)*/
+    int np;	      /*number of different permutations*/
+    int n;		  /*size of the PCS (without repetitions and/or spaces)*/
     PCS *pcs;		  /*pointer to PCS struct*/
     int *pl;        /*array for storing the permutations*/
     

@@ -33,10 +33,10 @@ typedef struct _pcs_write {	// defines our object's internal variables for each 
 	t_object x_obj;			// object header - ALL objects MUST begin with this...
 	
     PCS *pcs;   /*pointer to PCS struct*/
-    t_int ncar;
-	t_int nord;
-    t_int t;
-    t_int i;
+    int ncar;
+	int nord;
+    int t;
+    int i;
 	void *pcs_out;
 } t_pcs_write;
 
@@ -115,7 +115,7 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv) {
     
     //pickup a list with args
     if(atom_gettype(argv) == A_LONG || atom_gettype(argv) == A_FLOAT) {
-        x->ncar = atom_getlong(argv);
+        x->ncar = (int)atom_getlong(argv);
     } else {
         object_error((t_object*)x, "wrong message");      // mostramos un mensaje de error si recibimos no longs o floats
         return;
@@ -126,7 +126,7 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv) {
     }
     
     if(atom_gettype(argv+1) == A_LONG || atom_gettype(argv+1) == A_FLOAT) {
-        x->nord = atom_getlong(argv+1);
+        x->nord = (int)atom_getlong(argv+1);
     } else {
         object_error((t_object*)x, "wrong message");      // mostramos un mensaje de error si recibimos no longs o floats
         return;
@@ -149,7 +149,7 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv) {
                 x->t = 0;                   // ...and transposition is set to default
             } else {
                 if(atom_gettype(argv+2) == A_LONG || atom_gettype(argv+2) == A_FLOAT)
-                    x->t = atom_getlong(argv+2);    // if it's a long instead, we set t factor to it and check for a fourth arg
+                    x->t = (int)atom_getlong(argv+2);    // if it's a long instead, we set t factor to it and check for a fourth arg
                 if(argc > 3) {
                     if(atom_getsym(argv+3) == gensym("I") || atom_getsym(argv+3) == gensym("i"))
                         x->i =TRUE;

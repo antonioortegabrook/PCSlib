@@ -31,8 +31,8 @@ typedef struct _pcs_parts {	// defines our object's internal variables for each 
     t_atom llist[PCSL];	 /*left part of the partition*/
     t_atom rlist[7];		  /*right part of the partition*/
     PART* part;
-    t_int from;
-    t_int to;
+    int from;
+    int to;
     void *l_out, *r_out, *ty_out;
 } t_pcs_parts;
 

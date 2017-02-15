@@ -25,7 +25,7 @@ typedef struct _pcs_ttos {	// defines our object's internal variables for each i
 	
     PCS *pcs1;		  /*pointer to PCS struct*/
     PCS *pcs2;
-    t_int n;
+    int n;
     
     long p_in;
     void *pcs_in;
@@ -148,10 +148,10 @@ void pcs_ttos_in1(t_pcs_ttos *x, long l) {
 }
 
 void pcs_ttos_t(t_pcs_ttos *x, t_symbol *sy, long argc, t_atom *argv) {    //- Transp
-    long tf;
+    int tf;
     if(argc !=0) {  //- acá deberíamos checkear tipo (update: no es necesario... ;) )
-        tf=atom_getlong(argv);
-        tf=tf%12;
+        tf = (int)atom_getlong(argv);
+        tf = tf%12;
     }
     else tf=x->n;
     
@@ -170,10 +170,10 @@ void pcs_ttos_t(t_pcs_ttos *x, t_symbol *sy, long argc, t_atom *argv) {    //- T
 }
 
 void pcs_ttos_i(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {    //- Inv
-    long tf;
+    int tf;
     if(argc !=0) {
-        tf=atom_getlong(argv);
-        tf=tf%12;
+        tf = (int)atom_getlong(argv);
+        tf = tf%12;
     }
     else tf=x->n;
     
@@ -192,10 +192,10 @@ void pcs_ttos_i(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {    //- In
 }
 
 void pcs_ttos_m(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {    //- Mult
-    long tf;
+    int tf;
     if(argc !=0) {
-        tf=atom_getlong(argv);
-        tf=tf%12;
+        tf = (int)atom_getlong(argv);
+        tf = tf%12;
     }
     else tf=x->n;
     
@@ -209,7 +209,7 @@ void pcs_ttos_m(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {    //- Mu
     
     for(int i=0; i<PCSL; i++){                  // compute m
         if(x->pcs2->find[i] == EOC || x->pcs2->find[i] == EOP) break;
-        x->pcs2->find[i] =x->pcs2->find[i] * 5 + tf;
+        x->pcs2->find[i] = x->pcs2->find[i] * 5 + tf;
         if(x->pcs2->find[i] > 11) {
             x->pcs2->find[i]=x->pcs2->find[i]%12;
         }
@@ -221,10 +221,10 @@ void pcs_ttos_m(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {    //- Mu
 }
 
 void pcs_ttos_mi(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {   //- Inv mult
-    long tf;
+    int tf;
     if(argc !=0) {
-        tf=atom_getlong(argv);
-        tf=tf%12;
+        tf = (int)atom_getlong(argv);
+        tf = tf%12;
     }
     else tf=x->n;
     
@@ -238,7 +238,7 @@ void pcs_ttos_mi(t_pcs_ttos *x, t_symbol *s, long argc, t_atom *argv) {   //- In
     
     for(int i=0; i<PCSL; i++){              // compute mi
         if(x->pcs2->find[i] == EOC || x->pcs2->find[i] == EOP) break;
-        x->pcs2->find[i] =x->pcs2->find[i] * 7 + tf;
+        x->pcs2->find[i] = x->pcs2->find[i] * 7 + tf;
         if(x->pcs2->find[i] > 11) {
             x->pcs2->find[i]=x->pcs2->find[i]%12;
         }

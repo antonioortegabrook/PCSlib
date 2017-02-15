@@ -21,8 +21,8 @@ typedef struct _cm_2pcs {	// defines our object's internal variables for each in
 	
     CM *cm;		  /*pointers to CM structs*/
     PCS *pcs;
-    t_int c;
-    t_int r;
+    int c;
+    int r;
     
     long p_in;
     void *cm_in;
@@ -149,8 +149,8 @@ void cm_2pcs_pos(t_cm_2pcs *x, t_symbol *s, long argc, t_atom *argv) {
         }
     }
     
-    x->r=atom_getlong(argv);
-    x->c=atom_getlong(argv+1);
+    x->r = (int)atom_getlong(argv);
+    x->c = (int)atom_getlong(argv+1);
     if(check_rc(x->cm, x->r,x->c)==FALSE){
         object_warn((t_object*)x, "warning: out of range row/column");
         return;
@@ -167,7 +167,7 @@ void cm_2pcs_row(t_cm_2pcs *x, long n) {
         object_error((t_object*)x, "wrong message");
         return;
     }
-    x->r=n;
+    x->r = (int)n;
     if(x->r < 0 || x->r > x->cm->NroFilas-1){
         object_warn((t_object*)x, "warning: out of range row");
         return;
@@ -183,7 +183,7 @@ void cm_2pcs_col(t_cm_2pcs *x, long n) {
         object_error((t_object*)x, "wrong message");
         return;
     }
-    x->c=n;
+    x->c = (int)n;
     if(x->c < 0 || x->c > x->cm->NroCols-1){
         object_warn((t_object*)x, "warning: out of range column");
         return;
