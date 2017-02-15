@@ -251,8 +251,7 @@ int mult, step;
 		return(pc);
 	}
 	if(indx >= step && indx < step*2) {
-        post("multiple unsequenced modifications to 'pc'"); //-borrar
-		pc=pc=((12-pc)+ttog->op[indx])%12;
+		pc=((12-pc)+ttog->op[indx])%12;
 		return(pc);
 	}
 	if(indx >= step*2 && indx < step*3) {
