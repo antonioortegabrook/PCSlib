@@ -100,6 +100,32 @@ void cm_t1a_pcs_ptr(t_cm_t1a *x, t_symbol *s, long argc, t_atom *argv) {
         CopiaSet(tempcs,x->pcs);                    //- (cuidado con el nombre de la estructura)
     }  //------------ end get --------------
     
+    {  //--------------- check size -------------
+        /*
+         Prevents us of building a matrix from a PCS that is bigger than the matrix itself
+         */
+        int elepos=0, auxelepos=0, npos=0, i=0;
+        
+        while(x->pcs->find[i] != EOC){
+            auxelepos=0;
+            while(x->pcs->find[i] != EOP && x->pcs->find[i] != EOC){
+                auxelepos++;
+                i++;
+            }
+            if(elepos<auxelepos) elepos=auxelepos;
+            if(x->pcs->find[i] != EOC) i++;;
+            npos++;
+        }
+        if(npos>NEXTC || (npos==1 && elepos>NEXTC)) {
+            object_error((t_object*)x, "Max number of positions per CM is %i", NEXTC);
+            return;
+        }
+        if(elepos>NEXTC && npos>1) {
+            object_error((t_object*)x, "Max number of elements per position in a CM is %i", NEXTC);
+            return;
+        }
+    }   //-------------- end check --------------
+    
     MatTipo1a(x->cm, x->pcs);
     
     {   //------ output Number of rows and cols ------

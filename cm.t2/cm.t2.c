@@ -127,6 +127,57 @@ void cm_t2_pcs_ptr(t_cm_t2 *x, t_symbol *s, long argc, t_atom *argv) {
         return;
     }
     
+    {  //--------------- check size -------------
+        /*
+         Prevents us of building a matrix from a PCS that is bigger than the matrix itself
+         */
+        int elepos=0, auxelepos=0, npos=0, i=0;
+        
+        while(x->pcs1->find[i] != EOC){
+            auxelepos=0;
+            while(x->pcs1->find[i] != EOP && x->pcs1->find[i] != EOC){
+                auxelepos++;
+                i++;
+            }
+            if(elepos<auxelepos) elepos=auxelepos;
+            if(x->pcs1->find[i] != EOC) i++;;
+            npos++;
+        }
+        if(npos>NEXTC || (npos==1 && elepos>NEXTC)) {
+            object_error((t_object*)x, "Max number of positions per CM is %i", NEXTC);
+            return;
+        }
+        if(elepos>NEXTC && npos>1) {
+            object_error((t_object*)x, "Max number of elements per position in a CM is %i", NEXTC);
+            return;
+        }
+    }   //-------------- end check --------------
+    {  //--------------- check size -------------
+        /*
+         Prevents us of building a matrix from a PCS that is bigger than the matrix itself
+         */
+        int elepos=0, auxelepos=0, npos=0, i=0;
+        
+        while(x->pcs2->find[i] != EOC){
+            auxelepos=0;
+            while(x->pcs2->find[i] != EOP && x->pcs2->find[i] != EOC){
+                auxelepos++;
+                i++;
+            }
+            if(elepos<auxelepos) elepos=auxelepos;
+            if(x->pcs2->find[i] != EOC) i++;;
+            npos++;
+        }
+        if(npos>NEXTC || (npos==1 && elepos>NEXTC)) {
+            object_error((t_object*)x, "Max number of positions per CM is %i", NEXTC);
+            return;
+        }
+        if(elepos>NEXTC && npos>1) {
+            object_error((t_object*)x, "Max number of elements per position in a CM is %i", NEXTC);
+            return;
+        }
+    }   //-------------- end check --------------
+    
     MatTipo2(x->cm, x->pcs1,x->pcs2);   // Build the CM
     
     {   //------ output Number of rows and cols ------
