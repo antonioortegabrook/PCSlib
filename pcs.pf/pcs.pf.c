@@ -85,7 +85,7 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv) {
     t_int i;
     t_int j;
     
-    if(argc>PCSL-1) { //- debemos garantizarnos una posición libre al final de array para escribir EOC (revisar)
+    if(argc>PCSL-2) { //- debemos garantizarnos dos posiciones libres al final del array para escribir EOP y EOC (revisar)
         object_error((t_object*)x, "too many elements received; no action taken");
         return;
     }
