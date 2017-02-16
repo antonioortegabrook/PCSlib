@@ -139,7 +139,9 @@ void cm_print_cm_ptr(t_cm_print *x, t_symbol *s, long argc, t_atom *argv) {
             elemIndex=0;
             npos=0;
             ddpos=0;
-            while(x->cm->mat[columna*NEXTC+elemIndex][fila] != SPAC && elemIndex < x->cm->MaxElemxPos) {
+            while(x->cm->mat[columna*NEXTC+elemIndex][fila] != SPAC &&
+                  (x->cm->mat[columna*NEXTC+elemIndex][fila] != ETY) &&
+                  elemIndex < x->cm->MaxElemxPos) {     // inicio bucle while
                 if(x->cm->mat[columna*NEXTC+elemIndex][fila] > 9) {
                     ddpos++;
                 }
@@ -148,7 +150,7 @@ void cm_print_cm_ptr(t_cm_print *x, t_symbol *s, long argc, t_atom *argv) {
                 sprintf(elem, "%i ", x->cm->mat[columna*NEXTC+elemIndex][fila]);
                 strcat(pos, elem);
                 elemIndex++;
-            }
+            }   // fin bucle while
             pelemcount=npos*3+ddpos*2;
             for(long i=pelemcount; i < chcount; i++) {
                 *spa=0;
