@@ -166,15 +166,8 @@ void cm_t2_pcs_ptr(t_cm_t2 *x, t_symbol *s, long argc, t_atom *argv) {
 }
 
 void cm_t2_free(t_cm_t2 *x){
-    
-    if(x->pcs1 != NULL){
-        free(x->pcs1);
-    }
-    if(x->pcs2 != NULL){
-        free(x->pcs2);
-    }
-    if(x->cm != NULL){
-        free(x->cm);
-    }
+    if(x->pcs1 != NULL) free(x->pcs1);
+    if(x->pcs2 != NULL) free(x->pcs2);
+    if(x->cm != NULL) free(x->cm);
     return;
 }

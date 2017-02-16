@@ -130,12 +130,7 @@ void cm_roman_pcs_ptr(t_cm_roman *x, t_symbol *s, long argc, t_atom *argv) {
 }
 
 void cm_roman_free(t_cm_roman *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    if(x->cm != NULL){
-        free(x->cm);
-    }
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->cm != NULL) free(x->cm);
     return;
 }

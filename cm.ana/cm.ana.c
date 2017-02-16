@@ -103,16 +103,9 @@ void cm_ana_assist(t_cm_ana *x, void *b, long m, long a, char *s) {
 }
 
 void cm_ana_free(t_cm_ana *x){
-    
-    if(x->cm != NULL){
-        free(x->cm);
-    }
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    if(x->pcs != NULL){
-        free(x->pcs2);
-    }
+    if(x->cm != NULL) free(x->cm);
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->pcs != NULL) free(x->pcs2);
     return;
 }
 

@@ -195,15 +195,8 @@ void cm_ttog_ttog(t_cm_ttog *x, t_symbol *s, long argc, t_atom *argv) {
 }
 
 void cm_ttog_free(t_cm_ttog *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    if(x->cm != NULL){
-        free(x->cm);
-    }
-    if(x->ttog != NULL){
-        free(x->ttog);
-    }
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->cm != NULL) free(x->cm);
+    if(x->ttog != NULL) free(x->ttog);
     return;
 }

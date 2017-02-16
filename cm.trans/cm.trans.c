@@ -644,15 +644,8 @@ void output (t_cm_trans *x) {
 }
 
 void cm_trans_free(t_cm_trans *x){
-    
-    if(x->cm1 != NULL){
-        free(x->cm1);
-    }
-    if(x->cm2 != NULL){
-        free(x->cm2);
-    }
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->cm1 != NULL) free(x->cm1);
+    if(x->cm2 != NULL) free(x->cm2);
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }

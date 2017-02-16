@@ -274,12 +274,7 @@ void cm_maker_output(t_cm_maker *x) {
 }
 
 void cm_maker_free(t_cm_maker *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    if(x->cm != NULL){
-        free(x->cm);
-    }
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->cm != NULL) free(x->cm);
     return;
 }

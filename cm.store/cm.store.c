@@ -96,10 +96,7 @@ void cm_store_assist(t_cm_store *x, void *b, long m, long a, char *s) {
 }
 
 void cm_store_free(t_cm_store *x){
-    
-    if(x->cm != NULL){
-        free(x->cm);
-    }
+    if(x->cm != NULL) free(x->cm);
     return;
 }
 

@@ -214,12 +214,7 @@ void output (t_cm_2pcs *x) {
 }
 
 void cm_2pcs_free(t_cm_2pcs *x){
-    
-    if(x->cm != NULL){
-        free(x->cm);
-    }
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->cm != NULL) free(x->cm);
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }

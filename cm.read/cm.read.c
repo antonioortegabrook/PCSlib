@@ -97,10 +97,7 @@ void cm_read_assist(t_cm_read *x, void *b, long m, long a, char *s) {
 }
 
 void cm_read_free(t_cm_read *x){
-    
-    if(x->cm != NULL){
-        free(x->cm);
-    }
+    if(x->cm != NULL) free(x->cm);
     return;
 }
 

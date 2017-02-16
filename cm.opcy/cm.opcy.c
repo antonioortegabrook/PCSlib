@@ -176,12 +176,7 @@ void cm_opcy_int(t_cm_opcy *x, long argv) {
 }
 
 void cm_opcy_free(t_cm_opcy *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    if(x->cm != NULL){
-        free(x->cm);
-    }
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->cm != NULL) free(x->cm);
     return;
 }
