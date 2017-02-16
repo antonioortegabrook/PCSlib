@@ -9,3 +9,4 @@
 #include "sim_funcs.c"
 #include "part_funcs.c"
 #include "ttos_funcs.c"
+#include "new_funcs.c"
