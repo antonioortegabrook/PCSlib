@@ -74,10 +74,7 @@ void pcs_pf_assist(t_pcs_pf *x, void *b, long m, long a, char *s) // 4 final arg
 }
 
 void pcs_pf_free(t_pcs_pf *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }
 

@@ -111,10 +111,7 @@ void pcs_subs_assist(t_pcs_subs *x, void *b, long m, long a, char *s) // 4 final
 }
 
 void pcs_subs_free(t_pcs_subs *x){
-    
-    if(x->pcs != NULL)
-        free(x->pcs);
-    
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }
 

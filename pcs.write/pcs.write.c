@@ -95,10 +95,7 @@ void pcs_write_assist(t_pcs_write *x, void *b, long m, long a, char *s) // 4 fin
 }
 
 void pcs_write_free(t_pcs_write *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }
 

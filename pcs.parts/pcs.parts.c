@@ -191,10 +191,7 @@ void pcs_parts_send_out(t_pcs_parts *x) {
 }
 
 void pcs_parts_free(t_pcs_parts *x){
-    
-    if(x->pcs != NULL) {
-        free(x->pcs);
-    }
+    if(x->pcs != NULL) free(x->pcs);
     free(x->part);
     return;
 }

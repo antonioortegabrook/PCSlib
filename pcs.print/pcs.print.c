@@ -83,10 +83,7 @@ void pcs_print_assist(t_pcs_print *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_print_free(t_pcs_print *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }
 

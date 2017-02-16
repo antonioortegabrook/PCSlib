@@ -113,14 +113,8 @@ void pcs_perm_assist(t_pcs_perm *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_perm_free(t_pcs_perm *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    
-    if(x->pl != NULL){
-        free(x->pl);
-    }
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->pl != NULL) free(x->pl);
     return;
 }
 

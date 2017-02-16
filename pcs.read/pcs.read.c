@@ -121,10 +121,7 @@ void pcs_read_assist(t_pcs_read *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_read_free(t_pcs_read *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }
 

@@ -93,13 +93,8 @@ void pcs_zmate_assist(t_pcs_zmate *x, void *b, long m, long a, char *s) // 4 fin
 }
 
 void pcs_zmate_free(t_pcs_zmate *x){
-    
-    if(x->pcs1 != NULL){
-        free(x->pcs1);
-    }
-    if(x->pcs2 != NULL){
-        free(x->pcs2);
-    }
+    if(x->pcs1 != NULL) free(x->pcs1);
+    if(x->pcs2 != NULL) free(x->pcs2);
     return;
 }
 

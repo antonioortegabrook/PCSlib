@@ -139,13 +139,8 @@ void pcs_kh_assist(t_pcs_kh *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_kh_free(t_pcs_kh *x){
-    
-    if(x->pcs1 != NULL){
-        free(x->pcs1);
-    }
-    if(x->pcs2 != NULL){
-        free(x->pcs2);
-    }
+    if(x->pcs1 != NULL) free(x->pcs1);
+    if(x->pcs2 != NULL) free(x->pcs2);
     return;
 }
 

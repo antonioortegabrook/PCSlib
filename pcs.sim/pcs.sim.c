@@ -226,12 +226,8 @@ void pcs_sim_assist(t_pcs_sim *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_sim_free(t_pcs_sim *x){
-    int i;
-    
-    if(x->pcs != NULL) {
-        free(x->pcs);
-    }
-    for(i=0; i< max_sim_c; i++) {
+    if(x->pcs != NULL) free(x->pcs);
+    for(int i=0; i< max_sim_c; i++) {
         free(x->ms[i]);
     }
     free(x->ms);

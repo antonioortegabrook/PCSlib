@@ -263,12 +263,7 @@ void pcs_ttos_out(t_pcs_ttos *x) {
 }
 
 void pcs_ttos_free(t_pcs_ttos *x){
-    
-    if(x->pcs1 != NULL){
-        free(x->pcs1);
-    }
-    if(x->pcs2 != NULL){
-        free(x->pcs2);
-    }
+    if(x->pcs1 != NULL) free(x->pcs1);
+    if(x->pcs2 != NULL) free(x->pcs2);
     return;
 }

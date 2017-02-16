@@ -263,16 +263,9 @@ void pcs_chain_assist(t_pcs_chain *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_chain_free(t_pcs_chain *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
-    if(x->ch != NULL){
-        free(x->ch);
-    }
-    if(x->part != NULL){
-        free(x->part);
-    }
+    if(x->pcs != NULL) free(x->pcs);
+    if(x->ch != NULL) free(x->ch);
+    if(x->part != NULL) free(x->part);
     return;
 }
 

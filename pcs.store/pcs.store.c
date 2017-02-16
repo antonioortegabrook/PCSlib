@@ -96,10 +96,7 @@ void pcs_store_assist(t_pcs_store *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_store_free(t_pcs_store *x){
-    
-    if(x->pcs != NULL){
-        free(x->pcs);
-    }
+    if(x->pcs != NULL) free(x->pcs);
     return;
 }
 

@@ -113,10 +113,7 @@ void pcs_invar_assist(t_pcs_invar *x, void *b, long m, long a, char *s) {
 }
 
 void pcs_invar_free(t_pcs_invar *x){
-    
-    if(x->pcs1 != NULL){
-        free(x->pcs1);
-    }
+    if(x->pcs1 != NULL) free(x->pcs1);
     return;
 }
 
