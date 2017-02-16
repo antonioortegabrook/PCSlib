@@ -27,10 +27,10 @@ PCSLIB.H by Oscar Pablo Di Liscia and Pablo Cetta
 
 #define TRUE  1
 #define FALSE 0
-
-#define true  TRUE
-#define false FALSE
-
+/*
+#define true  TRUE          //- redundante en C99
+#define false FALSE         //-
+*/
 #define TIVL		12 /*invariant vector size*/
 #define AGL			12 /*Aggregate size*/
 #define ICVL		6  /*Interval-Class vector size*/
