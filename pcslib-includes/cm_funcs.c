@@ -1002,16 +1002,18 @@ void pc_to_pos(CM *cm, int pc, int r, int c)
 // -------------------------------------------------------------------
 void pcs_to_pos(CM *cm, PCS* pcs, int r, int c)
 {
-	int j=0, offset,i;
+	int j=0, offset,i, eopc=0;
 	
 	offset=NEXTC*c;
 
-	for(i=0; i<NEXTC; i++) {
+    for(i=0; i-eopc<NEXTC; i++) {
 		if(pcs->find[i] == EOC) break;
 		if(pcs->find[i] != EOP) {
 			cm->mat[offset+j][r]=pcs->find[i];
 			j++;
-		}
+        } else {
+            eopc++;
+        }
 	}
 	for(i=j; i<NEXTC; i++) {
 		cm->mat[i+offset][r]=SPAC;
