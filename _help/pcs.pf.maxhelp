@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 444.0, 198.0, 640.0, 480.0 ],
+		"rect" : [ 445.0, 210.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,19 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontsize" : 12.0,
+					"id" : "obj-51",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 2.0, 73.0, 469.0, 20.0 ],
+					"style" : "",
+					"text" : "pcs.pf receives a list of Pitch-Classes and creates a PCS structure"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-49",
 					"linecount" : 2,
@@ -119,7 +132,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 202.0, 230.5, 223.0, 33.0 ],
+					"patching_rect" : [ 202.0, 230.5, 224.0, 33.0 ],
 					"style" : "",
 					"text" : "\"-1\" means a new position (a new group of pitch-classes inside the same PCS)"
 				}
