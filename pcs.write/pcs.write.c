@@ -28,6 +28,8 @@
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
 #include "../pcslib-includes/pcslib_max.c"       //    PCSlib header
+#include "../pcslib-includes/pcslib_max_types.h"
+#include "../pcslib-includes/pcslib_max_funcs.c"
 
 typedef struct _pcs_write {	// defines our object's internal variables for each instance in a patch
 	t_object x_obj;			// object header - ALL objects MUST begin with this...
@@ -73,7 +75,7 @@ void *pcs_write_new() {
 	t_pcs_write *x;                                             // local variable (pointer to a t_pcs_write data structure)
 
 	x = (t_pcs_write *)object_alloc(pcs_write_class);           // create a new instance of this object
-	x->pcs_out = outlet_new(x, NULL);                                    // create a list outlet
+	x->pcs_out = outlet_new(x, MPID);                                    // create a list outlet
 
     x->pcs=NULL;
     
@@ -176,11 +178,16 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv) {
     forma_prima(x->pcs, tableptr);  //- por qué buscamos dos veces la forma prima...? y más aún cuando ya lo hace TrInvPCS?
     
     {   //------------- out ptr -------------------
-        char pstr[STRLP];
-        t_atom ptrOut;
-        sprintf(pstr, "%p", x->pcs);    //convert pointer to PCS struct into symbol //- (cuidado con el nombre de la struct)
-        atom_setsym(&ptrOut, gensym(pstr));
-        outlet_anything (x->pcs_out, gensym(MPID), 1, &ptrOut);    //- (cuidado con el nombre del outlet)
+        t_ptr_mess ptr_out;
+        short err_code;
+
+        err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
+        if (err_code) {
+            object_error((t_object*)x, "error code %d", err_code);
+            return;
+        }
+        ptr_mess_setpcs(&ptr_out, x->pcs);
+        outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
     }   //------------- end out -------------------
     return;		
 }

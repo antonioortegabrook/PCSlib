@@ -25,6 +25,8 @@
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
 #include "../pcslib-includes/pcslib_max.c"       //    PCSlib
+#include "../pcslib-includes/pcslib_max_types.h"
+#include "../pcslib-includes/pcslib_max_funcs.c"
 
 typedef struct _pcs_read {	// defines our object's internal variables for each instance in a patch
 	t_object x_obj;			// object header - ALL objects MUST begin with this...
@@ -41,7 +43,7 @@ typedef struct _pcs_read {	// defines our object's internal variables for each i
 } t_pcs_read;
 
 // these are prototypes for the methods that are defined below
-void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_atom *argv);
+void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv);
 void pcs_read_assist(t_pcs_read *x, void *b, long m, long a, char *s);
 void pcs_read_free(t_pcs_read *x);
 void *pcs_read_new();
@@ -57,7 +59,7 @@ void ext_main(void *r)
 
 	c = class_new("pcs.read", (method)pcs_read_new, (method)pcs_read_free, sizeof(t_pcs_read), 0L, 0);
     
-    class_addmethod(c, (method)pcs_read_pcs_ptr_mes,	MPID,		A_GIMME, 0);
+    class_addmethod(c, (method)pcs_read_pcs_ptr_mes,	MPID,       A_GIMME,  0);
 	class_addmethod(c, (method)pcs_read_assist,         "assist",	A_CANT, 0);	// (optional) assistance method
 
 	class_register(CLASS_BOX, c);
@@ -125,7 +127,7 @@ void pcs_read_free(t_pcs_read *x){
     return;
 }
 
-void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_atom *argv) {
+void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv) {
     
     int i,j,cp=0,index=0,n;
     long tempf;            //- <-- ver: quizás sea bueno que esto sea long.
@@ -133,12 +135,15 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_atom *argv) {
     t_int cvec[PCSL];
 
     {  //------------ get ptr --------------
-        t_symbol *temp;
         PCS *tempcs;
-        temp = atom_getsym(argv);
     
-        sscanf(temp->s_name, "%p", &tempcs);    // get the pointer to a PCS struct
+        tempcs = ptr_mess_getpcs(argv);    // get the pointer to a PCS struct
+        if (!tempcs) {
+            object_error((t_object*)x, "bad pointer");
+            return;
+        }
         CopiaSet(tempcs,x->pcs);                    //- (cuidado con el nombre de la estructura)
+        
     }  //------------ end get --------------
     
     if(x->pcs->find[0]==EOC){
