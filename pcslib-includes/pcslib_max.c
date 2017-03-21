@@ -2,7 +2,7 @@
 
 
 #include "pcslib.h"
-
+#include "pcslib_new_types.h"
     //common funcs definitions
 #include "pcs_funcs.c"
 #include "cm_funcs.c"
