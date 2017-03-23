@@ -5,7 +5,8 @@
 //--- 1st Order (get index from user input)
 //  int name_table_index(ncar, nord);   <-- if returns negative, parameters were non valid
 int name_table_index(int ncar, int nord);
-//  int binval_table_index(binval);
+//  int binval_table_index(binval);     <-- if returns negative, parameters were non valid or index not found
+int binval_table_index(int binval, int ncar);
 
 //--- 2nd Order (get index from index)
 //  int z_table_index(index)
@@ -26,6 +27,31 @@ int n_table(int index);
 int * icv_table(int index);
 
 
+/** Return the index in table of a PCS from its binary value and cardinal number
+        @ params: binary value (int), cardinal number (int)
+        @ returns: index (int)
+ */
+int binval_table_index(int binval, int ncar)
+{
+    if (ncar < 3 || ncar > 9)
+        return -1;
+    
+    int index = -10;
+    int lower_limit = car_pos[ncar];
+    int upper_limit = lower_limit + 20 * max_ord[ncar];
+    
+    for (int i=lower_limit; i<upper_limit; i++) {
+        if (pcs_table[i] == binval) {
+            index = i;
+            break;
+        }
+    }
+    
+    if (index < 0)
+        return -2;
+    
+    return index;
+}
 
 /** Returns the index in table of a PCS from its name
         @ params: cardinal number (int), ordinal number (int)

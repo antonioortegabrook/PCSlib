@@ -146,7 +146,7 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
             return;
         }
         CopiaSet(tempcs,x->pcs);                    //- (cuidado con el nombre de la estructura)
-        
+                        //- nadie libera tempcs...
     }  //------------ end get --------------
     
     if(x->pcs->find[0]==EOC){
