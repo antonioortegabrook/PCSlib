@@ -36,35 +36,45 @@ t_pcs * pcs_new_empty()
  */
 t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv)
 {
-    int lookup;
-    t_pcs *pcs = pcs_new_empty();
+t_pcs *pcs = pcs_new_empty();
     
     if (!pcs)
         return NULL;
+        
+    pcs->pitches = malloc(car * sizeof(int) + sizeof(int));
     
-    pcs->pitches = malloc((car + 1) * sizeof(int));
     if (!pcs->pitches) {
-        free(pcs);
-        return NULL;
+          free(pcs);
+          pcs = NULL;
+          return NULL;
     }
     
-    int index;
-    index = name_table_index(car, ord);
+    int index = name_table_index(car, ord);
     
-    pcs->ncar = ncar_table(index);
-    pcs->nord = nord_table(index);
-    
-    int *vector;
-    vector = pf_table(index);
-    if (!vector) {
-        free(pcs);
-        return NULL;
+    int *tmp_pitch_content = pf_table(index);
+    if (!tmp_pitch_content) {
+          /* free everything & return NULL or mark non consistent */
     }
     
-    pcs->pitches = vector;      //agregar EOC
-    pcs->nelem = car;
+    int tmp_prime_form[13];
+    for (int i=0; i<car; i++)
+          tmp_prime_form[i] = tmp_pitch_content[i];
     
-//    pcs->primeform
+    int *tmp_icv = icv_table[index];
+    if (!tmp_icv) {
+          /* free everything & return NULL or mark non consistent */
+    }
+    
+    int err_t = transpose(tmp_pitch_content, car, tr);
+    if (err_t) {
+          /* free everything & return NULL or mark non consistent */
+    }
+    
+    int err_i = invert(tmp_pitch_content, car);
+    if (err_i) {
+          /* free everything & return NULL or mark non consistent */
+    }
+    
     
     pcs->ncar = car;
     pcs->nord = ord;
