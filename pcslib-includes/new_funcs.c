@@ -1,12 +1,12 @@
 /*
  Allocates a new empty p_pcs; if succesful, returns a pointer (null if not)
  */
-s_pcs * pcs_new_empty();
+t_pcs * pcs_new_empty();
 
 /*
  Creates a new s_pcs from its name and t/i status
  */
-s_pcs * pcs_new_from_name(int car, int ord, int tr, int inv);
+t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv);
 
 /*
  Prevents us of building a matrix from a PCS that is bigger than the matrix itself
@@ -21,9 +21,9 @@ t_pcs * pcs_new_empty()
 {
     t_pcs *pcs = NULL;
     
-    pcs = malloc(sizeof(s_pcs));
+    pcs = malloc(sizeof(t_pcs));
     if (!pcs)       // return the null pointer from malloc if allocation unsuccesful
-        return pcs;
+        return NULL;
     
     pcs->pitches = NULL;
     pcs->consistent = false;    // mark as non consistent
@@ -36,7 +36,7 @@ t_pcs * pcs_new_empty()
  */
 t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv)
 {
-    t_pcs *pcs = pcs_new_empty();
+t_pcs *pcs = pcs_new_empty();
     
     if (!pcs)
         return NULL;
