@@ -66,8 +66,35 @@ t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv)
     
 //    pcs->primeform
     
+    pcs->ncar = car;
+    pcs->nord = ord;
+    
+    for (int i=0; i<car; i++)
+          pcs->pitch_content[i] = tmp_pitch_content[i];
+    pcs->pitch_content[car] = EOC;
+    
+    pcs->nelem = car + 1;
+    
+    for (int i=0; i<car; i++)
+          pcs->prime_form[i] = tmp_prime_form[i];
+    pcs->prime_form[car] = EOC;
+    
+    pcs->t = tr;
+    pcs->inverted = inv;
+    
+    for (int i=0; i<6; i++)
+          pcs->icv[i] = tmp_icv[i];
+    
+    pcs->selected = false;
+    pcs->table_index = index;
+    
+    pcs->consistent = true;
+    
+    return pcs;
 }
 
+
+//-------------------------------------
 /*
  Prevents us of building a matrix from a PCS that is bigger than the matrix itself
  */
