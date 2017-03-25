@@ -7,7 +7,7 @@
 #include<new_free.h>
 
 /*
- Allocates a new empty t_pcs; returns a pointer (null if unsuccesful)
+        Allocates a new empty t_pcs; returns a pointer (null if unsuccesful)
  */
 t_pcs * pcs_new_empty()
 {
@@ -24,7 +24,8 @@ t_pcs * pcs_new_empty()
 }
 
 /*
- Creates a new t_pcs from its name and t/i status; returns a pointer (null if unsuccesful) // incompleto
+        Creates a new t_pcs from its name and t/i status; returns a pointer
+        (null if unsuccesful)
  */
 t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv)
 {
@@ -89,13 +90,7 @@ t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv)
          Check for errors. If so, free everything and return NULL
          */
         if (err) {
-                if (pcs->pitch_content)
-                        free(pcs->pitch_content);
-                pcs->pitch_content = NULL;
-                
-                if (pcs)
-                        free(pcs);
-                pcs = NULL;
+                pcs_free(pcs);
                 
                 return NULL;
         }
