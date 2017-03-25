@@ -30,20 +30,23 @@
 #include "ext.h"			// you must include this - it contains the external object's link to available Max functions
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
-#include "../pcslib-includes/pcslib_max.c"       //    PCSlib header
+//#include "../pcslib-includes/pcslib_max.c"       //    PCSlib header
+
+#include "../pcslib-includes/pcslib_api.h"
 #include "../pcslib-includes/pcslib_max_types.h"
 #include "../pcslib-includes/pcslib_max_funcs.c"
 
+
+
 typedef struct _pcs_write {	// defines our object's internal variables for each instance in a patch
-	t_object x_obj;			// object header - ALL objects MUST begin with this...
-	
-    PCS *pcs;   /*pointer to PCS struct*/
-    int ncar;
-	int nord;
-    int t;
-    int i;
-	void *pcs_out;
+        t_object x_obj;			// object header - ALL objects MUST begin with this...
+        
+        t_pcs *pcs;   /*pointer to PCS struct*/
+        
+        void *pcs_out;
 } t_pcs_write;
+
+
 
 // these are prototypes for the methods that are defined below
 void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv);
@@ -60,32 +63,30 @@ static t_class *pcs_write_class;		// global pointer to the object class - so max
 
 void ext_main(void *r)
 {
-	t_class *c;
-
-	c = class_new("pcs.write", (method)pcs_write_new, (method)pcs_write_free, sizeof(t_pcs_write), 0L, 0);
-    
-    class_addmethod(c, (method)pcs_write_list,          "list",		A_GIMME, 0);
-	
-    class_addmethod(c, (method)pcs_write_assist,        "assist",	A_CANT, 0);	// (optional) assistance method
-
-	class_register(CLASS_BOX, c);
-	pcs_write_class = c;
+        t_class *c;
+        
+        c = class_new("pcs.write", (method)pcs_write_new, (method)pcs_write_free, sizeof(t_pcs_write), 0L, 0);
+        
+        class_addmethod(c, (method)pcs_write_list,          "list",             A_GIMME,        0);
+        
+        class_addmethod(c, (method)pcs_write_assist,        "assist",           A_CANT,         0); // assistance method
+        
+        class_register(CLASS_BOX, c);
+        pcs_write_class = c;
 }
 
 //--------------------------------------------------------------------------
 
-void *pcs_write_new() {
-	t_pcs_write *x;                                             // local variable (pointer to a t_pcs_write data structure)
+void *pcs_write_new()
+{
+        t_pcs_write *x;             // local variable (pointer to a t_pcs_write data structure)
+        
+        x = (t_pcs_write *)object_alloc(pcs_write_class);           // create a new instance of this object
+        x->pcs_out = outlet_new(x, MPID);                                    // create a list outlet
+        
+        x->pcs = NULL;
 
-	x = (t_pcs_write *)object_alloc(pcs_write_class);           // create a new instance of this object
-	x->pcs_out = outlet_new(x, MPID);                                    // create a list outlet
-
-    x->pcs=NULL;
-    
-    x->pcs=(PCS*)malloc(sizeof(PCS));
-    x->pcs->find[0]=EOC;
-
-	return(x);					// return a reference to the object instance
+        return(x);					// return a reference to the object instance
 }
 
 
@@ -93,104 +94,120 @@ void *pcs_write_new() {
 
 void pcs_write_assist(t_pcs_write *x, void *b, long m, long a, char *s) // 4 final arguments are always the same for the assistance method
 {
-	if (m == ASSIST_INLET)
-		sprintf(s,"(list) Ordinal (int), Cardinal (int), Transposition factor (int), I (symbol, optional)");
-    if (m == ASSIST_OUTLET)
-        sprintf(s,"PCS");
+        if (m == ASSIST_INLET)
+                sprintf(s,"(list) Ordinal (int), Cardinal (int), Transposition factor (int), I (symbol, optional)");
+        
+        if (m == ASSIST_OUTLET)
+                sprintf(s,"PCS");
 }
 
-void pcs_write_free(t_pcs_write *x){
-    if(x->pcs != NULL) free(x->pcs);
-    return;
+void pcs_write_free(t_pcs_write *x)
+{
+        /* pcs_free alredy checks for null pointer
+         */
+        pcs_free(x->pcs);
+        
+        return;
 }
 
-void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv) {
-    t_int i;
-    t_int tpos[7]={0,12,41,79,129,167,196};
-    t_int nc[7]={12,29,38,50,38,29,12};
-    t_int ptr=0;
-    
-    if(argc < 2) {
-        object_error((t_object*)x, "missing arguments...");
-        return;
-    }
-    
-    //pickup a list with args
-    if(atom_gettype(argv) == A_LONG || atom_gettype(argv) == A_FLOAT) {
-        x->ncar = (int)atom_getlong(argv);
-    } else {
-        object_error((t_object*)x, "wrong message");      // mostramos un mensaje de error si recibimos no longs o floats
-        return;
-    }
-    if(x->ncar < 3 || x->ncar > 9 ) {
-        object_warn((t_object*)x, "cardinal number must be between 3 and 9");
-        return;
-    }
-    
-    if(atom_gettype(argv+1) == A_LONG || atom_gettype(argv+1) == A_FLOAT) {
-        x->nord = (int)atom_getlong(argv+1);
-    } else {
-        object_error((t_object*)x, "wrong message");      // mostramos un mensaje de error si recibimos no longs o floats
-        return;
-    }
-    if((x->nord > nc[x->ncar-3]) || (x->nord < 1)) {
-        object_warn((t_object*)x, "the SC %d-%d does not exist!", x->ncar, x->nord);
-        return;
-    }
-    if (argc == 2) {
-        x->t = 0;         // transposition default is 0
-        x->i = FALSE;     // inversion default is false
-    } else {                // if only two args are given, there's no need to check the others ;)
-        if(argc > 2) {
-            if(atom_gettype(argv+2) == A_SYM) { // if third arg is sym i, it's taken as inv flag...
-                if(atom_getsym(argv+2) == gensym("I") || atom_getsym(argv+2) == gensym("i")) {
-                    x->i =TRUE;
-                } else {
-                    x->i =FALSE;
+void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
+{
+        
+        int ncar;
+        int nord;
+        int transp = 0;
+        int inv = false;
+        
+        /* Arguments must be 2, 3 or 4
+         */
+        if(argc < 2 || argc > 4) {
+                object_error((t_object*)x, "too many or too few arguments...");
+                return;
+        }
+        
+        /** Check type for the first two args; must be long or float
+         */
+        for (int i = 0; i < 2; i++) {
+                if (atom_gettype(argv + i) != A_LONG && atom_gettype(argv + i) != A_FLOAT) {
+                        
+                        object_error((t_object*)x, "wrong message");
+                        
+                        return;
                 }
-                x->t = 0;                   // ...and transposition is set to default
-            } else {
-                if(atom_gettype(argv+2) == A_LONG || atom_gettype(argv+2) == A_FLOAT)
-                    x->t = (int)atom_getlong(argv+2);    // if it's a long instead, we set t factor to it and check for a fourth arg
-                if(argc > 3) {
-                    if(atom_getsym(argv+3) == gensym("I") || atom_getsym(argv+3) == gensym("i"))
-                        x->i =TRUE;
-                    else
-                        x->i =FALSE;
-                } else
-                    x->i =FALSE;
-            }
         }
-    }
-    
-    ptr=((tpos[x->ncar-3] + x->nord-1)*20);
-    x->pcs->ncar=tableptr[ptr];
-    x->pcs->nord=tableptr[ptr+1];
-    for(i=0; i<x->pcs->ncar; i++) {
-        x->pcs->find[i]=tableptr[i+ptr+2];
-    }
-    x->pcs->find[i]=EOC;
-    
-    forma_prima(x->pcs, tableptr);  //find prime form
-    
-    if(x->i == TRUE )         //need trasposition and/or inversion?
-        TrInvPCS(x->pcs,TRUE,x->t);
-    else
-        TrInvPCS(x->pcs,FALSE,x->t);
-    
-    forma_prima(x->pcs, tableptr);  //- por qué buscamos dos veces la forma prima...? y más aún cuando ya lo hace TrInvPCS?
-    
-    {   //------------- out ptr -------------------
-        t_ptr_mess ptr_out;
-        short err_code;
-
-        err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
-        if (err_code) {
-            object_error((t_object*)x, "error code %d", err_code);
-            return;
+        
+        ncar = (int)atom_getlong(argv);
+        nord = (int)atom_getlong(argv + 1);
+        
+        /* Check if given name is valid
+         */
+        if (!exist(ncar, nord)) {
+                object_error((t_object*)x, "sc %d-%d does not exist", ncar, nord);
+                return;
         }
-        ptr_mess_setpcs(&ptr_out, x->pcs);
-        outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
-    }   //------------- end out -------------------
-    return;		
+        
+        /** Check if there are more arguments in the list
+         */
+        if (argc > 2) {
+                for (int i = 2; i < argc && i < 4; i++) {
+                        
+                        /* If thrid arg is symbol "i", we assume no fourth argument, so we
+                         break the loop
+                         */
+                        if (atom_gettype(argv + i) == A_SYM) {
+                                if (atom_getsym(argv + i) == gensym("I") || atom_getsym(argv + i) == gensym("i")) {
+                                        inv = true;
+                                        break;
+                                } else {
+                                        object_error((t_object*)x, "bad arguments...");
+                                        return;
+                                }
+                        }
+                        
+                        /* If third arg is not a symbol, check for long or float
+                         */
+                        if (atom_gettype(argv + i) == A_LONG || atom_gettype(argv + i) == A_FLOAT) {
+                                
+                                /* If i = 3, arg MUST be symbol "i"
+                                 */
+                                if (i < 3) {
+                                        transp = (int)atom_getlong(argv + i);
+                                } else {
+                                        object_error((t_object*)x, "bad arguments...");
+                                        return;
+                                }
+                        } else {
+                                /* Not a symbol or a number
+                                 */
+                                object_error((t_object*)x, "bad arguments...");
+                                return;
+                        }
+                }
+        }
+        
+        /* if there is a pcs allocated, free it
+         */
+        if (x->pcs)
+                pcs_free(x->pcs);
+        
+        /* Create a new t_pcs from its name and t/i status
+         */
+        x->pcs = pcs_new_from_name(ncar, nord, transp, inv);
+        
+        
+        
+        
+        {   //------------- out ptr -------------------
+                t_ptr_mess ptr_out;
+                short err_code;
+                
+                err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
+                if (err_code) {
+                        object_error((t_object*)x, "error code %d", err_code);
+                        return;
+                }
+                ptr_mess_setpcs(&ptr_out, x->pcs);
+                outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
+        }   //------------- end out -------------------
+        return;		
 }
