@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:../pcslib-includes">
+      location = "group:/Users/antonioortegabrook/Documents/Max 7/Packages/max-sdk-7.1.0/source/PCSlib/pcslib-includes">
    </FileRef>
    <Group
       location = "container:"

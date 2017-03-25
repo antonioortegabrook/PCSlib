@@ -3,28 +3,19 @@
  */
 
 //--- 1st Order (get index from user input)
-//  int name_table_index(ncar, nord);   <-- if returns negative, parameters were non valid
 int name_table_index(int ncar, int nord);
-//  int binval_table_index(binval);     <-- if returns negative, parameters were non valid or index not found
 int binval_table_index(int binval, int ncar);
 
 //--- 2nd Order (get index from index)
-//  int z_table_index(index)
 int z_table_index(int index);
-//  int complement_table_index(index)
 int complement_table_index(int index);
 
 //--- 3rd Order (get data from index)
-//  int ncar_table(index)
 int ncar_table(int index);
-//  int nord_table(index)
 int nord_table(int index);
-//  int[] pf_table(index)   <-- may return NULL - variable size array: use ncar to loop throug it. Caller responsible for deallocating!!!
-int * pf_table(int index);
-//  int n_table(index)
+int pf_table(int index, *pf_target);
 int n_table(int index);
-//  int[6] icv_table(index) <-- may return NULL - 6 elem array. Caller responsible for deallocating!!!
-int * icv_table(int index);
+int icv_table(int index, *icv_target);
 
 
 /** Return the index in table of a PCS from its binary value and cardinal number
@@ -33,24 +24,24 @@ int * icv_table(int index);
  */
 int binval_table_index(int binval, int ncar)
 {
-    if (ncar < 3 || ncar > 9)
-        return -1;
-    
-    int index = -10;
-    int lower_limit = car_pos[ncar];
-    int upper_limit = lower_limit + 20 * max_ord[ncar];
-    
-    for (int i=lower_limit; i<upper_limit; i++) {
-        if (pcs_table[i] == binval) {
-            index = i;
-            break;
+        if (ncar < 3 || ncar > 9)
+                return -1;
+        
+        int index = -1;
+        int lower_limit = car_pos[ncar];
+        int upper_limit = lower_limit + 20 * max_ord[ncar];
+        
+        for (int i = lower_limit; i < upper_limit; i++) {
+                if (pcs_table[i] == binval) {
+                        index = i;
+                        break;
+                }
         }
-    }
-    
-    if (index < 0)
-        return -2;
-    
-    return index;
+        
+        if (index < 0)
+                return -2;
+        
+        return index;
 }
 
 /** Returns the index in table of a PCS from its name
@@ -59,19 +50,20 @@ int binval_table_index(int binval, int ncar)
  */
 int name_table_index(int ncar, int nord)
 {
-    int index;
-    int tmp_a, tmp_b;
+        int index;
+        int tmp_a, tmp_b;
+
+        if (ncar < 3 || ncar > 9)
+                return -1;              // invalid ncar
+        
+        if (nord < 1 || nord > max_ord[ncar])
+                return -2;              // invalid nord
     
-    if(ncar<3 || ncar>9)
-        return -1;              // invalid ncar
-    if(nord<1 || nord>max_ord[ncar])
-        return -2;              // invalid nord
-    
-    tmp_a = car_pos[ncar];      // index of pcs ncar-1
-    tmp_b = 20 * (nord - 1);    // offset from ncar-1
-    index = tmp_a + tmp_b;
-    
-    return index;
+        tmp_a = car_pos[ncar];          // index of pcs ncar-1
+        tmp_b = 20 * (nord - 1);        // offset from ncar-1
+        index = tmp_a + tmp_b;
+
+        return index;
 }
 
 /** Returns the index in table of a PCS's Z mate from its index (0 if doesn't exists)
@@ -80,11 +72,14 @@ int name_table_index(int ncar, int nord)
  */
 int z_table_index(int index);
 {
-    int z;
-    z = tableptr[index+11];     // 11 is the offset at which z index is located
-    if(z)
-        z = z-1;                // z indexes have this 1 offset (why...?)
-    return z;                   // it will return 0 (false) if no Z
+        int z;
+
+        z = tableptr[index+11];     // 11 is the offset at which z index is located
+        
+        if (z)
+                z = z - 1;          // z indexes have this 1 offset (why...?)
+
+        return z;                   // it will return 0 (false) if no Z
 }
 
 /** Returns the index in table of the complement of a PCS from its index
@@ -93,9 +88,11 @@ int z_table_index(int index);
  */
 int complement_table_index(int index)
 {
-    int complement;
-    complement = tableptr[index+19];
-    return complement;
+        int complement;
+
+        complement = tableptr[index + 19];
+
+        return complement;
 }
 
 /** Returns the cardinal number of a PCS from its index
@@ -104,9 +101,11 @@ int complement_table_index(int index)
  */
 int ncar_table(int index)
 {
-    int ncar;
-    ncar = tableptr[index];
-    return ncar;
+        int ncar;
+
+        ncar = tableptr[index];
+
+        return ncar;
 }
 
 /** Returns the ordinal number of a PCS from its index
@@ -115,29 +114,29 @@ int ncar_table(int index)
  */
 int nord_table(int index)
 {
-    int nord;
-    nord = tableptr[index+1];
-    return nord;
+        int nord;
+        
+        nord = tableptr[index + 1];
+        
+        return nord;
 }
 
 /** Returns the prime form of a PCS from its index
-        @ params: index of PCS n (int)
-        @ returns: pointer to an array of lenght = ncar containing n's prime form (NULL
-            if allocation fails)
-        @ warning: caller is responsible for deallocating (and checking for NULL also)
+        @ params: index in table of PCS (int), pointer to target array
+        @ returns: -1 if NULL pointer received, 0 if success
  */
-int * pf_table(int index)
+int pf_table(int index, int *pf_target)
 {
-    int ncar = tableptr[index];
-    int j = index+2;
-    int *pf; = NULL;
-    pf = malloc(ncar * sizeof(int));
-    if(!pf)
-        return NULL;
-    for(int i=0; i<ncar; i++) {
-        pf[i] = tableptr[j+i];
-    }
-    return pf;
+        if (!pf_target)
+                return -1;
+        
+        int ncar = pcs_table[index];
+        int j = index + 2;
+
+        for(int i = 0; i < ncar; i++)
+                pf_target[i] = pcs_table[j + i];
+
+        return 0;
 }
 
 //---
@@ -149,21 +148,19 @@ int n_table(int index)
 }
 
 /** Returns the interval vector of a PCS from its index
-        @ params: index of PCS n (int)
-        @ returns: pointer to an array of lenght = 6 containing n's ICV (NULL if allocation
-            fails)
-        @ warning: caller is responsible for deallocating (and checking for NULL also)
+        @ params: index in table of PCS (int), pointer to target array
+        @ returns: -1 if NULL pointer received, 0 if success
  */
-int * icv_table(int index)
+int icv_table(int index, int *icv_target)
 {
-    int j = index+13;
-    int *icv = NULL;
-    icv = malloc(6 * sizeof(int));
-    if(!icv)
-        return NULL;
-    for(int i=0; i<6; i++) {
-        icv[i] = tableptr[j+i];
-    }
-    return icv;
+        if (!icv_target)
+                return -1;
+        
+        int j = index+13;
+        
+        for(int i = 0; i < 6; i++)
+                icv_target[i] = pcs_table[j + i];
+        
+        return 0;
 }
 
