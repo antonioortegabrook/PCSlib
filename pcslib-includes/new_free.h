@@ -3,7 +3,7 @@
  These are the methods for allocating and deallocatinc pcs and cm structs
  */
 
-#include<types.h>
+#include "types.h"
 
 /*
  Allocates a new empty t_pcs; if succesful, returns a pointer (null if not)

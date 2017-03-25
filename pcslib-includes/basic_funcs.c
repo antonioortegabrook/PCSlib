@@ -1,4 +1,4 @@
-int transpose(int *vector, int nelem, int tf);
+
 /**     Transpose a PCS. Puts results in input
                 @ parameters: pointer to an array (int), # of elements
                 @ returns: error code -1 if array is null
@@ -23,7 +23,7 @@ int transpose(int *vector, int nelem, int tf)
       return 0;
 }
 
-int invert(int *vector, int nelem);
+
 /**     Invert a PCS. Puts results in input
                 @ parameters: pointer to an array (int), # of elements
                 @ returns: error code -1 if array is null
@@ -43,11 +43,4 @@ int invert(int *vector, int nelem)
       }
 
       return 0;
-}
-
-//- borrar!!!
-int bla(int x)
-{
-        if (w)
-                return z;
 }

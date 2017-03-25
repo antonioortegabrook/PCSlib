@@ -7,18 +7,18 @@
  (see pcslib_max_types.h)
  */
 
-PCS *ptr_mess_getpcs(const t_ptr_mess *p);
-CM *ptr_mess_getcm(const t_ptr_mess *p);
+t_pcs *ptr_mess_getpcs(const t_ptr_mess *p);
+t_cm *ptr_mess_getcm(const t_ptr_mess *p);
 
-int ptr_mess_setpcs(t_ptr_mess *p, PCS *s);
-int ptr_mess_setcm(t_ptr_mess *p, CM *s);
+int ptr_mess_setpcs(t_ptr_mess *p, t_pcs *s);
+int ptr_mess_setcm(t_ptr_mess *p, t_cm *s);
 
 
 /** retrieves a PCS pointer from a t_ptr_mess;
     returns NULL if type doesn't match
  */
-PCS *ptr_mess_getpcs(const t_ptr_mess *p) {
-    PCS *ptr = NULL;
+t_pcs *ptr_mess_getpcs(const t_ptr_mess *p) {
+    t_pcs *ptr = NULL;
     
     if (p->p_type == P_PCS)
         ptr = p->p_w.pcs;
@@ -29,9 +29,9 @@ PCS *ptr_mess_getpcs(const t_ptr_mess *p) {
 /** retrieves a CM pointer from a t_ptr_mess;
  returns NULL if type doesn't match
  */
-CM *ptr_mess_getcm(const t_ptr_mess *p)
+t_cm *ptr_mess_getcm(const t_ptr_mess *p)
 {
-    CM *ptr = NULL;
+    t_cm *ptr = NULL;
 
     if (p->p_type == P_CM)
         ptr = p->p_w.cm;
@@ -41,7 +41,7 @@ CM *ptr_mess_getcm(const t_ptr_mess *p)
 
 /** inserts a PCS pointer into a t_ptr_mess and changes its type to P_PCS
  */
-int ptr_mess_setpcs(t_ptr_mess *p, PCS *s)
+int ptr_mess_setpcs(t_ptr_mess *p, t_pcs *s)
 {
     if (!p)
         return -100;    // -100 = null ptr_mess
@@ -56,7 +56,7 @@ int ptr_mess_setpcs(t_ptr_mess *p, PCS *s)
 
 /** inserts a CM pointer into a t_ptr_mess and changes its type to P_CM
  */
-int ptr_mess_setcm(t_ptr_mess *p, CM *s)
+int ptr_mess_setcm(t_ptr_mess *p, t_cm *s)
 {
     if (!p)
         return -100;    // -100 = null ptr_mess

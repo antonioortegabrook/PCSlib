@@ -19,8 +19,8 @@ typedef enum {
 /** Union for packing the PCSlib types defined above
  */
 union pcs_word {
-    PCS *pcs;
-    CM *cm;
+    t_pcs *pcs;
+    t_cm *cm;
 };
 
 /** Atom-like struct for wrapping pointers to be sent to other objects;

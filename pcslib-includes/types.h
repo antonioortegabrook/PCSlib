@@ -18,3 +18,11 @@ typedef struct {
     int selected;           //  Whether the PCS is selected or not for some operation (...?)
     int table_index;        //  Index in the table
 } t_pcs;        // add complement?
+
+
+typedef struct {
+        int mat[12][12];
+        int NroFilas;
+        int NroCols;
+        int MaxElemxPos;
+} t_cm;
