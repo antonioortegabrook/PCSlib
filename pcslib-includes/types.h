@@ -17,4 +17,4 @@ typedef struct {
     int icv[6];             //  Interval-class vector
     int selected;           //  Whether the PCS is selected or not for some operation (...?)
     int table_index;        //  Index in the table
-} t_pcs;
+} t_pcs;        // add complement?
