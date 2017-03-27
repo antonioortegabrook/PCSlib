@@ -27,26 +27,22 @@
 #include "ext.h"			// you must include this - it contains the external object's link to available Max functions
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
-#include "../pcslib-includes/pcslib_max.c"       //    PCSlib
+#include "../pcslib-includes/pcslib_api.h"
+
 #include "../pcslib-includes/pcslib_max_types.h"
 #include "../pcslib-includes/pcslib_max_funcs.c"
 
 typedef struct _pcs_read {	// defines our object's internal variables for each instance in a patch
-	t_object x_obj;			// object header - ALL objects MUST begin with this...
-	
-    t_int no_pf;	          /*ordinal number*/
-    t_int nc_pf;	          /*cardinal number*/
-    PCS *pcs;		  /*pointer to PCS struct*/
-    t_atom pflist[PCSL];    /*prime form*/
-    t_atom ivlist[7];       /*interval class vector*/
-    t_atom filist[PCSL];    /*individual form(may have pc repeated)*/
-    t_atom clist[PCSL];     /*complement list*/
-    t_atom tlist[2];     /*IT [0]=T, [1]=I list*/
-    void *nc_out, *no_out, *pf_out, *iv_out, *ti_out, *fi_out, *co_out;
+        t_object x_obj;			// object header - ALL objects MUST begin with this...
+        
+        t_pcs *pcs;		  /*pointer to PCS struct*/
+        
+        void *nc_out, *no_out, *pf_out, *iv_out, *ti_out, *fi_out, *co_out;
 } t_pcs_read;
 
 // these are prototypes for the methods that are defined below
 void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv);
+
 void pcs_read_assist(t_pcs_read *x, void *b, long m, long a, char *s);
 void pcs_read_free(t_pcs_read *x);
 void *pcs_read_new();
@@ -72,24 +68,21 @@ void ext_main(void *r)
 //--------------------------------------------------------------------------
 
 void *pcs_read_new() {
-	t_pcs_read *x;                                             // local variable (pointer to a t_pcs_read data structure)
-
-	x = (t_pcs_read *)object_alloc(pcs_read_class);           // create a new instance of this object
-
-    x->co_out=listout(x);                                 // create outlets
-    x->iv_out=listout(x);
-    x->pf_out=listout(x);
-    x->ti_out=listout(x);
-    x->no_out=intout(x);
-    x->nc_out=intout(x);
-    x->fi_out=listout(x);
-
-    x->pcs=NULL;
-    
-    x->pcs=(PCS*)malloc(sizeof(PCS));
-    x->pcs->find[0]=EOC;
-
-	return(x);					// return a reference to the object instance
+        t_pcs_read *x;                                 // local variable (pointer to a t_pcs_read data structure)
+        
+        x = (t_pcs_read *)object_alloc(pcs_read_class);           // create a new instance of this object
+        
+        x->co_out = listout(x);                                 // create outlets
+        x->iv_out = listout(x);
+        x->pf_out = listout(x);
+        x->ti_out = listout(x);
+        x->no_out = intout(x);
+        x->nc_out = intout(x);
+        x->fi_out = listout(x);
+        
+        x->pcs = NULL;
+        
+        return(x);					// return a reference to the object instance
 }
 
 
@@ -130,7 +123,17 @@ void pcs_read_free(t_pcs_read *x){
     return;
 }
 
-void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv) {
+void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv)
+{
+        t_int nord_pf;	          /*ordinal number*/
+        t_int nc_pf;	          /*cardinal number*/
+        t_atom pflist[PCSL];    /*prime form*/
+        t_atom ivlist[7];       /*interval class vector*/
+        t_atom filist[PCSL];    /*individual form(may have pc repeated)*/
+        t_atom clist[PCSL];     /*complement list*/
+        t_atom tlist[2];     /*IT [0]=T, [1]=I list*/
+        
+        
     
     int i,j,cp=0,index=0,n;
     long tempf;            //- <-- ver: quizás sea bueno que esto sea long.
@@ -138,21 +141,23 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
     t_int cvec[PCSL];
 
     {  //------------ get ptr --------------
-        PCS *tempcs;
-    
-        tempcs = ptr_mess_getpcs(argv);    // get the pointer to a PCS struct
-        if (!tempcs) {
-            object_error((t_object*)x, "bad pointer");
-            return;
-        }
-        CopiaSet(tempcs,x->pcs);                    //- (cuidado con el nombre de la estructura)
-                        //- nadie libera tempcs...
+            t_pcs *tempcs;
+            
+            tempcs = ptr_mess_getpcs(argv);    // get the pointer to a PCS struct
+            
+            if (!tempcs) {
+                    object_error((t_object*)x, "bad pointer");
+                    return;
+            }
+            
+            x->pcs = tempcs;
+
     }  //------------ end get --------------
     
-    if(x->pcs->find[0]==EOC){
-        post_sym(x, gensym("EOC found"));
-        return;
-    }
+        if (!x->pcs->consistent) {
+                object_error((t_object*)x, "pcs data inconsistent");
+                return;
+        }
     
     pflist=x->pflist;
     ivlist=x->ivlist;
@@ -214,13 +219,13 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
     }
 
     //-------------- output data via outlets
-    outlet_list (x->co_out, gensym("list"), 12-x->pcs->ncar, x->clist);
-    outlet_list (x->iv_out, gensym("list"), ICVL, x->ivlist);
-    outlet_list (x->pf_out, gensym("list"), x->pcs->ncar, x->pflist);
-    outlet_list (x->ti_out, gensym("list"), 2, x->tlist);
-    outlet_int  (x->no_out, x->no_pf);
-    outlet_int  (x->nc_out, x->nc_pf);
-    outlet_list (x->fi_out, gensym("list"), n, x->filist);
+//    outlet_list (x->co_out, gensym("list"), 12-x->pcs->ncar, x->clist);       //(complement)
+    outlet_list (x->iv_out, gensym("list"), ICVL, ivlist);
+    outlet_list (x->pf_out, gensym("list"), x->pcs->ncar, pflist);
+    outlet_list (x->ti_out, gensym("list"), 2, tlist);
+    outlet_int  (x->no_out, nord_pf);
+    outlet_int  (x->nc_out, nc_pf);
+    outlet_list (x->fi_out, gensym("list"), n, filist);
     
     return;
 }
