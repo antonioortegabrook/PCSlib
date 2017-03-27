@@ -30,9 +30,9 @@
 #include "ext.h"			// you must include this - it contains the external object's link to available Max functions
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
-//#include "../pcslib-includes/pcslib_max.c"       //    PCSlib header
 
 #include "../pcslib-includes/pcslib_api.h"
+
 #include "../pcslib-includes/pcslib_max_types.h"
 #include "../pcslib-includes/pcslib_max_funcs.c"
 
@@ -141,7 +141,7 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
         
         /* Check if given name is valid
          */
-        if (!exist(ncar, nord)) {
+        if (not_exist(ncar, nord)) {
                 object_error((t_object*)x, "sc %d-%d does not exist", ncar, nord);
                 return;
         }
