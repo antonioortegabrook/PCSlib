@@ -125,31 +125,32 @@ void pcs_read_free(t_pcs_read *x){
 
 void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv)
 {
-        t_int nord_pf;	          /*ordinal number*/
-        t_int nc_pf;	          /*cardinal number*/
-        t_atom pflist[PCSL];    /*prime form*/
-        t_atom ivlist[7];       /*interval class vector*/
-        t_atom filist[PCSL];    /*individual form(may have pc repeated)*/
-        t_atom clist[PCSL];     /*complement list*/
-        t_atom tlist[2];     /*IT [0]=T, [1]=I list*/
+        int nelem;
+
+        t_int  nord;                          /*ordinal number*/
+        t_int  ncar;                          /*cardinal number*/
+        t_atom *pitch_content_list;        /*individual form(may have pc repeated)*/
+        t_atom prime_form_list[12];           /*prime form*/
+        t_atom ti_list[2];                      /*IT [0]=T, [1]=I list*/
+        t_atom icv_list[6];                     /*interval class vector*/
+        
+//        t_atom complement_list;           /*complement list*/
+        
         
         
     
     int i,j,cp=0,index=0,n;
     long tempf;            //- <-- ver: quizás sea bueno que esto sea long.
     t_atom *pflist, *ivlist, *filist, *clist, *tilist;
-    t_int cvec[PCSL];
+//    t_int cvec[PCSL];
 
     {  //------------ get ptr --------------
-            t_pcs *tempcs;
-            
-            tempcs = ptr_mess_getpcs(argv);    // get the pointer to a PCS struct
+            t_pcs *tempcs = ptr_mess_getpcs(argv);    // get the pointer to a PCS struct
             
             if (!tempcs) {
                     object_error((t_object*)x, "bad pointer");
                     return;
             }
-            
             x->pcs = tempcs;
 
     }  //------------ end get --------------
@@ -159,16 +160,36 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
                 return;
         }
     
-    pflist=x->pflist;
-    ivlist=x->ivlist;
-    filist=x->filist;
-    clist=x->clist;
-    tilist=x->tlist;
+    
     
     /*pickup data from pcs struct*/
-    x->nc_pf=x->pcs->ncar;
-    x->no_pf=x->pcs->nord;
-    
+        nelem = x->pcs->nelem - 1;   // -1 because las element is EOC
+        
+        nord = x->pcs->nord;
+        ncar  = x->pcs->ncar;
+
+        pitch_content_list = malloc(nelem * sizeof(t_atom));
+        if (!pitch_content_list) {
+                object_error((t_object*)x, "allocation failed (pitch_content_list)");
+                return;
+        }
+        
+        for (int i = 0; i < nelem; i++)
+                atom_setlong(&pitch_content_list[i], (long)x->pcs->pitch_content[i]);
+        
+        for (int i = 0; i < ncar; i++)
+                atom_setlong(&prime_form_list[i], (long)x->pcs->prime_form[i]);
+        
+         atom_setlong(&ti_list[0], x->pcs->t);
+         atom_setlong(&ti_list[1], x->pcs->inverted);
+        
+        for (int i = 0; i < 6; i++)
+                atom_setlong(&icv_list[i], (long)x->pcs->icv[i]);
+
+        
+        
+        
+/* BEGINING
     for(i=0; i<x->pcs->ncar; ++i) {
         if(i == PCSL-1) {
             break;
@@ -193,12 +214,12 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
     
     
     //temps=gensym(x->pcs->Status);
-    /*Status field is not anymore a symbol*/
-    /*instead, it is a list of two floats*/     // <-- longs en la versión Max
+    //Status field is not anymore a symbol
+    //instead, it is a list of two floats     // <-- longs en la versión Max
     atom_setlong(&(tilist[0]),(long)x->pcs->T);
     atom_setlong(&(tilist[1]),(long)x->pcs->I);
     
-    /*find literal complement*/
+    //find literal complement
     index=0;
     for(i=0; i<12; ++i) {
         cp=0; j=0;
@@ -217,15 +238,15 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
         tempf=(long)cvec[i];
         atom_setlong(&(clist[i]),tempf);
     }
-
+END */
     //-------------- output data via outlets
 //    outlet_list (x->co_out, gensym("list"), 12-x->pcs->ncar, x->clist);       //(complement)
-    outlet_list (x->iv_out, gensym("list"), ICVL, ivlist);
-    outlet_list (x->pf_out, gensym("list"), x->pcs->ncar, pflist);
-    outlet_list (x->ti_out, gensym("list"), 2, tlist);
-    outlet_int  (x->no_out, nord_pf);
-    outlet_int  (x->nc_out, nc_pf);
-    outlet_list (x->fi_out, gensym("list"), n, filist);
+    outlet_list (x->iv_out, gensym("list"), 6, icv_list);
+    outlet_list (x->pf_out, gensym("list"), ncar, prime_form_list);
+    outlet_list (x->ti_out, gensym("list"), 2, ti_list);
+    outlet_int  (x->no_out, nord);
+    outlet_int  (x->nc_out, ncar);
+    outlet_list (x->fi_out, gensym("list"), nelem, pitch_content_list);
     
     return;
 }
