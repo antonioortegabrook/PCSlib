@@ -6,4 +6,4 @@
 /*
  Check if a given set-class exist or not
  */
-int exist(int ncar, int nord);
+int not_exist(int ncar, int nord);

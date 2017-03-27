@@ -1,4 +1,7 @@
 
+//#include "basic_funcs.h"
+
+
 /**     Transpose a PCS. Puts results in input
                 @ parameters: pointer to an array (int), # of elements
                 @ returns: error code -1 if array is null

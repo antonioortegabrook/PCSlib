@@ -2,20 +2,8 @@
     Methods for getting data from the tables (see tables.h)
  */
 
-//--- 1st Order (get index from user input)
-int name_table_index(int ncar, int nord);
-int binval_table_index(int binval, int ncar);
+//#include "pcslib_table_funcs.h"
 
-//--- 2nd Order (get index from index)
-int z_table_index(int index);
-int complement_table_index(int index);
-
-//--- 3rd Order (get data from index)
-int ncar_table(int index);
-int nord_table(int index);
-int pf_table(int index, *pf_target);
-int n_table(int index);
-int icv_table(int index, *icv_target);
 
 
 /** Return the index in table of a PCS from its binary value and cardinal number
@@ -70,11 +58,11 @@ int name_table_index(int ncar, int nord)
         @ params: index of PCS n (int)
         @ returns: index of n's Z mate or 0 (int)
  */
-int z_table_index(int index);
+int z_table_index(int index)
 {
         int z;
 
-        z = tableptr[index+11];     // 11 is the offset at which z index is located
+        z = pcs_table[index+11];     // 11 is the offset at which z index is located
         
         if (z)
                 z = z - 1;          // z indexes have this 1 offset (why...?)
@@ -90,7 +78,7 @@ int complement_table_index(int index)
 {
         int complement;
 
-        complement = tableptr[index + 19];
+        complement = pcs_table[index + 19];
 
         return complement;
 }
@@ -103,7 +91,7 @@ int ncar_table(int index)
 {
         int ncar;
 
-        ncar = tableptr[index];
+        ncar = pcs_table[index];
 
         return ncar;
 }
@@ -116,7 +104,7 @@ int nord_table(int index)
 {
         int nord;
         
-        nord = tableptr[index + 1];
+        nord = pcs_table[index + 1];
         
         return nord;
 }
@@ -143,7 +131,7 @@ int pf_table(int index, int *pf_target)
 int n_table(int index)
 {
     int n;
-    n = tableptr[index+12];
+    n = pcs_table[index+12];
     return n;
 }
 

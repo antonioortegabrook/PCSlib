@@ -4,7 +4,9 @@
  */
 
 
-#include<new_free.h>
+//#include "new_free.h"
+
+
 
 /*
         Allocates a new empty t_pcs; returns a pointer (null if unsuccesful)
@@ -50,17 +52,17 @@ t_pcs * pcs_new_from_name(int car, int ord, int tr, int inv)
         /*
          Set temp data
          */
-        err += pcs_pf_table(index, &tmp_pitch_content);
+        err += pf_table(index, tmp_pitch_content);
         
-        err += pcs_pf_table(index, &tmp_prime_form);
+        err += pf_table(index, tmp_prime_form);
         
-        err += icv_table(index, &tmp_icv);
+        err += icv_table(index, tmp_icv);
         
         if (tr)                         // transpose...?
-                err += transpose(&tmp_pitch_content, car, tr);
+                err += transpose(tmp_pitch_content, car, tr);
         
         if (inv)                        // invert...?
-                err += invert(&tmp_pitch_content, car);
+                err += invert(tmp_pitch_content, car);
         
         /*
          Copy temp data to struct

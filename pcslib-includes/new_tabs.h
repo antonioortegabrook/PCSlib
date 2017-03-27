@@ -26,11 +26,11 @@
 */
 
 /*                         card    3   4    5    6     7     8     9                                          */
-int16_t car_pos[10] = {-1,-1,-1,   0,  240, 820, 1580, 2580, 3340, 3920};  /* index of first PCS of each card */
-int16_t max_ord[10] = {-1,-1,-1,   12, 29,  38,  50,   38,   29,   12};    /* # of PCS of each card           */
-int16_t bv_idx[10]  = {-1,-1,-1,   0,  12,  41,  79,   129,  167,  196};   /* index of first bv of each card  */
+static int16_t car_pos[10] = {-1,-1,-1,   0,  240, 820, 1580, 2580, 3340, 3920};  /* index of first PCS of each card */
+static int16_t max_ord[10] = {-1,-1,-1,   12, 29,  38,  50,   38,   29,   12};    /* # of PCS of each card           */
+static int16_t bv_idx[10]  = {-1,-1,-1,   0,  12,  41,  79,   129,  167,  196};   /* index of first bv of each card  */
 
-int16_t bin_vals[208]; = /* minimum binary value of each PCS (except for the known special cases); index of
+static int16_t bin_vals[208] = /* minimum binary value of each PCS (except for the known special cases); index of
                         this array corresponds to the number of row in the table; multiply it by 20 to
                         get index of table array                                                          */
 /* card 3 (12) */
@@ -53,7 +53,7 @@ int16_t bin_vals[208]; = /* minimum binary value of each PCS (except for the kno
  */
 
 /*card.	 ord.   Prime form.......................................     Z    N     IC1   IC2   IC3   IC4   IC5   IC6 COMP */
-int16_t pcs_table[4160] = {
+static int16_t pcs_table[4160] = {
     3,    1,    0,    1,    2,    0,    0,    0,    0,    0,    0,    0,   12,    2,    1,    0,    0,    0,    0, 3921,
     3,    2,    0,    1,    3,    0,    0,    0,    0,    0,    0,    0,    0,    1,    1,    1,    0,    0,    0, 3941,
     3,    3,    0,    1,    4,    0,    0,    0,    0,    0,    0,    0,    0,    1,    0,    1,    1,    0,    0, 3961,
