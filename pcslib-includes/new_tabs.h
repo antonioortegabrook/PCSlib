@@ -25,7 +25,7 @@
                     decided yet.-
 */
 
-/*                         card    3   4    5    6     7     8     9                                          */
+/*                                card    3   4    5    6     7     8     9                                          */
 static int16_t car_pos[10] = {-1,-1,-1,   0,  240, 820, 1580, 2580, 3340, 3920};  /* index of first PCS of each card */
 static int16_t max_ord[10] = {-1,-1,-1,   12, 29,  38,  50,   38,   29,   12};    /* # of PCS of each card           */
 static int16_t bv_idx[10]  = {-1,-1,-1,   0,  12,  41,  79,   129,  167,  196};   /* index of first bv of each card  */

@@ -16,12 +16,12 @@ int binval_table_index(int binval, int ncar)
                 return -1;
         
         int index = -1;
-        int lower_limit = car_pos[ncar];
-        int upper_limit = lower_limit + 20 * max_ord[ncar];
+        int lower_limit = bv_idx[ncar];
+        int upper_limit = lower_limit + max_ord[ncar];
         
         for (int i = lower_limit; i < upper_limit; i++) {
-                if (pcs_table[i] == binval) {
-                        index = i;
+                if (bin_vals[i] == binval) {
+                        index = i * 20;
                         break;
                 }
         }
@@ -79,6 +79,8 @@ int complement_table_index(int index)
         int complement;
 
         complement = pcs_table[index + 19];
+        
+        complement = complement - 1;    // complement indexes have this 1 offset (why...?)
 
         return complement;
 }

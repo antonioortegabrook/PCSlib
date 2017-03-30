@@ -13,17 +13,22 @@
 #include "ext.h"			// you must include this - it contains the external object's link to available Max functions
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
-#include "../pcslib-includes/pcslib_max.c"       //    PCSlib header
+#include "../pcslib-includes/pcslib_api.h"
+
+#include "../pcslib-includes/pcslib_max_types.h"
+#include "../pcslib-includes/pcslib_max_funcs.c"
 
 typedef struct _pcs_pf {	// defines our object's internal variables for each instance in a patch
-	t_object x_obj;			// object header - ALL objects MUST begin with this...
-	
-    PCS *pcs;   /*pointer to PCS struct*/
-	void *pcs_out;
+        t_object x_obj;			// object header - ALL objects MUST begin with this...
+        
+        t_pcs *pcs;             /*pointer to PCS struct*/
+        
+        void *pcs_out;
 } t_pcs_pf;
 
 // these are prototypes for the methods that are defined below
 void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv);  //-
+
 void pcs_pf_assist(t_pcs_pf *x, void *b, long m, long a, char *s);
 void pcs_pf_free(t_pcs_pf *x);
 void *pcs_pf_new();
@@ -35,95 +40,116 @@ static t_class *pcs_pf_class;		// global pointer to the object class - so max ca
 
 void ext_main(void *r)
 {
-	t_class *c;
-
-	c = class_new("pcs.pf", (method)pcs_pf_new, (method)pcs_pf_free, sizeof(t_pcs_pf), 0L, 0);
-    
-    class_addmethod(c, (method)pcs_pf_list,          "list",	A_LONG, 0);
-	class_addmethod(c, (method)pcs_pf_assist,        "assist",	A_CANT, 0);	// (optional) assistance method
-
-	class_register(CLASS_BOX, c);
-	pcs_pf_class = c;
+        t_class *c;
+        
+        c = class_new("pcs.pf", (method)pcs_pf_new, (method)pcs_pf_free, sizeof(t_pcs_pf), 0L, 0);
+        
+        class_addmethod(c, (method)pcs_pf_list,          "list",	A_LONG, 0);
+        class_addmethod(c, (method)pcs_pf_assist,        "assist",	A_CANT, 0);	// assistance method
+        
+        class_register(CLASS_BOX, c);
+        pcs_pf_class = c;
 }
 
 //--------------------------------------------------------------------------
 
-void *pcs_pf_new() {
-	t_pcs_pf *x;                                             // local variable (pointer to a t_pcs_pf data structure)
+void *pcs_pf_new()
+{
+        t_pcs_pf *x;                                             // local variable (pointer to a t_pcs_pf data structure)
 
-	x = (t_pcs_pf *)object_alloc(pcs_pf_class);           // create a new instance of this object
-	x->pcs_out = outlet_new(x, NULL);                                    // create a list outlet
+        x = (t_pcs_pf *)object_alloc(pcs_pf_class);           // create a new instance of this object
+        x->pcs_out = outlet_new(x, NULL);                                    // create a list outlet
 
-    x->pcs=NULL;
-    
-    x->pcs=(PCS*)malloc(sizeof(PCS));
-    x->pcs->find[0]=EOC;
+        x->pcs = NULL;
 
-	return(x);					// return a reference to the object instance
+        x->pcs = pcs_new_empty();
+
+        return(x);					// return a reference to the object instance
 }
-
 
 //--------------------------------------------------------------------------
 
 void pcs_pf_assist(t_pcs_pf *x, void *b, long m, long a, char *s) // 4 final arguments are always the same for the assistance method
 {
-	if (m == ASSIST_INLET)
-		sprintf(s,"(list) List of Pitch Classes");
-    if (m == ASSIST_OUTLET)
-        sprintf(s,"PCS");
+        if (m == ASSIST_INLET)
+                sprintf(s,"(list) List of Pitch Classes");
+        if (m == ASSIST_OUTLET)
+                sprintf(s,"PCS");
 }
 
-void pcs_pf_free(t_pcs_pf *x){
-    if(x->pcs != NULL) free(x->pcs);
-    return;
-}
-
-void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv) {
-    t_int i;
-    t_int j;
-    
-    if(argc>PCSL-2) { //- debemos garantizarnos dos posiciones libres al final del array para escribir EOP y EOC (revisar)
-        object_error((t_object*)x, "too many elements received; no action taken");
+void pcs_pf_free(t_pcs_pf *x)
+{
+        if(x->pcs)
+                pcs_free(x->pcs);
         return;
-    }
-    
-    // pickup a list with pcs
-    /*
-     Usamos una variable de incremento para leer el array de atoms y otra para escribir en el array find; esto es parte del typechecking y es necesario para que, si aparece un símbolo en el array de atoms, además de no copiarlo, la variable que usamos para escribir el array find no se incremente; de esta manera evitamos que luego EOC quede en un lugar incorrecto, lo cual derivaría en otros errores.
-     */
-    i=0;
-    for(j = 0; j < argc; j++){
-        if(atom_gettype(argv+j) == A_LONG || atom_gettype(argv+j) == A_FLOAT) {
-            x->pcs->find[i] =(int)atom_getfloat(&argv[j]);
-            
-            if(x->pcs->find[i] < 0 && x->pcs->find[i]!=EOP)
-                x->pcs->find[i]=abs(x->pcs->find[i]);
-            
-            if(x->pcs->find[i] >= 12)
-                x->pcs->find[i]=x->pcs->find[i]%12; // take modulo-12
-            i++;
+}
+
+//--------------------------------------------------------------------------
+
+void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
+{
+        int *tmp_pitch_content;
+        int tmp_nelem;
+        
+        tmp_pitch_content = malloc(argc * sizeof(int));
+        
+        if (!tmp_pitch_content) {
+                object_error((t_object*)x, "allocation failed (tmp_pitch_content)");
+                return;
         }
-    }
-    if(x->pcs->find[i-1] ==EOP) {
-        x->pcs->find[i-1] =EOC;
-    }
-    else {
-        x->pcs->find[i] =EOC;
-    }
-    
-    if(x->pcs->find[0]==EOC){
-        //post("pcs_pf: NULL");
-        return;
-    }
-    
-    forma_prima(x->pcs, tableptr);      // find prime form
-    
-    {   //------------- out ptr -------------------
-        char pstr[STRLP];
-        t_atom ptr;
-        sprintf(pstr, "%p", x->pcs);    //convert pointer to PCS struct into symbol //- (cuidado con el nombre de la struct)
-        atom_setsym(&ptr, gensym(pstr));
-        outlet_anything (x->pcs_out, gensym(MPID), 1, &ptr);    //- (cuidado con el nombre del outlet)
-    }   //------------- end out -------------------
+        
+        int i;
+        int j;
+        
+        
+        // pickup a list with pcs
+        /*
+         Usamos una variable de incremento para leer el array de atoms y otra para escribir en el array find; esto es parte del typechecking y es necesario para que, si aparece un símbolo en el array de atoms, además de no copiarlo, la variable que usamos para escribir el array find no se incremente; de esta manera evitamos que luego EOC quede en un lugar incorrecto, lo cual derivaría en otros errores.
+         */
+        i=0;
+        for (j = 0; j < argc; j++) {
+                if (atom_gettype(argv+j) == A_LONG || atom_gettype(argv+j) == A_FLOAT) {
+                        
+                        tmp_pitch_content[i] = (int)atom_getfloat(&argv[j]);
+                        
+                        if(tmp_pitch_content[i] < 0 && tmp_pitch_content[i]!=EOP)
+                                tmp_pitch_content[i] = abs(tmp_pitch_content[i]);
+                        
+                        if(tmp_pitch_content[i] >= 12)
+                                tmp_pitch_content[i] = tmp_pitch_content[i] % 12; // take modulo-12
+                        i++;
+                }
+        }
+
+        tmp_nelem = i;
+        
+        int err = pcs_fill_from_pitch_content(x->pcs, tmp_pitch_content, tmp_nelem);
+        
+        if (err) {
+                object_error((t_object*)x, "fill from pitch content failed"); // (revisar, deberíamos liberar tmp_pitch content)
+                return;
+        }
+
+        {   //------------- out ptr -------------------
+                t_ptr_mess ptr_out;
+                short err_code;
+                
+                err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
+                if (err_code) {
+                        object_error((t_object*)x, "error code %d", err_code);
+                        return;
+                }
+                ptr_mess_setpcs(&ptr_out, x->pcs);
+                outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
+        }   //------------- end out -------------------
+
+        /*
+                Free temp data
+         */
+        if (tmp_pitch_content) {
+                free(tmp_pitch_content);
+                tmp_pitch_content = NULL;
+        }
+
     return;
 }

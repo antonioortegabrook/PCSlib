@@ -85,6 +85,7 @@ void *pcs_write_new()
         x->pcs_out = outlet_new(x, MPID);                                    // create a list outlet
         
         x->pcs = NULL;
+        x->pcs = pcs_new_empty();
 
         return(x);					// return a reference to the object instance
 }
@@ -184,17 +185,16 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
                         }
                 }
         }
-        
-        /* if there is a pcs allocated, free it
+
+
+        /* Fill t_pcs from its name and t/i status
          */
-        if (x->pcs)
-                pcs_free(x->pcs);
+        int err_f = pcs_fill_from_name(x->pcs, ncar, nord, transp, inv);
         
-        /* Create a new t_pcs from its name and t/i status
-         */
-        x->pcs = pcs_new_from_name(ncar, nord, transp, inv);
-        
-        
+        if (err_f) {
+                object_error((t_object*)x, "pcs_fill failed whith error code %d", err_f);
+                return;
+        }
         
         
         {   //------------- out ptr -------------------
@@ -209,5 +209,6 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
                 ptr_mess_setpcs(&ptr_out, x->pcs);
                 outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
         }   //------------- end out -------------------
+        
         return;		
 }

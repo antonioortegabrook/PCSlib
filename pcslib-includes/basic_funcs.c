@@ -47,3 +47,30 @@ int invert(int *vector, int nelem)
 
       return 0;
 }
+
+
+int literal_complement(int *vector, int nelem, int *target)
+{
+        if (!vector)
+                return -1;
+        if (!target)
+                return -2;
+
+        int k = 0, is_present;
+        for (int i = 0; i < 12; i++) {
+                
+                is_present = false;
+                for (int j = 0; j < nelem; j++) {
+                        if (vector[j] == i) {
+                                is_present = true;
+                                break;
+                        }
+                }
+                if (!is_present) {
+                        target[k] = i;
+                        k++;
+                }
+        }
+        
+        return 0;
+}
