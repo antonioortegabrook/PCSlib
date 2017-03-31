@@ -34,13 +34,9 @@ void pcs_free(t_pcs *pcs)
         if (!pcs)
                 return;
         
-        if (pcs->pitch_content) {
-                free(pcs->pitch_content);
-                pcs->pitch_content = NULL;
-        }
+        free(pcs->pitch_content);
         
         free(pcs);
-        pcs = NULL;
         
         return;
 }
