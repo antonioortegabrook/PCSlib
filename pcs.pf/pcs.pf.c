@@ -60,8 +60,6 @@ void *pcs_pf_new()
         x = (t_pcs_pf *)object_alloc(pcs_pf_class);           // create a new instance of this object
         x->pcs_out = outlet_new(x, NULL);                                    // create a list outlet
 
-        x->pcs = NULL;
-
         x->pcs = pcs_new_empty();
 
         return(x);					// return a reference to the object instance
@@ -79,8 +77,7 @@ void pcs_pf_assist(t_pcs_pf *x, void *b, long m, long a, char *s) // 4 final arg
 
 void pcs_pf_free(t_pcs_pf *x)
 {
-        if(x->pcs)
-                pcs_free(x->pcs);
+        pcs_free(x->pcs);
         return;
 }
 
@@ -146,10 +143,7 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
         /*
                 Free temp data
          */
-        if (tmp_pitch_content) {
-                free(tmp_pitch_content);
-                tmp_pitch_content = NULL;
-        }
+        free(tmp_pitch_content);
 
     return;
 }

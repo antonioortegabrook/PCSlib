@@ -83,8 +83,7 @@ void *pcs_write_new()
         
         x = (t_pcs_write *)object_alloc(pcs_write_class);           // create a new instance of this object
         x->pcs_out = outlet_new(x, MPID);                                    // create a list outlet
-        
-        x->pcs = NULL;
+
         x->pcs = pcs_new_empty();
 
         return(x);					// return a reference to the object instance
@@ -104,16 +103,13 @@ void pcs_write_assist(t_pcs_write *x, void *b, long m, long a, char *s) // 4 fin
 
 void pcs_write_free(t_pcs_write *x)
 {
-        /* pcs_free alredy checks for null pointer
-         */
         pcs_free(x->pcs);
-        
+
         return;
 }
 
 void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
 {
-        
         int ncar;
         int nord;
         int transp = 0;

@@ -85,7 +85,8 @@ void *pcs_read_new() {
         return(x);					// return a reference to the object instance
 }
 
-/*      Assistance method       *
+/*
+        Assistance method
  */
 void pcs_read_assist(t_pcs_read *x, void *b, long m, long a, char *s)
 {
@@ -117,8 +118,9 @@ void pcs_read_assist(t_pcs_read *x, void *b, long m, long a, char *s)
                 }
         }
 }
-/*      Free routine.           *
-        Don't check for NULL because pcs_free already does.
+
+/*
+        Free routine
  */
 void pcs_read_free(t_pcs_read *x)
 {
