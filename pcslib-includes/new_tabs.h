@@ -1,3 +1,4 @@
+
 /*  Tables  */
 
 #include <stdint.h>
@@ -5,24 +6,24 @@
 /** These are used to search *efficiently* trhough the big table;
 
     @ car_pos   stores the index in table of the first pcs of each cardinality, beeing the index of this
-                    array equals to the cardinal number we have; to get the PCS we are looking for, substract
-                    1 from ordinal number, multiply by 20 an add to it; i.e. to get index of PCS 5-10:
-                    car_pos[5] = 820; then (16-1) * 20 = 300; then 820 + 300 = 1120 and that's the index of
-                    5-16 in the big table.-
+                        array equals to the cardinal number we have; to get the PCS we are looking for,
+                        substract 1 from ordinal number, multiply by 20 an add to it; i.e. to get index of PCS
+                        5-10: car_pos[5] = 820; then (16-1) * 20 = 300; then 820 + 300 = 1120 and that's the
+                        index of 5-16 in the big table.
 
     @ max_ord   stores the maximum number of PCS of each cardinality, beeing the index of this array equal to
-                    the cardinal number we have.-
+                        the cardinal number we have.-
 
     @ bv_idx    stores the index at which is located the binary value of the first PCS of each cardinality in
                     the bv_index array.-
  
     @ bin_vals  stores the binary value of each PCS in its prime form; multiply the index of this array by 20
-                    to get the position in the big table; use bv_idx and max_ord to search *efficiently*
-                    through bin_vals (i.e. search beetwen bv_idx and max_ord);
-                    NOTE THAT the "minimum binary value" method gives us the Rahn's prime form and we are
-                    interested in Forte's prime form; the known special cases will be either mapped to the
-                    corresponding prime form here or in the function that computes bin values; we havent
-                    decided yet.-
+                        to get the position in the big table; use bv_idx and max_ord to search *efficiently*
+                        through bin_vals (i.e. search beetwen bv_idx and max_ord);
+
+                        NOTE THAT the binary values in the table correspond to Forte's prime form, which means
+                        that they are not the minimum ones in some (five) cases. The special cases must be
+                        handled by the function that computes them.
 */
 
 /*                                card    3   4    5    6     7     8     9                                          */
@@ -50,6 +51,9 @@ static int16_t bin_vals[208] = /* minimum binary value of each PCS (except for t
 
 
 /** PCS table (aka the big table)
+ 
+        Stores cardinal number, ordinal number, prime form, index of z mate, interval-class vector and index
+        of complement of each pcs.
  */
 
 /*card.	 ord.   Prime form.......................................     Z    N     IC1   IC2   IC3   IC4   IC5   IC6 COMP */
