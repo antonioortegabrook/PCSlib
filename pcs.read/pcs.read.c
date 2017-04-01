@@ -1,26 +1,23 @@
-/*  pcs_read object  by Oscar Pablo Di Liscia - Max version by Antonio Ortega Brook
-                                                Requires Max6/7 & OS X 10.7 or later
-                                                September 2016
--------
- The pcs_read object expects a pointer to a PCS struct (x->pcs).
- The pointer must be generated using the prime_form object or any
- other.
- The output:
- outlet0: original pc of the pcs(ints list)
- outlet1: cardinal number(int)
- outlet2: ordinal number(int)
- outlet3: status (T/I)(ints list)
- outlet4: prime form(ints list)
- outlet5: interval class vector(ints list)
- outlet6: literal complement(ints list)
+/*
+        pcs.read by Antonio Ortega Brook        - April 2017
+
+                Requires Max6/7 & OS X 10.7 or later
+
+ 
+        @ input: pointer to a t_pcs structure (t_ptr_mess)
+
+        @ output (from left to right):
+                - outlet 0: pcs as delivered (list)
+                - outlet 1: cardinal number (int)
+                - outlet 2: ordinal number (int)
+                - outlet 3: T/I status (list)
+                - outlet 4: prime form (list)
+                - outlet 5: interval class vector (list)
+                - outlet 6: literal complement (list)
 */
 
-/*
- TODOS LOS COMENTARIOS QUE COMIENZAN CON //- SON MÍOS; EL OBJETIVO DE ESTO ES FACILITAR LA BÚSQUEDA DE ELLOS MIENTRAS ESTOY ESCRIBIENDO; LUEGO DEBERÁN SER BORRADOS O MODIFICADOS
+/** THIS IS EXPERIMENTAL **
  
-        Borrar variables no utilizadas...?
-*/
-/** EXPERIMENTAL **
     Usamos t_ptr_mess para enviar/recibir punteros, en vez de t_atom
  */
 
@@ -59,7 +56,7 @@ void ext_main(void *r)
         c = class_new("pcs.read", (method)pcs_read_new, (method)pcs_read_free, sizeof(t_pcs_read), 0L, 0);
         
         class_addmethod(c, (method)pcs_read_pcs_ptr_mes,	MPID,           A_GIMME,  0);
-        class_addmethod(c, (method)pcs_read_assist,             "assist",	A_CANT, 0);	//assistance method
+        class_addmethod(c, (method)pcs_read_assist,             "assist",	A_CANT,   0);	//assistance method
         
         class_register(CLASS_BOX, c);
         pcs_read_class = c;
@@ -69,9 +66,9 @@ void ext_main(void *r)
 
 void *pcs_read_new() {
         t_pcs_read *x;                                 // local variable (pointer to a t_pcs_read data structure)
-        
+
         x = (t_pcs_read *)object_alloc(pcs_read_class);           // create a new instance of this object
-        
+
         x->co_out = listout(x);                                 // create outlets
         x->iv_out = listout(x);
         x->pf_out = listout(x);
@@ -79,11 +76,12 @@ void *pcs_read_new() {
         x->no_out = intout(x);
         x->nc_out = intout(x);
         x->fi_out = listout(x);
-        
-        x->pcs = NULL;
-        
+
+        x->pcs = pcs_new_empty();
+
         return(x);					// return a reference to the object instance
 }
+//--------------------------------------------------------------------------
 
 /*
         Assistance method
@@ -131,36 +129,46 @@ void pcs_read_free(t_pcs_read *x)
 
 void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv)
 {
+        /*
+                Temp data
+         */
+        t_pcs *tempcs;
         int nelem;
         int comp_ncard;
         int literal_complement[12];
-        
-        t_int  nord;                          /*ordinal number*/
-        t_int  ncar;                          /*cardinal number*/
-        t_atom *pitch_content_list;        /*individual form(may have pc repeated)*/
-        t_atom prime_form_list[12];           /*prime form*/
-        t_atom ti_list[2];                      /*IT [0]=T, [1]=I list*/
-        t_atom icv_list[6];                     /*interval class vector*/
-        t_atom complement_list[12];           /*complement list*/
-        
-        {  //------------ get ptr --------------
-                t_pcs *tempcs = ptr_mess_getpcs(argv);    // get the pointer to a PCS struct
-                
-                if (!tempcs) {
-                        object_error((t_object*)x, "bad pointer");
-                        return;
-                }
-                x->pcs = tempcs;
-                
-        }  //------------ end get --------------
+
+        /*
+                Data to be sent through outlets
+         */
+        t_int  nord;                            // Ordinal number
+        t_int  ncar;                            // Cardinal number
+        t_atom *pitch_content_list;             // Individual form (may have pc repeated)
+        t_atom prime_form_list[12];             // Prime form
+        t_atom ti_list[2];                      // T/I status
+        t_atom icv_list[6];                     // Interval class vector
+        t_atom complement_list[12];             // Complement list
+
+
+        /*
+                Get pointer to struct
+         */
+        tempcs = ptr_mess_getpcs(argv);
+
+        if (!tempcs) {
+                object_error((t_object*)x, "NULL pointer received");
+                return;
+        }
+
+        pcs_copy(x->pcs, tempcs);          // create a local copy of the structure
+
 
         /*
                 Check for consistency
          */
         if (!x->pcs->consistent) {
-                object_error((t_object*)x, "pcs data inconsistent");
-                return;
+                object_warn((t_object*)x, "pcs data inconsistent");
         }
+
 
         /*
                 Read data from t_pcs
@@ -172,6 +180,7 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
         ncar = x->pcs->ncar;
         
         pitch_content_list = malloc(nelem * sizeof(t_atom));
+        
         if (!pitch_content_list) {
                 object_error((t_object*)x, "allocation failed (pitch_content_list)");
                 return;
