@@ -1,19 +1,17 @@
-/**     new_free.c by Antonio Ortega Brook - March 2017
+/**     
+        new_free.c by Antonio Ortega Brook - March 2017
  
-        These are the methods for allocating and deallocatinc pcs and cm structs
+        These are the methods for allocating, deallocating and copying pcs and cm structs
  */
-
-
-//#include "new_free.h"
 
 
 
 /*
-        Allocates a new empty t_pcs; returns a pointer (null if unsuccesful)
+        Allocate a new empty t_pcs; returns a pointer (null if unsuccesful)
  */
 t_pcs * pcs_new_empty()
 {
-        t_pcs *pcs = NULL;
+        t_pcs *pcs;
         
         pcs = malloc(sizeof(t_pcs));
         if (!pcs)
@@ -36,15 +34,17 @@ void pcs_free(t_pcs *pcs)
                 return;
 
         free(pcs->pitch_content);
-        
+        pcs->pitch_content = NULL;
+
         free(pcs);
-        
+        pcs = NULL;
+
         return;
 }
 
 /*
- Copy the contents of a t_pcs into another. Target must be initialized.
- Warning: doesn't check for consistency
+        Copy the contents of a t_pcs into another. Target must be initialized.
+        Warning: doesn't check for consistency
  */
 int pcs_copy(t_pcs *target, t_pcs *source)
 {

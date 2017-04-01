@@ -1,29 +1,21 @@
-/*  pcs_write object by Oscar Pablo Di Liscia - Max version by Antonio Ortega Brook
-                                                Requires Max6/7 & OS X 10.7 or later
-                                                September 2016
-------- 
- The pcs_write object expects a list with three or four args.
- cardinal number(float), ordinal number(float) and transposition factor(float).
- If a fourth arg is delivered, it must be a symbol "I", which stands for
- "inversion". The PCS is scanned at the PCS table and transposed and/or inverted
- if required.
- The output is a pointer to a PCS struct. To access the data, a pcs_read
- object must be used.
-*/
-
 /*
- TODOS LOS COMENTARIOS QUE COMIENZAN CON //- SON MÍOS; EL OBJETIVO DE ESTO ES FACILITAR LA BÚSQUEDA DE ELLOS MIENTRAS ESTOY ESCRIBIENDO; LUEGO DEBERÁN SER BORRADOS O MODIFICADOS
-
- //- bug! Crash cuando ncar==3 && nord==0
-                       ncar==4 && nord==-12 Puede estar relacionado con pcs_funcs.c
-                       ncar==5 && nord==-41
-                       ncar==6 && nord==-79
-                       ncar==7 && nord==-129
-                       ncar==8 && nord==-167
-                       ncar==9 && nord==-196
+        pcs.write by Antonio Ortega Brook        - April 2017
  
-*/
-/** EXPERIMENTAL **
+                Requires Max6/7 & OS X 10.7 or later
+ 
+ 
+        @ input: list of two to four args:
+                1 - Cardinal number (int)
+                2 - Ordinal number (int)
+                3 - Transposition factor (int) (optional)
+                3/4 - Inversion status (symbol)
+ 
+        @ output pointer to a t_pcs structure (t_ptr_mess)
+
+ */
+
+/** THIS IS EXPERIMENTAL **
+ 
  Usamos t_ptr_mess para enviar/recibir punteros, en vez de t_atom
  */
 
@@ -92,6 +84,10 @@ void *pcs_write_new()
 
 //--------------------------------------------------------------------------
 
+/*
+        Assistance method
+ */
+
 void pcs_write_assist(t_pcs_write *x, void *b, long m, long a, char *s) // 4 final arguments are always the same for the assistance method
 {
         if (m == ASSIST_INLET)
@@ -101,15 +97,20 @@ void pcs_write_assist(t_pcs_write *x, void *b, long m, long a, char *s) // 4 fin
                 sprintf(s,"PCS");
 }
 
+/*
+        Free routine
+ */
 void pcs_write_free(t_pcs_write *x)
 {
         pcs_free(x->pcs);
-
         return;
 }
 
 void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
 {
+        t_ptr_mess ptr_out;
+        short err_code;
+
         int ncar;
         int nord;
         int transp = 0;
@@ -151,6 +152,8 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
                         /* If thrid arg is symbol "i", we assume no fourth argument, so we
                          break the loop
                          */
+                        
+                        // esto debería ser "i" o zero/non-zero. Es una cuestión de consistencia con pcs.read
                         if (atom_gettype(argv + i) == A_SYM) {
                                 if (atom_getsym(argv + i) == gensym("I") || atom_getsym(argv + i) == gensym("i")) {
                                         inv = true;
@@ -183,6 +186,8 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
         }
 
 
+        transp = transp % 12;
+
         /* Fill t_pcs from its name and t/i status
          */
         int err_f = pcs_fill_from_name(x->pcs, ncar, nord, transp, inv);
@@ -193,18 +198,19 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
         }
         
         
-        {   //------------- out ptr -------------------
-                t_ptr_mess ptr_out;
-                short err_code;
-                
-                err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
-                if (err_code) {
-                        object_error((t_object*)x, "error code %d", err_code);
-                        return;
-                }
-                ptr_mess_setpcs(&ptr_out, x->pcs);
-                outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
-        }   //------------- end out -------------------
+        /*
+                Send pointer out
+         */
+        err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
         
-        return;		
+        if (err_code) {
+                object_error((t_object*)x, "error code %d", err_code);
+                return;
+        }
+        
+        ptr_mess_setpcs(&ptr_out, x->pcs);
+        outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);
+
+
+        return;
 }

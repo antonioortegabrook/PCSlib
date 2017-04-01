@@ -8,22 +8,23 @@
  */
 int transpose(int *vector, int nelem, int tf)
 {
-      if (!vector)
-            return -1;
-      
-      for (int i=0; i<nelem; i++) {
-            if (vector[i] != EOP && vector[i] != EOC)
-                  vector[i] += tf;
-            
-            if (vector[i] < 0)
-                  vector[i] += 12;
-            
-            else if (vector[i] > 12)
-                  vector[i] = vector[i] % 12;
-            
-      }
-
-      return 0;
+        if (!vector)
+                return -1;
+        
+        for (int i = 0; i < nelem; i++) {
+                
+                if (vector[i] != EOP)
+                        vector[i] += tf;
+                
+                if (vector[i] < 0)
+                        vector[i] += 12;
+                
+                else if (vector[i] >= 12)
+                        vector[i] = vector[i] % 12;
+                
+        }
+        
+        return 0;
 }
 
 
@@ -33,30 +34,34 @@ int transpose(int *vector, int nelem, int tf)
  */
 int invert(int *vector, int nelem)
 {
-      if (!vector)
-            return -1;
-      
-      for (int i=0; i<nelem; i++) {
-            if (vector[i] != EOP && vector[i] != EOC)
-                  vector[i] = 12 - vector[i];
-            
-            if (vector[i] == 12)
-                  vector[i] = 0;
-            
-      }
-
-      return 0;
+        if (!vector)
+                return -1;
+        
+        for (int i=0; i<nelem; i++) {
+                
+                if (vector[i] != EOP)
+                        vector[i] = 12 - vector[i];
+                
+                if (vector[i] == 12)
+                        vector[i] = 0;
+                
+        }
+        
+        return 0;
 }
 
 
 int literal_complement(int *vector, int nelem, int *target)
 {
+        int is_present;
+        int k = 0;
+        
         if (!vector)
                 return -1;
         if (!target)
                 return -2;
 
-        int k = 0, is_present;
+
         for (int i = 0; i < 12; i++) {
                 
                 is_present = false;
