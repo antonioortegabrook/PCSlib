@@ -21,7 +21,7 @@ int binval_table_index(int binval, int ncar)
         
         for (int i = lower_limit; i < upper_limit; i++) {
                 if (bin_vals[i] == binval) {
-                        index = i * 20;
+                        index = i * PCS_TABLE_ROW_LEN;
                         break;
                 }
         }
@@ -48,7 +48,7 @@ int name_table_index(int ncar, int nord)
                 return -2;              // invalid nord
     
         tmp_a = car_pos[ncar];          // index of pcs ncar-1
-        tmp_b = 20 * (nord - 1);        // offset from ncar-1
+        tmp_b = PCS_TABLE_ROW_LEN * (nord - 1);        // offset from ncar-1
         index = tmp_a + tmp_b;
 
         return index;
