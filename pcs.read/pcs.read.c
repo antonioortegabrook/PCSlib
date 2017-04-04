@@ -39,7 +39,7 @@ typedef struct _pcs_read {	// defines our object's internal variables for each i
 } t_pcs_read;
 
 // these are prototypes for the methods that are defined below
-void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv);
+void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_patom *argv);
 
 void pcs_read_assist(t_pcs_read *x, void *b, long m, long a, char *s);
 void pcs_read_free(t_pcs_read *x);
@@ -127,7 +127,7 @@ void pcs_read_free(t_pcs_read *x)
 }
 //--------------------------------------------------------------------------
 
-void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *argv)
+void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_patom *argv)
 {
         /*
                 Temp data
@@ -152,7 +152,7 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_ptr_mess *arg
         /*
                 Get pointer to struct
          */
-        tempcs = ptr_mess_getpcs(argv);
+        tempcs = patom_getpcs(argv);
 
         if (!tempcs) {
                 object_error((t_object*)x, "NULL pointer received");

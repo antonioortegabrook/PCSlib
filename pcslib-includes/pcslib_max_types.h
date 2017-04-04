@@ -14,7 +14,7 @@
 typedef enum {
     P_PCS = 30,     // < pointer to a PCS
     P_CM            // < pointer to a CM
-} e_pcslib_ptr_types;
+} e_pcslib_patomtypes;
 
 /** Union for packing the PCSlib types defined above
  */
@@ -27,7 +27,7 @@ union pcs_word {
     we cast *t_ptr_mess to *t_atom to pass it through an outlet_anything and
     use A_GIMME to receive them
  */
-typedef struct ptr_mess {
+typedef struct patom {
     short           p_type;
     union pcs_word  p_w;
-} t_ptr_mess;
+} t_patom;

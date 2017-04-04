@@ -128,15 +128,15 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
         }
 
         {   //------------- out ptr -------------------
-                t_ptr_mess ptr_out;
+                t_patom ptr_out;
                 short err_code;
                 
-                err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
+                err_code = patom_setpcs(&ptr_out, x->pcs);
                 if (err_code) {
                         object_error((t_object*)x, "error code %d", err_code);
                         return;
                 }
-                ptr_mess_setpcs(&ptr_out, x->pcs);
+                patom_setpcs(&ptr_out, x->pcs);
                 outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
         }   //------------- end out -------------------
 

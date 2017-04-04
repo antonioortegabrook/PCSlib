@@ -1,7 +1,7 @@
 /*
         pcs.write by Antonio Ortega Brook        - April 2017
  
-                Requires Max6/7 & OS X 10.7 or later
+        Requires Max6/7 & OS X 10.7 or later
  
  
         @ input: list of two to four args:
@@ -108,7 +108,7 @@ void pcs_write_free(t_pcs_write *x)
 
 void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
 {
-        t_ptr_mess ptr_out;
+        t_patom ptr_out;
         short err_code;
 
         int ncar;
@@ -198,17 +198,17 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
         }
         
         
-        /*
+        /**
                 Send pointer out
          */
-        err_code = ptr_mess_setpcs(&ptr_out, x->pcs);
+        err_code = patom_setpcs(&ptr_out, x->pcs);
         
         if (err_code) {
                 object_error((t_object*)x, "error code %d", err_code);
                 return;
         }
         
-        ptr_mess_setpcs(&ptr_out, x->pcs);
+        patom_setpcs(&ptr_out, x->pcs);
         outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);
 
 
