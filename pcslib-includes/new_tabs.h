@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+/** This is the length of a row in the pcs_table;
+
+*/
+#define PCS_TABLE_ROW_LEN = 20;
+
 /** These are used to search *efficiently* trhough the big table;
 
     @ car_pos   stores the index in table of the first pcs of each cardinality, beeing the index of this
