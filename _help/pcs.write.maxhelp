@@ -38,6 +38,35 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"hidden" : 1,
+					"id" : "obj-6",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 464.0, 9.5, 60.0, 22.0 ],
+					"style" : "",
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"hidden" : 1,
+					"id" : "obj-9",
+					"linecount" : 2,
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 464.0, 37.5, 162.0, 35.0 ],
+					"style" : "",
+					"text" : ";\rmax sortpatcherdictonsave 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"bubble" : 1,
 					"bubbleside" : 3,
 					"id" : "obj-57",
@@ -45,7 +74,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 51.0, 216.5, 98.5, 24.0 ],
-					"presentation_rect" : [ 40.5, 221.5, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "inverted PCS"
 				}
@@ -59,7 +87,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 154.5, 217.5, 33.0, 22.0 ],
-					"presentation_rect" : [ 153.5, 229.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "4 9 i"
 				}
@@ -74,8 +101,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 41.5, 245.5, 108.0, 37.0 ],
-					"presentation_rect" : [ 1.5, 281.0, 0.0, 0.0 ],
+					"patching_rect" : [ 41.5, 245.5, 112.0, 37.0 ],
 					"style" : "",
 					"text" : "transposed and inverted PCS"
 				}
@@ -140,7 +166,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "pcs_ptr_mes" ],
 					"patching_rect" : [ 236.5, 264.0, 58.0, 22.0 ],
 					"style" : "",
 					"text" : "pcs.write"
@@ -733,6 +759,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-58", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-9", 0 ],
+					"disabled" : 0,
+					"hidden" : 1,
+					"source" : [ "obj-6", 0 ]
 				}
 
 			}

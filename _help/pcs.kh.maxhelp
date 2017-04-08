@@ -38,6 +38,35 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"hidden" : 1,
+					"id" : "obj-6",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 464.0, 9.5, 60.0, 22.0 ],
+					"style" : "",
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"hidden" : 1,
+					"id" : "obj-4",
+					"linecount" : 2,
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 464.0, 37.5, 162.0, 35.0 ],
+					"style" : "",
+					"text" : ";\rmax sortpatcherdictonsave 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-22",
 					"maxclass" : "button",
 					"numinlets" : 1,
@@ -103,7 +132,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "pcs_ptr_mes" ],
 					"patching_rect" : [ 171.0, 348.0, 58.0, 22.0 ],
 					"style" : "",
 					"text" : "pcs.write"
@@ -118,7 +147,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 158.0, 227.0, 34.0, 22.0 ],
-					"presentation_rect" : [ 60.0, 158.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "4 27"
 				}
@@ -130,9 +158,8 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "pcs_ptr_mes" ],
 					"patching_rect" : [ 158.0, 265.0, 58.0, 22.0 ],
-					"presentation_rect" : [ 60.0, 206.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "pcs.write"
 				}
@@ -184,7 +211,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 2.0, 73.0, 467.0, 47.0 ],
+					"patching_rect" : [ 2.0, 73.0, 469.0, 47.0 ],
 					"style" : "",
 					"text" : "pcs.kh receives two PCS. If both belongs to the same Kh complex, it sends a series of lists with cardinal and ordinal of the included SC through the right outlet and a bang through the left one."
 				}
@@ -259,7 +286,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "pcs_ptr_mes" ],
 					"patching_rect" : [ 217.0, 265.0, 58.0, 22.0 ],
 					"style" : "",
 					"text" : "pcs.write"
@@ -354,6 +381,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-52", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"disabled" : 0,
+					"hidden" : 1,
+					"source" : [ "obj-6", 0 ]
 				}
 
 			}

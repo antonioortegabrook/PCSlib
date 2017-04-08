@@ -38,6 +38,35 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"hidden" : 1,
+					"id" : "obj-6",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 464.0, 9.5, 60.0, 22.0 ],
+					"style" : "",
+					"text" : "loadbang"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"hidden" : 1,
+					"id" : "obj-9",
+					"linecount" : 2,
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 464.0, 37.5, 162.0, 35.0 ],
+					"style" : "",
+					"text" : ";\rmax sortpatcherdictonsave 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Lato Regular",
 					"fontsize" : 12.0,
 					"id" : "obj-11",
@@ -71,7 +100,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 215.5, 139.0, 96.5, 24.0 ],
+					"patching_rect" : [ 215.5, 139.0, 97.0, 24.0 ],
 					"style" : "",
 					"text" : "create a PCS"
 				}
@@ -323,6 +352,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-30", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-9", 0 ],
+					"disabled" : 0,
+					"hidden" : 1,
+					"source" : [ "obj-6", 0 ]
 				}
 
 			}
