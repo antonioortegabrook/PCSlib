@@ -176,14 +176,14 @@ void *pcs_sim_new() {
     int i;
     
     x->npcs=0;
-    x->pcs=(PCS*)malloc(sizeof(PCS));
+    x->pcs=(PCS*)malloc(sizeof(PCS));   //- ojo con los punteros null - issue #7
     x->pcs[0].find[0]=EOC;
     x->j=0;
     
     x->ms=NULL;
-    x->ms=(SIM**)malloc(sizeof(SIM*)*max_sim_c);
+    x->ms=(SIM**)malloc(sizeof(SIM*)*max_sim_c);    //- ojo con los punteros null - issue #7
     for(i=0; i<max_sim_c; ++i) {
-        x->ms[i]=(SIM*)malloc(sizeof(SIM)*max_sim_r-i);
+        x->ms[i]=(SIM*)malloc(sizeof(SIM)*max_sim_r-i); //- ojo con los punteros null - issue #7
     }
     
     /*initialize max and min values counter*/
@@ -256,7 +256,7 @@ void pcs_sim_pcs_ptr(t_pcs_sim *x, t_symbol *s, long argc, t_atom *argv) {      
         
         sscanf(temp->s_name, "%p", &tempcs);    // get the pointer to a PCS struct
         x->npcs++;
-        x->pcs=(PCS*)realloc(x->pcs,x->npcs*sizeof(PCS));
+        x->pcs=(PCS*)realloc(x->pcs,x->npcs*sizeof(PCS));   //- y si realloc devuelve NULL...? issue #7
         CopiaSet(tempcs,&x->pcs[x->npcs-1]);      //- (cuidado con el nombre de la estructura)
     }  //------------ end get --------------
 
