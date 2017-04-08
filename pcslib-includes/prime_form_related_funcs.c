@@ -7,6 +7,11 @@
  */
 int prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, int *inv)
 {
+/** ToDo:
+        remover las variables err; las funciones son void;
+        remover el check del puntero;
+        poner todas las declaraciones de variables arriba;
+*/
         if (!pitches)
                 return -1;
         
