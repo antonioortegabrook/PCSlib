@@ -87,7 +87,12 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
 {
         int *tmp_pitch_content;
         int tmp_nelem;
-        
+
+        if (!x->pcs) {
+                object_error((t_object*)x, "pcs null. Please reload object");
+                return;
+        }
+                
         tmp_pitch_content = malloc(argc * sizeof(int));
         
         if (!tmp_pitch_content) {
@@ -127,6 +132,7 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
                 return;
         }
 
+        
         {   //------------- out ptr -------------------
                 t_patom ptr_out;
                 short err_code;

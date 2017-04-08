@@ -13,6 +13,6 @@ int complement_table_index(int index);
 //--- 3rd Order (get data from index)
 int ncar_table(int index);
 int nord_table(int index);
-int pf_table(int index, int *pf_target);
+void pf_table(int index, int *pf_target);
 int n_table(int index);
-int icv_table(int index, int *icv_target);
+void icv_table(int index, int *icv_target);

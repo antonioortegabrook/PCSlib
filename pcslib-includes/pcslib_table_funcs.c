@@ -1,5 +1,10 @@
-/*
-    Methods for getting data from the tables (see tables.h)
+/**
+        Methods for getting data from the tables (see tables.h)
+ 
+ **
+        These functions don't check arguments. Is caller's responsiblity to
+        pass good data.
+ **
  */
 
 //#include "pcslib_table_funcs.h"
@@ -12,25 +17,23 @@
  */
 int binval_table_index(int binval, int ncar)
 {
-        if (ncar < 3 || ncar > 9)
-                return -1;
-        
         int index = -1;
         int lower_limit = bv_idx[ncar];
         int upper_limit = lower_limit + max_ord[ncar];
-        
+
         for (int i = lower_limit; i < upper_limit; i++) {
                 if (bin_vals[i] == binval) {
                         index = i * PCS_TABLE_ROW_LEN;
                         break;
                 }
         }
-        
+
         if (index < 0)
-                return -2;
-        
+                return -1;
+
         return index;
 }
+
 
 /** Returns the index in table of a PCS from its name
         @ params: cardinal number (int), ordinal number (int)
@@ -41,18 +44,13 @@ int name_table_index(int ncar, int nord)
         int index;
         int tmp_a, tmp_b;
 
-        if (ncar < 3 || ncar > 9)
-                return -1;              // invalid ncar
-        
-        if (nord < 1 || nord > max_ord[ncar])
-                return -2;              // invalid nord
-    
-        tmp_a = car_pos[ncar];          // index of pcs ncar-1
-        tmp_b = PCS_TABLE_ROW_LEN * (nord - 1);        // offset from ncar-1
+        tmp_a = car_pos[ncar];                          // index of pcs ncar-1
+        tmp_b = PCS_TABLE_ROW_LEN * (nord - 1);         // offset from ncar-1
         index = tmp_a + tmp_b;
 
         return index;
 }
+
 
 /** Returns the index in table of a PCS's Z mate from its index (0 if doesn't exists)
         @ params: index of PCS n (int)
@@ -63,12 +61,13 @@ int z_table_index(int index)
         int z;
 
         z = pcs_table[index+11];     // 11 is the offset at which z index is located
-        
+
         if (z)
                 z = z - 1;          // z indexes have this 1 offset (why...?)
 
         return z;                   // it will return 0 (false) if no Z
 }
+
 
 /** Returns the index in table of the complement of a PCS from its index
         @ params: index of PCS n (int)
@@ -79,11 +78,12 @@ int complement_table_index(int index)
         int complement;
 
         complement = pcs_table[index + 19];
-        
+
         complement = complement - 1;    // complement indexes have this 1 offset (why...?)
 
         return complement;
 }
+
 
 /** Returns the cardinal number of a PCS from its index
         @ params: index of PCS n (int)
@@ -98,6 +98,7 @@ int ncar_table(int index)
         return ncar;
 }
 
+
 /** Returns the ordinal number of a PCS from its index
         @ params: index of PCS n (int)
         @ returns: n's ordinal number (int)
@@ -105,52 +106,51 @@ int ncar_table(int index)
 int nord_table(int index)
 {
         int nord;
-        
+
         nord = pcs_table[index + 1];
-        
+
         return nord;
 }
 
-/** Returns the prime form of a PCS from its index
+
+/** Write to an array the prime form of a PCS from its index
         @ params: index in table of PCS (int), pointer to target array
-        @ returns: -1 if NULL pointer received, 0 if success
+        @ warning: doesn't check pointer; caller is responsible for that
  */
-int pf_table(int index, int *pf_target)
+void pf_table(int index, int *pf_target)
 {
-        if (!pf_target)
-                return -1;
-        
         int ncar = pcs_table[index];
         int j = index + 2;
 
         for(int i = 0; i < ncar; i++)
                 pf_target[i] = pcs_table[j + i];
 
-        return 0;
+        return;
 }
+
 
 //---
 int n_table(int index)
 {
-    int n;
-    n = pcs_table[index+12];
-    return n;
+        int n;
+
+        n = pcs_table[index+12];
+
+        return n;
 }
 
-/** Returns the interval vector of a PCS from its index
+
+/** Write to an array the interval vector of a PCS from its index
         @ params: index in table of PCS (int), pointer to target array
-        @ returns: -1 if NULL pointer received, 0 if success
+        @ warning: doesn't check pointer; caller is responsible for that
  */
-int icv_table(int index, int *icv_target)
+void icv_table(int index, int *icv_target)
 {
-        if (!icv_target)
-                return -1;
-        
-        int j = index+13;
-        
+        int j = index + 13;
+
         for(int i = 0; i < 6; i++)
                 icv_target[i] = pcs_table[j + i];
-        
-        return 0;
+
+        return;
 }
 

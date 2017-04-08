@@ -1,16 +1,22 @@
 
+/*
+ 
+ **
+        These functions don't check arguments. Is caller's responsiblity to
+        pass good data.
+ **
+ 
+ */
+
+
 //#include "basic_funcs.h"
 
 
 /**     Transpose a PCS. Puts results in input
                 @ parameters: pointer to an array (int), # of elements
-                @ returns: error code -1 if array is null
  */
-int transpose(int *vector, int nelem, int tf)
+void transpose(int *vector, int nelem, int tf)
 {
-        if (!vector)
-                return -1;
-        
         for (int i = 0; i < nelem; i++) {
                 
                 if (vector[i] != EOP)
@@ -24,19 +30,15 @@ int transpose(int *vector, int nelem, int tf)
                 
         }
         
-        return 0;
+        return;
 }
 
 
 /**     Invert a PCS. Puts results in input
                 @ parameters: pointer to an array (int), # of elements
-                @ returns: error code -1 if array is null
  */
-int invert(int *vector, int nelem)
+void invert(int *vector, int nelem)
 {
-        if (!vector)
-                return -1;
-        
         for (int i=0; i<nelem; i++) {
                 
                 if (vector[i] != EOP)
@@ -47,35 +49,36 @@ int invert(int *vector, int nelem)
                 
         }
         
-        return 0;
+        return;
 }
 
-
-int literal_complement(int *vector, int nelem, int *target)
+/**     Find the literal complement of a PCS
+                @ parameters: pointer to source array (int), # of elements,
+                        pointer to target array (int)
+                @ warning: doesn't check for EOPs. Also it's better if pcs
+                        is filtered
+ */
+void literal_complement(int *vector, int nelem, int *target)
 {
         int is_present;
         int k = 0;
-        
-        if (!vector)
-                return -1;
-        if (!target)
-                return -2;
-
 
         for (int i = 0; i < 12; i++) {
-                
+
                 is_present = false;
                 for (int j = 0; j < nelem; j++) {
+
                         if (vector[j] == i) {
                                 is_present = true;
                                 break;
                         }
+
                 }
                 if (!is_present) {
                         target[k] = i;
                         k++;
                 }
         }
-        
-        return 0;
+
+        return;
 }

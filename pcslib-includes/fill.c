@@ -1,49 +1,66 @@
 
 
-/*
-        Fill a t_pcs from its name
+/**     Fill a t_pcs from its name
+                Assumes an initialized PCS. Caller is responsible for what it passes
+                as parameters
  */
 int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
 {
-        int index = name_table_index(car, ord);
+        int index;
         int tmp_pitch_content[13];
         int tmp_prime_form[12];
         int tmp_icv[6];
         int err = 0;
-        
-        if (!pcs)
-                return -1;
-        /*
+
+
+        /**
          checkear pitch_content. si es mayor o igual que ncar, lo dejamos como está.
          si es menor, liberamos y reasignamos
+         
+         warning: nelem might not be reliable if pcs is marked as non consistent
          */
         if (pcs->pitch_content) {
-                if (pcs->nelem < car)
+                if (pcs->nelem < car) {
+                        free(pcs->pitch_content);
                         pcs->pitch_content = NULL;
+                }
         }
         if (!pcs->pitch_content)
                 pcs->pitch_content = malloc(car * sizeof(int));
         
-        if (!pcs->pitch_content)
-                return -2;
+        if (!pcs->pitch_content) {
+                pcs->consistent = false;
+                return -1;
+        }
 
 
-        /*
+        index = name_table_index(car, ord);     // should we check existence here?
+
+        /**
                 Set temp data
          */
-        err += pf_table(index, tmp_pitch_content);
+        pf_table(index, tmp_pitch_content);
         
-        err += pf_table(index, tmp_prime_form);
+        pf_table(index, tmp_prime_form);
         
-        err += icv_table(index, tmp_icv);
+        icv_table(index, tmp_icv);
         
         if (tr)                         // transpose...?
-                err += transpose(tmp_pitch_content, car, tr);
+                transpose(tmp_pitch_content, car, tr);
         
         if (inv)                        // invert...?
-                err += invert(tmp_pitch_content, car);
-        
-        /*
+                invert(tmp_pitch_content, car);
+
+        /**
+                Check for errors
+
+                should we check temp data here, or should we
+                ensure before that no bad data is passed to functions?
+         */
+
+
+
+        /**
                 Copy temp data to struct
          */
         pcs->ncar = car;
@@ -95,17 +112,14 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         int tmp_i;
         int tmp_icv[6];
         int err = 0;
-        
-        if (!pcs)
-                return -1;
-        if (!vector)
-                return -2;
-        
+
+
         /*
                 Mark as non consistent first
          */
         pcs->consistent = false;
-        
+
+
         /*
          checkear pitch_content. si es mayor o igual que nelem+1, lo dejamos como está.
          si es menor, liberamos y reasignamos
@@ -120,7 +134,7 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
                 pcs->pitch_content = malloc(nelem * sizeof(int));
         
         if (!pcs->pitch_content)
-                return -3;
+                return;
 
         /*
                 Get binary value from pitch content
