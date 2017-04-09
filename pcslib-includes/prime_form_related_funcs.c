@@ -115,7 +115,7 @@ void filter_and_sort(int *pitches, long n, int *sorted, int *nelem)
                 bit_vector[i] = -5;
         
         for (long i = 0; i < n; i++) {
-                if (pitches[i] != EOP && pitches[i] != EOC) {
+                if (pitches[i] != EOP) {
                         j = pitches[i] % 12;  // mod 12 is very important here!
                         bit_vector[j] = j;
                 }
