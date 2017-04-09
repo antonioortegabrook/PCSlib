@@ -2,7 +2,7 @@
  
  --- Only used for Max objects ---
  
- These are the methods for set and retrieve pointer data from t_ptr_mess,
+ These are the methods for set and retrieve pointer data from t_patom,
  an atom-like struct to pass pointers from one object to another in a *safe* way
  (see pcslib_max_types.h)
  */
