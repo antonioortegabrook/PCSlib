@@ -44,7 +44,7 @@ t_cm *patom_getcm(const t_patom *p)
 int patom_setpcs(t_patom *p, t_pcs *s)
 {
     if (!p)
-        return -100;    // -100 = null ptr_mess
+        return -100;    // -100 = null patom
     if (!s)
         return -101;    // -101 = null PCS
     
