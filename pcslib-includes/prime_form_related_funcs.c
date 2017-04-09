@@ -16,7 +16,6 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         int bin_val, transp;
         int i_bin_val, i_transp;
         //int is_inverted_a, is_inverted_b;
-        
 
         filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
 
@@ -26,7 +25,6 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         
         minimum_bin_value(pcs, card, &i_bin_val, &i_transp);    // 4- find inversion min bin value
 
-        
         /** Special cases
          These are the cases in which the minimum binary value doesn't match Forte's
          prime form, so we correct them
@@ -223,7 +221,8 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
         return;
 }
 
-/*
+
+/**
         We use this function to tell if we prefer taking a pcs as inverted
         or not when inversion is equivalent to transposition
  */
