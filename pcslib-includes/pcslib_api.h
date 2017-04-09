@@ -8,7 +8,7 @@
 #define EOC -2
 
 #include "types.h"
-#include "new_tabs.h"
+//#include "new_tabs.h"
 
 #include "basic_funcs.h"
 #include "basic_funcs.c"

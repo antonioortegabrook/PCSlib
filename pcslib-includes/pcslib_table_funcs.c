@@ -8,7 +8,7 @@
  */
 
 //#include "pcslib_table_funcs.h"
-
+#include "new_tabs.h"
 
 
 /** Return the index in table of a PCS from its binary value and cardinal number
@@ -23,7 +23,7 @@ int binval_table_index(int binval, int ncar)
 
         for (int i = lower_limit; i < upper_limit; i++) {
                 if (bin_vals[i] == binval) {
-                        index = i * PCS_TABLE_ROW_LEN;
+                        index = PCS_TABLE_ROW_LEN * i;
                         break;
                 }
         }
