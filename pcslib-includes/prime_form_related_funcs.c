@@ -2,39 +2,30 @@
 
 
 
-/** Computes pime-form's binary value and t/i status
- 
- */
-int prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, int *inv)
-{
-/** ToDo:
-        remover las variables err; las funciones son void;
-        remover el check del puntero;
-        poner todas las declaraciones de variables arriba;
-*/
-        if (!pitches)
-                return -1;
-        
-        int is_inverted_a, is_inverted_b;
-        
-        int card, pcs[12];
-        int sort_err = pcs_sort(pitches, n, pcs, &card);                // 1- filter & sort
-        if (sort_err)
-                return -2;
-        
-        int bin_val, transp;
-        int bin_err = minimum_bin_value(pcs, card, &bin_val, &transp);  // 2- find min bin value
-        if (bin_err)
-                return -3;
-        
-        int inv_err = invert(pcs, card);                            // 3- invert
-        if (inv_err)
-                return -4;
+/**     Computes pime-form's binary value and t/i status
+                
+                @ parameters: pointer to an array (int) whith the pitch content as
+                        received, # of elements, pointers (int) to write binary value,
+                        cardinal number, transposition factor and inversion status
 
+                @ warning: doesn't check pointers; it's caller responsiblity to pass good data
+ */
+void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, int *inv)
+{
+        int card, pcs[12];
+        int bin_val, transp;
         int i_bin_val, i_transp;
-        int i_bin_err = minimum_bin_value(pcs, card, &i_bin_val, &i_transp);    // 4- find inversion min bin value
-        if (i_bin_err)
-                return -5;
+        //int is_inverted_a, is_inverted_b;
+        
+
+        filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
+
+        minimum_bin_value(pcs, card, &bin_val, &transp);        // 2- find min bin value
+
+        invert(pcs, card);                                      // 3- invert
+        
+        minimum_bin_value(pcs, card, &i_bin_val, &i_transp);    // 4- find inversion min bin value
+
         
         /** Special cases
          These are the cases in which the minimum binary value doesn't match Forte's
@@ -105,27 +96,26 @@ int prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, int
                 *inv = true;
         }
 
-        return 0;
+        return;
 }
 
 
-/**     Sort a PCS, take mod 12, removes duplicates and EOPs/EOCs
+/**     Sort a PCS, take mod 12, removes duplicates and EOPs/EOCs (revisar este comentario)
  
                 @ parameters: pointer to an array (int), array length (int) (must be [12]!)
+                
                 @ returns: pointer to a 13 element array (int); index 12 is equal to n
-                (# of pitch classes); from index 0 to index, n-1 the pitch classes,
-                sorted, mod 12, without duplicates
+                        (# of pitch classes); from index 0 to index, n-1 the pitch classes,
+                        sorted, mod 12, without duplicates
  */
-int pcs_sort(int *pitches, long n, int *sorted, int *nelem)
+void filter_and_sort(int *pitches, long n, int *sorted, int *nelem)
 {
-        if(!pitches)
-                return -1;
-        
         int bit_vector[12];
+        int j;
+        
         for (int i = 0; i < 12; i++)
                 bit_vector[i] = -5;
         
-        int j;
         for (long i = 0; i < n; i++) {
                 if (pitches[i] != EOP && pitches[i] != EOC) {
                         j = pitches[i] % 12;  // mod 12 is very important here!
@@ -142,28 +132,23 @@ int pcs_sort(int *pitches, long n, int *sorted, int *nelem)
         }
         
         *nelem = j;                 // store # of elems
-        return 0;
+        return;
 }
 
 
 /**     Find the minimum binary value and its transposition of the first n elements of
         a given array
  
-        @ parameters: pointer to array, n (# of elements), pointer to int for storing
-                minimum bin value, pointer to int for storing transposition
-        @ returns: error code (int) -1 for null pointer to array, -2 for null pointer
-                to mbi, -3 for null pointer to t
-        @ note: doesn't write to the original array, so it can be reused
+                @ parameters: pointer to array, n (# of elements), pointers (int) for
+                        storing minimum binary value and transposition factor
+ 
+                @ warning: doesn't check pointers; it's caller responsiblity to pass good
+                        data
+
+                @ note: doesn't write to the original array, so it can be reused
  */
-int minimum_bin_value(int *vector, int n, int *mbi, int *t)
+void minimum_bin_value(int *vector, int n, int *mbi, int *t)
 {
-        if (!vector)
-                return -1;
-        if (!mbi)
-                return -2;
-        if (!t)
-                return -3;
-        
         int rots[12][12], binvals[12], transp[12];
         int min_bv, tf;
         int tmp;
@@ -235,7 +220,7 @@ int minimum_bin_value(int *vector, int n, int *mbi, int *t)
         *mbi = min_bv;
         *t = tf;
         
-        return 0;
+        return;
 }
 
 /*
