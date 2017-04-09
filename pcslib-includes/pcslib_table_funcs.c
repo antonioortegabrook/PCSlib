@@ -13,7 +13,7 @@
 
 /** Return the index in table of a PCS from its binary value and cardinal number
         @ params: binary value (int), cardinal number (int)
-        @ returns: index (int)
+        @ returns: index (int) (-1 means not found)
  */
 int binval_table_index(int binval, int ncar)
 {
@@ -27,9 +27,6 @@ int binval_table_index(int binval, int ncar)
                         break;
                 }
         }
-
-        if (index < 0)
-                return -1;
 
         return index;
 }
