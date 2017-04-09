@@ -6,7 +6,7 @@
 /** This is the length of a row in the pcs_table;
 
 */
-#define PCS_TABLE_ROW_LEN = 20;
+#define PCS_TABLE_ROW_LEN 20
 
 /** These are used to search *efficiently* trhough the big table;
 
