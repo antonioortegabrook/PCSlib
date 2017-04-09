@@ -1,20 +1,37 @@
 
-/*  Tables  */
+/**  Tables
+ 
+        N.B.: make the screen at least 125 characters whidth, so the table gets human-readable
+ */
 
 #include <stdint.h>
 
-/** This is the length of a row in the pcs_table;
 
+/** This is the length of a row in the pcs_table;
 */
 #define PCS_TABLE_ROW_LEN 20
 
-/** These are used to search *efficiently* trhough the big table;
+/** These are the offsets at which is located the first element of each of the fields in the pcs_table
+ */
+#define NCAR_OFFSET       0
+#define NORD_OFFSET       1
+#define PF_OFFSET         2
+#define Z_OFFSET          11
+#define N_OFFSET          12
+#define ICV_OFFSET        13
+#define COMPLEMENT_OFFSET 19
+
+
+
+/** These are used to search *efficiently* trhough the pcs_table;
 
     @ car_pos   stores the index in table of the first pcs of each cardinality, beeing the index of this
                         array equals to the cardinal number we have; to get the PCS we are looking for,
                         substract 1 from ordinal number, multiply by 20 an add to it; i.e. to get index of PCS
                         5-10: car_pos[5] = 820; then (16-1) * 20 = 300; then 820 + 300 = 1120 and that's the
                         index of 5-16 in the big table.
+                        UPDATE: we've added constants for the offsets and we will add PCS of cardinality 0 to
+                        2 and 10 to 12 to the table.
 
     @ max_ord   stores the maximum number of PCS of each cardinality, beeing the index of this array equal to
                         the cardinal number we have.-
@@ -37,10 +54,10 @@ static int16_t max_ord[10] = {-1,-1,-1,   12, 29,  38,  50,   38,   29,   12};  
 static int16_t bv_idx[10]  = {-1,-1,-1,   0,  12,  41,  79,   129,  167,  196};   /* index of first bv of each card  */
 
 static int16_t bin_vals[208] = /* minimum binary value of each PCS (except for the known special cases); index of
-                        this array corresponds to the number of row in the table; multiply it by 20 to
-                        get index of table array                                                          */
+                        this array corresponds to the number of row in the table; multiply by PCS_TABLE_ROW_LEN to
+                        get index of table array                                                                     */
 /* card 3 (12) */
-{7, 11, 19, 35, 67, 21, 37, 69, 133, 73, 137, 273,
+{ 7, 11, 19, 35, 67, 21, 37, 69, 133, 73, 137, 273,
 /* card 4 (29) */
 15, 23, 27, 39, 71, 135, 51, 99, 195, 45, 43, 77, 75, 141, 83, 163, 153, 147, 275, 291, 85, 149, 165, 277, 325, 297, 293, 585, 139,
 /* card 5 (38) */
@@ -52,10 +69,10 @@ static int16_t bin_vals[208] = /* minimum binary value of each PCS (except for t
 /* card 8 (29) */
 255, 383, 639, 447, 479, 495, 831, 927, 975, 765, 703, 763, 735, 759, 863, 943, 891, 879, 887, 951, 1375, 1391, 1455, 1399, 1495, 1719, 1463, 1755, 751,
 /* card 9 (12) */
-511, 767, 895, 959, 991, 1407, 1471, 1503, 1519, 1759, 1775, 1911};
+511, 767, 895, 959, 991, 1407, 1471, 1503, 1519, 1759, 1775, 1911 };
 
 
-/** PCS table (aka the big table)
+/** PCS table
  
         Stores cardinal number, ordinal number, prime form, index of z mate, interval-class vector and index
         of complement of each pcs.

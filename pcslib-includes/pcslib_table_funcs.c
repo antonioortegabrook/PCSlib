@@ -57,7 +57,7 @@ int z_table_index(int index)
 {
         int z;
 
-        z = pcs_table[index+11];     // 11 is the offset at which z index is located
+        z = pcs_table[index + Z_OFFSET];     // 11 is the offset at which z index is located
 
         if (z)
                 z = z - 1;          // z indexes have this 1 offset (why...?)
@@ -74,7 +74,7 @@ int complement_table_index(int index)
 {
         int complement;
 
-        complement = pcs_table[index + 19];
+        complement = pcs_table[index + COMPLEMENT_OFFSET];
 
         complement = complement - 1;    // complement indexes have this 1 offset (why...?)
 
@@ -90,7 +90,7 @@ int ncar_table(int index)
 {
         int ncar;
 
-        ncar = pcs_table[index];
+        ncar = pcs_table[index + NCAR_OFFSET];
 
         return ncar;
 }
@@ -104,7 +104,7 @@ int nord_table(int index)
 {
         int nord;
 
-        nord = pcs_table[index + 1];
+        nord = pcs_table[index + NORD_OFFSET];
 
         return nord;
 }
@@ -131,7 +131,7 @@ int n_table(int index)
 {
         int n;
 
-        n = pcs_table[index+12];
+        n = pcs_table[index + N_OFFSET];
 
         return n;
 }
@@ -143,7 +143,7 @@ int n_table(int index)
  */
 void icv_table(int index, int *icv_target)
 {
-        int j = index + 13;
+        int j = index + ICV_OFFSET;
 
         for(int i = 0; i < 6; i++)
                 icv_target[i] = pcs_table[j + i];
