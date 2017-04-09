@@ -14,6 +14,7 @@ t_pcs * pcs_new_empty()
         t_pcs *pcs;
         
         pcs = malloc(sizeof(t_pcs));
+        
         if (!pcs)
                 return NULL;
         
