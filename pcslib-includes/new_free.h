@@ -6,10 +6,14 @@
 //#include "types.h"
 
 /*
- Allocates a new empty t_pcs; if succesful, returns a pointer (null if not)
+ Allocate a new empty t_pcs; if succesful, returns a pointer (null if not)
  */
 t_pcs * pcs_new_empty();
 
+/*
+ Copy the contents of a t_pcs into a new one
+ */
+t_pcs * pcs_copy(t_pcs *source);
 /*
  Deallocate a t_pcs
  */
@@ -18,4 +22,4 @@ void pcs_free(t_pcs *pcs);
 /*
  Copy the contents of a t_pcs into another. Target must be initialized
  */
-void pcs_copy(t_pcs *source, t_pcs *target);
+void pcs_copy_old(t_pcs *source, t_pcs *target);

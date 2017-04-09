@@ -77,8 +77,6 @@ void *pcs_read_new() {
         x->nc_out = intout(x);
         x->fi_out = listout(x);
 
-        x->pcs = pcs_new_empty();
-
         return(x);					// return a reference to the object instance
 }
 //--------------------------------------------------------------------------
@@ -159,8 +157,12 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_patom *argv)
                 return;
         }
 
-        pcs_copy(x->pcs, tempcs);          // create a local copy of the structure
+        x->pcs = pcs_copy(tempcs);              // create a local copy of the structure
 
+        if (!x->pcs) {
+                object_error((t_object*)x, "allocation failed (pcs_copy)");
+                return;
+        }
 
         /*
                 Check for consistency
