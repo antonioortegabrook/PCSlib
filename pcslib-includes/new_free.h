@@ -18,4 +18,4 @@ void pcs_free(t_pcs *pcs);
 /*
  Copy the contents of a t_pcs into another. Target must be initialized
  */
-int pcs_copy(t_pcs *source, t_pcs *target);
+void pcs_copy(t_pcs *source, t_pcs *target);

@@ -45,26 +45,22 @@ void pcs_free(t_pcs *pcs)
 
 /*
         Copy the contents of a t_pcs into another. Target must be initialized.
-        Warning: doesn't check for consistency
+                @ warning: doesn't check for consistency. Doesn't check pointers (caller
+                        is responsible for that)
  */
-int pcs_copy(t_pcs *target, t_pcs *source)
+void pcs_copy(t_pcs *target, t_pcs *source)
 {
         int nelem, ncar;
-
-        if (!source)
-                return -1;
-        if (!target)
-                return -2;
 
         nelem = source->nelem;
         ncar = source->ncar;
 
-        if (source->nelem) {
+        if (source->nelem) {                    // revisar esto
                 free(target->pitch_content);
                 target->pitch_content = malloc(nelem * sizeof(int));
                 
                 if (!target->pitch_content)
-                        return -3;
+                        return;
         }
 
         for (int i = 0; i < nelem; i++)
@@ -87,5 +83,5 @@ int pcs_copy(t_pcs *target, t_pcs *source)
         target->selected = source->selected;
         target->table_index = source->table_index;
 
-        return 0;
+        return;
 }

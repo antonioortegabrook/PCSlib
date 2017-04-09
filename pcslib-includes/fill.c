@@ -133,13 +133,15 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         if (!pcs->pitch_content)
                 pcs->pitch_content = malloc(nelem * sizeof(int));
         
-        if (!pcs->pitch_content)
-                return;
+        if (!pcs->pitch_content) {
+                pcs->consistent = false;
+                return -1;
+        }
 
         /*
                 Get binary value from pitch content
          */
-        err += prime_form_data(vector, nelem, &pf_binvalue, &tmp_ncar, &tmp_t, &tmp_i);
+        prime_form_data(vector, nelem, &pf_binvalue, &tmp_ncar, &tmp_t, &tmp_i);
 
         /*
                 Get index in table from binary value
@@ -153,9 +155,9 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
 
         tmp_nord = nord_table(index);
 
-        err += pf_table(index, tmp_pf);
+        pf_table(index, tmp_pf);
 
-        err += icv_table(index, tmp_icv);
+        icv_table(index, tmp_icv);
 
         /*
                 Write data to struct
