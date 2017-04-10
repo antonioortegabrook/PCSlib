@@ -111,7 +111,6 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         int tmp_t;
         int tmp_i;
         int tmp_icv[6];
-        int err = 0;
 
 
         /*
@@ -121,7 +120,7 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
 
 
         /*
-         checkear pitch_content. si es mayor o igual que nelem+1, lo dejamos como está.
+         checkear pitch_content. si es mayor o igual que nelem, lo dejamos como está.
          si es menor, liberamos y reasignamos
          */
         if (pcs->pitch_content) {
@@ -130,11 +129,11 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
                         pcs->pitch_content = NULL;
                 }
         }
+        
         if (!pcs->pitch_content)
                 pcs->pitch_content = malloc(nelem * sizeof(int));
         
         if (!pcs->pitch_content) {
-                pcs->consistent = false;
                 return -1;
         }
 
@@ -182,14 +181,6 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         pcs->selected = false;
         pcs->table_index = index;
 
-        /*
-                Check for errors (improve)
-         */
-        if (err) {
-                
-                return -3;
-        }
-        
         pcs->consistent = true;
 
         return 0;
