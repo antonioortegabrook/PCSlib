@@ -5,11 +5,11 @@
 
 
 /*
-        Check if a given set-class exist or not
+        Check if a given set-class exists or not
 */
-int not_exist(int ncar, int nord)
+int pcs_not_exist(int ncar, int nord)
 {
-        if (ncar < 3 || ncar > 9)
+        if (ncar < MIN_CAR || ncar > MAX_CAR)
                 return -1;              // invalid ncar
         
         if (nord < 1 || nord > max_ord[ncar])

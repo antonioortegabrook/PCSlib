@@ -139,7 +139,7 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
         
         /* Check if given name is valid
          */
-        if (not_exist(ncar, nord)) {
+        if (pcs_not_exist(ncar, nord)) {
                 object_error((t_object*)x, "sc %d-%d does not exist", ncar, nord);
                 return;
         }
