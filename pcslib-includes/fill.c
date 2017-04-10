@@ -25,9 +25,10 @@ int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
                         pcs->pitch_content = NULL;
                 }
         }
+
         if (!pcs->pitch_content)
                 pcs->pitch_content = malloc(car * sizeof(int));
-        
+
         if (!pcs->pitch_content) {
                 pcs->consistent = false;
                 return -1;
@@ -44,10 +45,10 @@ int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
         pf_table(index, tmp_prime_form);
         
         icv_table(index, tmp_icv);
-        
+
         if (tr)                         // transpose...?
                 transpose(tmp_pitch_content, car, tr);
-        
+
         if (inv)                        // invert...?
                 invert(tmp_pitch_content, car);
 
