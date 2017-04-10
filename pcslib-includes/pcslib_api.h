@@ -6,6 +6,10 @@
 #define AGL 12
 #endif
 
+#ifndef ICVL
+#define ICVL 6
+#endif
+
 #define EOP -1
 #define EOC -2
 
