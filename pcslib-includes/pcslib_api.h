@@ -2,7 +2,9 @@
 //#ifndef PCSLIB_API_H_
 //#define PCSLIB_API_H_
 
-
+#ifndef AGL
+#define AGL 12
+#endif
 
 #define EOP -1
 #define EOC -2
