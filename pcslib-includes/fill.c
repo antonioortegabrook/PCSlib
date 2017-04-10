@@ -1,4 +1,9 @@
 
+/**
+        Methods to fill a t_pcs from user input (pcs name or pitch content)
+ */
+
+
 
 /**     Fill a t_pcs from its name
                 Assumes an initialized PCS. Caller is responsible for what it passes

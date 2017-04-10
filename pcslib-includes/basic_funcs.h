@@ -2,7 +2,7 @@
 /*
  
  **
-        These functions don't check arguments. Is caller's responsiblity to
+        These functions don't check arguments. It's caller's responsiblity to
         pass good data.
  **
  
