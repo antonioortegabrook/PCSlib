@@ -39,7 +39,7 @@ void transpose(int *vector, int nelem, int tf)
  */
 void invert(int *vector, int nelem)
 {
-        for (int i=0; i<nelem; i++) {
+        for (int i = 0; i < nelem; i++) {
                 
                 if (vector[i] != EOP)
                         vector[i] = 12 - vector[i];
