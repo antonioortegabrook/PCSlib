@@ -12,8 +12,8 @@
 t_pcs * patom_getpcs(const t_patom *p);
 t_cm * patom_getcm(const t_patom *p);
 
-int patom_setpcs(t_patom *p, t_pcs *s);
-int patom_setcm(t_patom *p, t_cm *s);
+void patom_setpcs(t_patom *p, t_pcs *s);
+void patom_setcm(t_patom *p, t_cm *s);
 
 
 
