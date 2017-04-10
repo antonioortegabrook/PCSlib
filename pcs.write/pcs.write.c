@@ -109,7 +109,6 @@ void pcs_write_free(t_pcs_write *x)
 void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
 {
         t_patom ptr_out;
-        short err_code;
 
         int ncar;
         int nord;
@@ -198,17 +197,10 @@ void pcs_write_list(t_pcs_write *x, t_symbol *s, long argc, t_atom *argv)
         }
         
         
-        /**
-                Send pointer out
+        /**     Send pointer out
          */
-        err_code = patom_setpcs(&ptr_out, x->pcs);
-        
-        if (err_code) {
-                object_error((t_object*)x, "error code %d", err_code);
-                return;
-        }
-        
         patom_setpcs(&ptr_out, x->pcs);
+        
         outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);
 
 

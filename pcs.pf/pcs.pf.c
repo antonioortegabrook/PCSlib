@@ -137,12 +137,8 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
                 t_patom ptr_out;
                 short err_code;
                 
-                err_code = patom_setpcs(&ptr_out, x->pcs);
-                if (err_code) {
-                        object_error((t_object*)x, "error code %d", err_code);
-                        return;
-                }
                 patom_setpcs(&ptr_out, x->pcs);
+                
                 outlet_anything (x->pcs_out, gensym(MPID), 1, (t_atom*)&ptr_out);    //- (cuidado con el nombre del outlet)
         }   //------------- end out -------------------
 
