@@ -32,22 +32,21 @@ t_pcs * pcs_copy(t_pcs *source)
 {
         t_pcs *new_pcs;
         int tmp_nelem = 0;
-        int tmp_ncar = 0;
 
-        if (!source || !source->consistent)
+
+        if (!source)
                 return NULL;
 
         new_pcs = pcs_new_empty();
-        
+
         if (!new_pcs)
                 return NULL;
 
-        if (source->nelem) {
-                tmp_nelem = source->nelem;
-                tmp_ncar = source->ncar;
-                
+        tmp_nelem = source->nelem;
+
+        if (source->pitch_content) {
                 new_pcs->pitch_content = malloc(tmp_nelem * sizeof(int));
-                
+
                 if (!new_pcs->pitch_content)
                         return NULL;
         }
@@ -60,21 +59,21 @@ t_pcs * pcs_copy(t_pcs *source)
         new_pcs->consistent = source->consistent;
         new_pcs->ncar = source->ncar;
         new_pcs->nord = source->nord;
-        
+
         for (int i = 0; i < tmp_nelem; i++)
                 new_pcs->pitch_content[i] = source->pitch_content[i];
-        
+
         new_pcs->nelem = source->nelem;
-        
-        for (int i = 0; i < tmp_ncar; i++)
+
+        for (int i = 0; i < AGL; i++)
                 new_pcs->prime_form[i] = source->prime_form[i];
-        
+
         new_pcs->t = source->t;
         new_pcs->inverted = source->inverted;
-        
-        for (int i = 0; i < 6; i++)
+
+        for (int i = 0; i < ICVL; i++)
                 new_pcs->icv[i] = source->icv[i];
-        
+
         new_pcs->selected = source->selected;
         new_pcs->table_index = source->table_index;
 
