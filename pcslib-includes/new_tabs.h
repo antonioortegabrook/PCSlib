@@ -7,7 +7,12 @@
 #include <stdint.h>
 
 
-/** This is the length of a row in the pcs_table;
+/** These are the minimum and maximum cardinal numbers
+ */
+#define MIN_CAR           3
+#define MAX_CAR           9
+
+/** This is the length of a row in the pcs_table
 */
 #define PCS_TABLE_ROW_LEN 20
 
