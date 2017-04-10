@@ -1,3 +1,4 @@
+
 /*  pcslib_max_types.h by Antonio Ortega Brook - March 2017
  
     --- Only used for Max objects ---
@@ -9,6 +10,13 @@
  */
 
 
+/** Message selectors for PCS and CM
+ */
+#define MPID "pcs_ptr_mes"
+#define MMID "cm_ptr_mes"
+
+
+
 /** PCSlib types
  */
 typedef enum {
@@ -16,12 +24,14 @@ typedef enum {
     P_CM            // < pointer to a CM
 } e_pcslib_patomtypes;
 
+
 /** Union for packing the PCSlib types defined above
  */
 union pcs_word {
     t_pcs *pcs;
     t_cm *cm;
 };
+
 
 /** Atom-like struct for wrapping pointers to be sent to other objects;
     we cast *t_ptr_mess to *t_atom to pass it through an outlet_anything and

@@ -2,7 +2,7 @@
 //#ifndef PCSLIB_API_H_
 //#define PCSLIB_API_H_
 
-#define MPID "pcs_ptr_mes"
+
 
 #define EOP -1
 #define EOC -2
