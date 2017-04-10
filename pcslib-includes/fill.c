@@ -113,8 +113,7 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         int tmp_icv[6];
 
 
-        /*
-                Mark as non consistent first
+        /**     Mark as non consistent first
          */
         pcs->consistent = false;
 
@@ -129,7 +128,7 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
                         pcs->pitch_content = NULL;
                 }
         }
-        
+
         if (!pcs->pitch_content)
                 pcs->pitch_content = malloc(nelem * sizeof(int));
         
@@ -137,18 +136,18 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
                 return -1;
         }
 
-        /*
-                Get binary value from pitch content
+
+        /**     Get binary value from pitch content
          */
         prime_form_data(vector, nelem, &pf_binvalue, &tmp_ncar, &tmp_t, &tmp_i);
 
-        /*
-                Get index in table from binary value
+
+        /**     Get index in table from binary value
          */
         index = binval_table_index(pf_binvalue, tmp_ncar);
 
-        /*
-                Get table data from index
+
+        /**     Get table data from index
          */
         tmp_ncar = ncar_table(index);
 
@@ -158,8 +157,8 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
 
         icv_table(index, tmp_icv);
 
-        /*
-                Write data to struct
+
+        /**     Write data to struct
          */
         pcs->ncar = tmp_ncar;
         pcs->nord = tmp_nord;
@@ -181,7 +180,11 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         pcs->selected = false;
         pcs->table_index = index;
 
+
+        /**     Mark as consistent once that everything has been copied
+         */
         pcs->consistent = true;
+
 
         return 0;
 }
