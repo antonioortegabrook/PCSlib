@@ -19,7 +19,7 @@
  Usamos t_ptr_mess para enviar/recibir punteros, en vez de t_atom
  */
 
-#include "ext.h"			// you must include this - it contains the external object's link to available Max functions
+#include "ext.h"		// you must include this - it contains the external object's link to available Max functions
 #include "ext_obex.h"		// this is required for all objects using the newer style for writing objects.
 
 

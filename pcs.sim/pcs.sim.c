@@ -43,13 +43,13 @@
  
  (B)		(C)		(D)		(E)
  -----------------------------------
- (A) |	ab		ac		ad		ae	<--(list 1 of length N-1)
+ (A) |	ab	ac		ad		ae      <--(list 1 of length N-1)
 	|
- (B)	|			bc		bd		be	<--(list 2 of length N-2)
+ (B)	|	bc		bd		be	<--(list 2 of length N-2)
 	|
- (C)	|					cd		ce	<--(list 3 of length N-3)
+ (C)	|			cd		ce	<--(list 3 of length N-3)
  |
- (D)	|							de	<--(list 4 of length N-4)
+ (D)	|					de	<--(list 4 of length N-4)
  
  So, for example, to know the result of the comparison between (B) and (C) you must read
  the content of the position which is the intersection of the row labeled (B) with

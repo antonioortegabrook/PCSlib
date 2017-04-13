@@ -26,7 +26,8 @@ t_pcs * pcs_new_empty()
 }
 
 /*
-        Copy the contents of a t_pcs into a new one
+        Copy the contents of a t_pcs into a new one; return null if allocation
+        fails
  */
 t_pcs * pcs_copy(t_pcs *source)
 {
@@ -99,8 +100,8 @@ void pcs_free(t_pcs *pcs)
 
 /*
         Copy the contents of a t_pcs into another. Target must be initialized.
-                @ warning: doesn't check for consistency. Doesn't check pointers (caller
-                        is responsible for that)
+                @ warning: doesn't check for consistency. Doesn't check pointers
+                        (caller is responsible for that)
         ---DEPRECATED---
  */
 void pcs_copy_old(t_pcs *target, t_pcs *source)
