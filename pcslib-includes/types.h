@@ -9,10 +9,10 @@ typedef struct {
         int consistent;         //  Wether its data is consistent or not
         int ncar;               //  Cardinal number
         int nord;               //  Ordinal number
-        int *pcs_delivered;     //  PCS as delivered
-        int nelem;              //  Number of pcs and EOPs in pcs_delivered
+        int *pcs_delivered;     //  PCS as delivered (may have several positions)
+        int nelem;              //  Number of PCs and EOPs in pcs_delivered
         int *pitch_content;     //  Pitch content only (no EOPs)
-        int npitches;           //  Number of pcs in pitch_content
+        int npitches;           //  Number of PCs in pitch_content
         int prime_form[12];     //  Prime form (we no longer write EOC in prime form)
         int t;                  //  T value respect of the prime form
         int inverted;           //  True if inv, false if not
