@@ -15,7 +15,7 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         int card, pcs[12];
         int bin_val, transp;
         int i_bin_val, i_transp;
-        //int is_inverted_a, is_inverted_b;
+        int inverted;
 
         filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
 
@@ -80,7 +80,11 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         }
         /** End special cases
          */
-        
+/*
+        if (bin_val == i_bin_val) {
+                if ()
+        }
+*/
         if (bin_val <= i_bin_val) {                                      // 5- compare results
                 *bin_value = bin_val;                                       // 6- write to target
                 *ncar = card;
@@ -228,11 +232,18 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
  */
 int is_inverted(int *vector, int n)
 {
-        int inverted = 0;
+        int inverted;
+        int up = 0, dn = 0;
         
-        for (int i = 1; i < n - 1; i++) {
-                if (vector[i] < vector[i + 1])
-                        inverted += 1;
+        for (int i = 1; i < n; i++) {
+                up += vector[i] > vector[i - 1];
+                dn += vector[i] < vector[i - 1];
         }
+
+        if (up >= dn)
+                inverted = false;
+        if (up < dn)
+                inverted = true;
+        
         return inverted;
 }
