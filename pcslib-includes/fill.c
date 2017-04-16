@@ -194,3 +194,50 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
 
         return 0;
 }
+
+
+/**     Remove EOPs. Return a pointer to the new array and write number of
+        pitches to an int passed as parameter
+ 
+ */
+int * remove_eops(int *delivered, int n, int *npitches)
+{
+        int *no_eops;
+        int tmp_npitches;
+        int i, j;
+
+        /**     First, count how many EOPs are in the delivered array
+         */
+        j = 0;
+        for (i = 0; i < n; i++) {
+                if (delivered[i] != EOP)
+                        j++;
+        }
+
+        /**     Find out how many pitches are
+         */
+        tmp_npitches = n - j;
+
+        /**     Now we can allocate memory for the new array
+         */
+        no_eops = malloc(tmp_npitches * sizeof(int));
+
+        if (!no_eops)
+                return NULL;
+
+        /**     Copy only pitches to the new array
+         */
+        j = 0;
+        for (i = 0; i < n; i++) {
+                if (delivered[i] != EOP) {
+                        no_eops[j] = delivered[i];
+                        j++;
+                }
+        }
+
+        /**     And... return
+         */
+        *npitches = tmp_npitches;
+
+        return no_eops;
+}
