@@ -19,11 +19,14 @@ t_pcs * pcs_new_empty()
                 return NULL;
         
         pcs->nelem = 0;
+        pcs->delivered = NULL;
+        pcs->npitches = 0;
         pcs->pitch_content = NULL;
         pcs->consistent = false;    // mark as non consistent
         
         return pcs;
 }
+
 
 /*
         Copy the contents of a t_pcs into a new one; return null if allocation
@@ -81,6 +84,7 @@ t_pcs * pcs_copy(t_pcs *source)
         return new_pcs;
 }
 
+
 /*
         Deallocate a t_pcs
  */
@@ -88,6 +92,9 @@ void pcs_free(t_pcs *pcs)
 {
         if (!pcs)
                 return;
+
+        free(pcs->delivered);
+        pcs->delivered = NULL;
 
         free(pcs->pitch_content);
         pcs->pitch_content = NULL;
@@ -97,6 +104,7 @@ void pcs_free(t_pcs *pcs)
 
         return;
 }
+
 
 /*
         Copy the contents of a t_pcs into another. Target must be initialized.
