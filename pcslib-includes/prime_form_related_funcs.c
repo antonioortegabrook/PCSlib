@@ -16,6 +16,8 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         int bin_val, transp;
         int i_bin_val, i_transp;
         int inverted;
+        
+        inverted = is_inverted(pitches, n);                    // 0- see if we prefer inverted
 
         filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
 
@@ -80,12 +82,27 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         }
         /** End special cases
          */
-/*
+
+
+        /** Compare and write to target.
+                This is ugly. Needs to be rewriten
+         */
         if (bin_val == i_bin_val) {
-                if ()
+                
+                if (inverted) {
+                        *bin_value = i_bin_val;
+                        *ncar = card;
+                        *tr = i_transp;
+                        *inv = true;
+                } else {
+                        *bin_value = bin_val;
+                        *ncar = card;
+                        *tr = transp;
+                        *inv = false;
+                }
         }
-*/
-        if (bin_val <= i_bin_val) {                                      // 5- compare results
+
+        if (bin_val < i_bin_val) {                                      // 5- compare results
                 *bin_value = bin_val;                                       // 6- write to target
                 *ncar = card;
                 *tr = transp;
