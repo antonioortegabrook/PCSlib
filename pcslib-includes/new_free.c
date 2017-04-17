@@ -36,6 +36,7 @@ t_pcs * pcs_copy(t_pcs *source)
 {
         t_pcs *new_pcs;
         int tmp_nelem = 0;
+        int tmp_npitches = 0;
 
 
         if (!source)
@@ -47,10 +48,23 @@ t_pcs * pcs_copy(t_pcs *source)
                 return NULL;
 
         tmp_nelem = source->nelem;
+        tmp_npitches = source->npitches;
 
+
+        /**     Allocate delivered, if needed
+         */
+        if (source->delivered) {
+                new_pcs->delivered = malloc(tmp_nelem * sizeof(int));
+
+                if (!new_pcs->delivered)
+                        return NULL;
+        }
+
+        /**     Allocate pitch_content, if needed
+         */
         if (source->pitch_content) {
-                new_pcs->pitch_content = malloc(tmp_nelem * sizeof(int));
-
+                new_pcs->pitch_content = malloc(tmp_npitches * sizeof(int));
+                
                 if (!new_pcs->pitch_content)
                         return NULL;
         }
@@ -64,13 +78,22 @@ t_pcs * pcs_copy(t_pcs *source)
         new_pcs->ncar = source->ncar;
         new_pcs->nord = source->nord;
 
+
         for (int i = 0; i < tmp_nelem; i++)
+                new_pcs->delivered[i] = source->delivered[i];
+        
+        new_pcs->nelem = source->nelem;
+
+
+        for (int i = 0; i < tmp_npitches; i++)
                 new_pcs->pitch_content[i] = source->pitch_content[i];
 
-        new_pcs->nelem = source->nelem;
+        new_pcs->npitches = source->npitches;
+
 
         for (int i = 0; i < AGL; i++)
                 new_pcs->prime_form[i] = source->prime_form[i];
+
 
         new_pcs->t = source->t;
         new_pcs->inverted = source->inverted;
