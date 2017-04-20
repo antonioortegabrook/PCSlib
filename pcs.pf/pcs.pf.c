@@ -85,18 +85,21 @@ void pcs_pf_free(t_pcs_pf *x)
 
 void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
 {
-        int *tmp_pitch_content;
+        int *tmp_delivered_content;
         int tmp_nelem;
+
+        if (argc <= 0)          //revisar esto
+                return;
 
         if (!x->pcs) {
                 object_error((t_object*)x, "pcs null. Please reload object");
                 return;
         }
                 
-        tmp_pitch_content = malloc(argc * sizeof(int));
+        tmp_delivered_content = malloc(argc * sizeof(int));
         
-        if (!tmp_pitch_content) {
-                object_error((t_object*)x, "allocation failed (tmp_pitch_content)");
+        if (!tmp_delivered_content) {
+                object_error((t_object*)x, "allocation failed (tmp_delivered_content)");
                 return;
         }
         
@@ -112,23 +115,28 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
         for (j = 0; j < argc; j++) {
                 if (atom_gettype(argv+j) == A_LONG || atom_gettype(argv+j) == A_FLOAT) {
                         
-                        tmp_pitch_content[i] = (int)atom_getfloat(&argv[j]);
+                        tmp_delivered_content[i] = (int)atom_getfloat(&argv[j]);
                         
-                        if(tmp_pitch_content[i] < 0 && tmp_pitch_content[i]!=EOP)
-                                tmp_pitch_content[i] = abs(tmp_pitch_content[i]);
+                        if(tmp_delivered_content[i] < 0 && tmp_delivered_content[i]!=EOP)
+                                tmp_delivered_content[i] = abs(tmp_delivered_content[i]);
                         
-                        if(tmp_pitch_content[i] >= 12)
-                                tmp_pitch_content[i] = tmp_pitch_content[i] % 12; // take modulo-12
+                        if(tmp_delivered_content[i] >= 12)
+                                tmp_delivered_content[i] = tmp_delivered_content[i] % 12; // take modulo-12
                         i++;
+                } else {
+                        object_error((t_object*)x, "bad arguments");
+                        free(tmp_delivered_content);
+                        return;
                 }
         }
 
         tmp_nelem = i;
         
-        int err = pcs_fill_from_pitch_content(x->pcs, tmp_pitch_content, tmp_nelem);
+        int err = pcs_fill_from_pitch_content(x->pcs, tmp_delivered_content, tmp_nelem);
         
         if (err) {
                 object_error((t_object*)x, "fill from pitch content failed"); // (revisar, deberíamos liberar tmp_pitch content)
+                free(tmp_delivered_content);
                 return;
         }
 
@@ -145,7 +153,7 @@ void pcs_pf_list(t_pcs_pf *x, t_symbol *s, long argc, t_atom *argv)
         /*
                 Free temp data
          */
-        free(tmp_pitch_content);
+        free(tmp_delivered_content);
 
     return;
 }
