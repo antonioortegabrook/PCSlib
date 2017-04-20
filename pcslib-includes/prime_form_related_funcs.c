@@ -15,9 +15,10 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         int card, pcs[12];
         int bin_val, transp;
         int i_bin_val, i_transp;
-        int inverted;
-        
-        inverted = is_inverted(pitches, n);                    // 0- see if we prefer inverted
+        int descendent, inverted;
+
+
+        descendent = is_descendent(pitches, n);                 // 0- see if we prefer inverted
 
         filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
 
@@ -27,6 +28,7 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         
         minimum_bin_value(pcs, card, &i_bin_val, &i_transp);    // 4- find inversion min bin value
 
+
         /** Special cases
          These are the cases in which the minimum binary value doesn't match Forte's
          prime form, so we correct them
@@ -34,23 +36,23 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         switch (bin_val) {
                 case 355:   // 5-20
                         bin_val = 395;
-                        transp = (transp + 12 - 7) % 12;
+                        transp = (transp + 5) % 12;
                         break;
                 case 717:   // 6-Z29
                         bin_val = 843;
-                        transp = (transp + 12 - 6) % 12;
+                        transp = (transp + 6) % 12;
                         break;
                 case 691:   // 6-31
                         bin_val = 811;
-                        transp = (transp + 12 - 8) % 12;
+                        transp = (transp + 4) % 12;
                         break;
                 case 743:   // 7-20
                         bin_val = 919;
-                        transp = (transp + 12 - 7) % 12;
+                        transp = (transp + 5) % 12;
                         break;
                 case 1467:  // 8-26
                         bin_val = 1719;
-                        transp = (transp + 12 - 9) % 12;
+                        transp = (transp + 3) % 12;
                         break;
                 default:
                         break;
@@ -84,37 +86,29 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
          */
 
 
-        /** Compare and write to target.
-                This is ugly. Needs to be rewriten
+        /*      Compare binary values of inverted and non inverted forms; if equal,
+                we prefer inverted if delivered is descendent and vice versa
          */
-        if (bin_val == i_bin_val) {
-                
-                if (inverted) {
-                        *bin_value = i_bin_val;
-                        *ncar = card;
-                        *tr = i_transp;
-                        *inv = true;
-                } else {
-                        *bin_value = bin_val;
-                        *ncar = card;
-                        *tr = transp;
-                        *inv = false;
-                }
-        }
+        inverted = (i_bin_val < bin_val || (i_bin_val == bin_val && descendent)) ? 1 : 0;
 
-        if (bin_val < i_bin_val) {                                      // 5- compare results
-                *bin_value = bin_val;                                       // 6- write to target
-                *ncar = card;
-                *tr = transp;
-                *inv = false;
+
+        /*      Write to target
+         */
+        if (inverted) {
                 
-        } else if (i_bin_val < bin_val) {
                 *bin_value = i_bin_val;
-                *ncar = card;
-                *tr = i_transp;
-                *inv = true;
+                *ncar      = card;
+                *tr        = i_transp;
+                *inv       = true;
+                
+        } else {
+                
+                *bin_value = bin_val;
+                *ncar      = card;
+                *tr        = transp;
+                *inv       = false;
         }
-
+        
         return;
 }
 
@@ -179,7 +173,7 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
                 binvals[i] = 0;
         
         /*
-                Put input vector in the first row of rotationa
+                Put input vector in the first row of rotations
          */
         for (int i = 0; i < n; i++)
                 rots[0][i] = vector[i];
@@ -226,7 +220,7 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
         min_bv = binvals[0];
         tf = transp[0];
         
-        for(int i=1; i<n; i++) {
+        for(int i = 1; i < n; i++) {
                 if(binvals[i] < min_bv) {
                         min_bv = binvals[i];
                         tf = transp[i];
@@ -247,20 +241,24 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
         We use this function to tell if we prefer taking a pcs as inverted
         or not when inversion is equivalent to transposition
  */
-int is_inverted(int *vector, int n)
+int is_descendent(int *vector, int n)
 {
-        int inverted;
+        int descendent;
         int up = 0, dn = 0;
-        
+
+
         for (int i = 1; i < n; i++) {
                 up += vector[i] > vector[i - 1];
                 dn += vector[i] < vector[i - 1];
         }
 
+
         if (up >= dn)
-                inverted = false;
+                descendent = false;
+
         if (up < dn)
-                inverted = true;
-        
-        return inverted;
+                descendent = true;
+
+
+        return descendent;
 }

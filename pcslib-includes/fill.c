@@ -12,9 +12,9 @@
 int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
 {
         int index;
-        int tmp_pitch_content[13];
-        int tmp_prime_form[12];
-        int tmp_icv[6];
+        int tmp_pitch_content[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int tmp_prime_form[12]    = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int tmp_icv[6]            = {0, 0, 0, 0, 0, 0};
         int err = 0;
 
 
@@ -58,7 +58,11 @@ int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
         }
 
 
-        index = name_table_index(car, ord);     // should we check existence here?
+        /**
+                First, find index in table of the requested PCS
+         */
+        index = name_table_index(car, ord);
+
 
         /**
                 Set temp data
@@ -75,14 +79,6 @@ int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
         if (inv)                        // invert...?
                 invert(tmp_pitch_content, car);
 
-        /**
-                Check for errors
-
-                should we check temp data here, or should we
-                ensure before that no bad data is passed to functions?
-         */
-
-
 
         /**
                 Copy temp data to struct
@@ -93,7 +89,7 @@ int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
 
         for (int i = 0; i < car; i++)
                 pcs->delivered[i] = tmp_pitch_content[i];
-        
+
         pcs->nelem = car;
 
 
@@ -155,7 +151,7 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         
         /*
          checkear delivered. si es mayor o igual que nelem, lo dejamos como está.
-         si es menor, liberamos y reasignamos
+         si es menor, liberamos y reasignamos (podríamos usar realloc...?)
          */
         if (pcs->delivered) {
                 if (pcs->nelem < nelem) {
@@ -193,15 +189,18 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
         if (!pcs->pitch_content)
                 pcs->pitch_content = malloc(tmp_npitches * sizeof(int));
         
-        if (!pcs->pitch_content)
+        if (!pcs->pitch_content) {
+                free(tmp_pitch_content);
                 return -1;
+        }
         
         
         
         
         
-        /**     Get binary value from pitch content
+        /**     Get binary value and T/i status from pitch content
                 (we now pass ONLY pitch data to prime_form_data())
+                -- return in args passed by reference (pf_binvalue, tmp_ncar, tmp_t, tmp_i)
          */
         prime_form_data(tmp_pitch_content, tmp_npitches, &pf_binvalue, &tmp_ncar, &tmp_t, &tmp_i);
         

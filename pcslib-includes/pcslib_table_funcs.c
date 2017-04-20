@@ -116,8 +116,8 @@ int nord_table(int index)
  */
 void pf_table(int index, int *pf_target)
 {
-        int ncar = pcs_table[index];
-        int j = index + 2;
+        int ncar = pcs_table[index + NCAR_OFFSET];
+        int j = index + PF_OFFSET;
 
         for(int i = 0; i < ncar; i++)
                 pf_target[i] = pcs_table[j + i];
