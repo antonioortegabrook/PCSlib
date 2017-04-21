@@ -236,6 +236,59 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
         return;
 }
 
+/**     *** NEW MINIMUM BINARY VALUE ***
+ */
+void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transposition_factor)
+{
+        unsigned int binary_values[12];
+        unsigned int minimum, transposition;
+        
+        /*      Compute binary value
+         */
+        for (int i = 0; i < n; i++)
+                binary_values[0] += pow(2, vector[i]);
+
+
+        /*      Rotate to the left
+         */
+        for (int i = 1; i < AGL; i++)
+                binary_values[i] = rotate_left(binary_values[0], i, AGL);
+
+
+        /*      Find minimum binary value
+         */
+        minimum = binary_values[0];
+        transposition = 0;
+        
+        for (int i = 1; i < AGL; i++) {
+                if (binary_values[i] < minimum) {
+                        minimum = binary_values[i];
+                        transposition = i;
+                }
+        }
+        
+        /*      Write minimum binary value and transposition factor
+         */
+        *min_binary_value       = minimum;
+        *transposition_factor   = transposition;
+        
+        
+        return;
+}
+
+
+/**
+        Perform bitwise rotation to the left by n over an arbitrary number of bits
+ */
+unsigned int rotate_left(unsigned int value, int shift, unsigned int width)
+{
+        unsigned int rotated;
+        
+        rotated = ((1U << width) - 1) & ((value << shift) | (value >> (width - shift)));
+        
+        return rotated;
+}
+
 
 /**
         We use this function to tell if we prefer taking a pcs as inverted
