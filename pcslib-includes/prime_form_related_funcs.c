@@ -242,7 +242,8 @@ void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transp
 {
         unsigned int binary_values[12];
         unsigned int minimum, transposition;
-        
+
+
         /*      Compute binary value
          */
         for (int i = 0; i < n; i++)
@@ -266,7 +267,8 @@ void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transp
                         transposition = i;
                 }
         }
-        
+
+
         /*      Write minimum binary value and transposition factor
          */
         *min_binary_value       = minimum;
@@ -285,6 +287,19 @@ unsigned int rotate_left(unsigned int value, int shift, unsigned int width)
         unsigned int rotated;
         
         rotated = ((1U << width) - 1) & ((value << shift) | (value >> (width - shift)));
+        
+        return rotated;
+}
+
+
+/**
+        Perform bitwise rotation to the right by n over an arbitrary number of bits
+ */
+unsigned int rotate_right(unsigned int value, int shift, unsigned int width)
+{
+        unsigned int rotated;
+        
+        rotated = ((1U << width) - 1) & ((value >> shift) | (value << (width - shift)));
         
         return rotated;
 }
