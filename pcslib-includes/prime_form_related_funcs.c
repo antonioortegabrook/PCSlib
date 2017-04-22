@@ -256,12 +256,18 @@ void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transp
         --- podríamos rotar por vector[i]
         --- update: deberíamos rotar HACIA LA DERECHA y sólo por los valore que hay en *vector.
           - no necesitamos calcular las 12 transposiciones!
+         -- la línea quedaría:
+         
+          - for (int i = 1; i < n; i++)
+          -     binary_values[i] = rotate_right(binary_values[0], vector[i], AGL);
          */
         for (int i = 1; i < AGL; i++)
                 binary_values[i] = rotate_left(binary_values[0], i, AGL);
 
 
         /*      Find minimum binary value
+         --- el bucle debería quedar:
+           - for (int i = 1; i < n; i++)
          */
         minimum = binary_values[0];
         transposition = 0;
