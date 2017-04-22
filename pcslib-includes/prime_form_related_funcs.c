@@ -252,6 +252,7 @@ void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transp
         /*      Rotate to the left
         --- realmente necesitamos 12 rotaciones acá? 
         --- ojo que los índices mayores que n tienen basura
+        --- podríamos rotar por vector[i]
          */
         for (int i = 1; i < AGL; i++)
                 binary_values[i] = rotate_left(binary_values[0], i, AGL);
