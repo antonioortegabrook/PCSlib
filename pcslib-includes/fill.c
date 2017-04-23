@@ -12,10 +12,10 @@
 int pcs_fill_from_name(t_pcs *pcs, int car, int ord, int tr, int inv)
 {
         int index;
-        int tmp_pitch_content[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int tmp_prime_form[12]    = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        int tmp_icv[6]            = {0, 0, 0, 0, 0, 0};
-        int err = 0;
+        int tmp_pitch_content[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};       //      Estas inicializaciones no son realmente
+        int tmp_prime_form[12]    = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};       //      necesarias; son sólo para que no se
+        int tmp_icv[6]            = {0, 0, 0, 0, 0, 0};                         //      queje el analizador (clang);
+        int err = 0;                                                            //      (falso positivo...?)
 
 
         /*
