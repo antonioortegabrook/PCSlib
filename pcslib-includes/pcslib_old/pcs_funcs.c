@@ -629,6 +629,8 @@ void CopiaSet(PCS* source, PCS* target){
 // ----------------------------------------------------------------------------
 //	Determina si dos PCS tienen igual nombre
 // ----------------------------------------------------------------------------
+/*      Por quŽ comparar ncar y nord en lugar de s’mplemente comparar el ’ndice?    //-
+ */
 int NombresIguales(PCS* pcs1, PCS* pcs2)
 {
 	if(pcs1->ncar == pcs2->ncar && pcs1->nord == pcs2->nord)
@@ -639,6 +641,8 @@ int NombresIguales(PCS* pcs1, PCS* pcs2)
 // ----------------------------------------------------------------------------
 //	Determina si dos PCS son iguales en contenido, sin importar sus posiciones
 // ----------------------------------------------------------------------------
+/*      Esta funci—n no reconocer’a PCSs en t/i equivalentes    //-
+ */
 int SetsIguales(PCS* pcs1, PCS* pcs2)
 {
 	
