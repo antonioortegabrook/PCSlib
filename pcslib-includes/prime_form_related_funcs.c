@@ -14,8 +14,6 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
 {
         int card, pcs[12];
         int bin_val, transp;
-        int new_bin_val, new_transp;   // debug only!
-        
         int i_bin_val, i_transp;
         int descendent, inverted;
 
@@ -24,12 +22,11 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
 
         filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
 
-        minimum_bin_value(pcs, card, &bin_val, &transp);        // 2- find min bin value
-        minimum_binary_value(pcs, card, &new_bin_val, &new_transp);
+        minimum_binary_value(pcs, card, &bin_val, &transp);     // 2- find min bin value
 
         invert(pcs, card);                                      // 3- invert
-        
-        minimum_bin_value(pcs, card, &i_bin_val, &i_transp);    // 4- find inversion min bin value
+
+        minimum_binary_value(pcs, card, &i_bin_val, &i_transp); // 4- find inversion min bin value
 
 
         /** Special cases
@@ -152,94 +149,12 @@ void filter_and_sort(int *pitches, long n, int *sorted, int *nelem)
 }
 
 
-/**     Find the minimum binary value and its transposition of the first n elements of
-        a given array
- 
+/**     Compute binary value of a given array, find minimum and transposition factor
+                
                 @ parameters: pointer to array, n (# of elements), pointers (int) for
                         storing minimum binary value and transposition factor
- 
-                @ warning: doesn't check pointers; it's caller responsiblity to pass good
-                        data
-
+                
                 @ note: doesn't write to the original array, so it can be reused
- */
-void minimum_bin_value(int *vector, int n, int *mbi, int *t)
-{
-        int rots[12][12], binvals[12], transp[12];
-        int min_bv, tf;
-        int tmp;
-        
-        /*
-                Binary values array must be initialized to 0
-         */
-        for (int i = 0; i < 12; i++)
-                binvals[i] = 0;
-        
-        /*
-                Put input vector in the first row of rotations
-         */
-        for (int i = 0; i < n; i++)
-                rots[0][i] = vector[i];
-        
-        /*
-                Compute all the other rotations
-         */
-        for (int i = 1; i < n; i++) {
-                tmp = rots[i - 1][0];
-                
-                for (int j = 0; j < n - 1; j++)
-                        rots[i][j] = rots[i - 1][j + 1];
-                
-                rots[i][n-1] = tmp;
-        }
-        
-        /*
-                Transpose rotations to 0
-         */
-        for (int i = 0; i < n; i++) {
-                transp[i] = rots[i][0];
-                
-                for (int j = 0; j < n; j++) {
-                        rots[i][j] -= transp[i];
-                        
-                        if (rots[i][j] < 0)
-                                rots[i][j] += 12;
-                }
-        }
-        
-        /*
-                Find binary value for each rotation
-         */
-        for (int i = 0; i < n; i++) {
-                
-                for (int j = 0; j < n; j++)
-                        binvals[i] += pow(2, rots[i][j]);
-
-        }
-        
-        /*
-                Get minimum binary value
-         */
-        min_bv = binvals[0];
-        tf = transp[0];
-        
-        for(int i = 1; i < n; i++) {
-                if(binvals[i] < min_bv) {
-                        min_bv = binvals[i];
-                        tf = transp[i];
-                }
-        }
-        
-        /*
-                Write minimum binary value and transposition factor
-         */
-        *mbi = min_bv;
-        *t = tf;
-        
-        return;
-}
-
-/**     *** NEW MINIMUM BINARY VALUE ***
  */
 void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transposition_factor)
 {
@@ -266,7 +181,7 @@ void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transp
          */
         minimum = rotations[0];
         transposition = vector[0];
-        
+
         for (int i = 1; i < n; i++) {
                 if (rotations[i] < minimum) {
                         minimum = rotations[i];
@@ -279,8 +194,8 @@ void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transp
          */
         *min_binary_value       = minimum;
         *transposition_factor   = transposition;
-        
-        
+
+
         return;
 }
 
@@ -335,4 +250,96 @@ int is_descendent(int *vector, int n)
 
 
         return descendent;
+}
+
+
+
+/**
+        *** DEPRECATED ***
+**/
+/**     Find the minimum binary value and its transposition of the first n elements of
+                a given array
+ 
+                @ parameters: pointer to array, n (# of elements), pointers (int) for
+                        storing minimum binary value and transposition factor
+ 
+                @ warning: doesn't check pointers; it's caller responsiblity to pass good
+                        data
+ 
+                @ note: doesn't write to the original array, so it can be reused
+ */
+void minimum_bin_value(int *vector, int n, int *mbi, int *t)
+{
+        int rots[12][12], binvals[12], transp[12];
+        int min_bv, tf;
+        int tmp;
+        
+        /*
+         Binary values array must be initialized to 0
+         */
+        for (int i = 0; i < 12; i++)
+                binvals[i] = 0;
+        
+        /*
+         Put input vector in the first row of rotations
+         */
+        for (int i = 0; i < n; i++)
+                rots[0][i] = vector[i];
+        
+        /*
+         Compute all the other rotations
+         */
+        for (int i = 1; i < n; i++) {
+                tmp = rots[i - 1][0];
+                
+                for (int j = 0; j < n - 1; j++)
+                        rots[i][j] = rots[i - 1][j + 1];
+                
+                rots[i][n-1] = tmp;
+        }
+        
+        /*
+         Transpose rotations to 0
+         */
+        for (int i = 0; i < n; i++) {
+                transp[i] = rots[i][0];
+                
+                for (int j = 0; j < n; j++) {
+                        rots[i][j] -= transp[i];
+                        
+                        if (rots[i][j] < 0)
+                                rots[i][j] += 12;
+                }
+        }
+        
+        /*
+         Find binary value for each rotation
+         */
+        for (int i = 0; i < n; i++) {
+                
+                for (int j = 0; j < n; j++)
+                        binvals[i] += pow(2, rots[i][j]);
+                
+        }
+        
+        /*
+         Get minimum binary value
+         */
+        min_bv = binvals[0];
+        tf = transp[0];
+        
+        for(int i = 1; i < n; i++) {
+                if(binvals[i] < min_bv) {
+                        min_bv = binvals[i];
+                        tf = transp[i];
+                }
+        }
+        
+        /*
+         Write minimum binary value and transposition factor
+         */
+        *mbi = min_bv;
+        *t = tf;
+        
+        return;
 }
