@@ -14,6 +14,8 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
 {
         int card, pcs[12];
         int bin_val, transp;
+        int new_bin_val, new_transp;   // debug only!
+        
         int i_bin_val, i_transp;
         int descendent, inverted;
 
@@ -23,6 +25,7 @@ void prime_form_data(int *pitches, int n, int *bin_value, int *ncar, int *tr, in
         filter_and_sort(pitches, n, pcs, &card);                // 1- filter & sort
 
         minimum_bin_value(pcs, card, &bin_val, &transp);        // 2- find min bin value
+        minimum_binary_value(pcs, card, &new_bin_val, &new_transp);
 
         invert(pcs, card);                                      // 3- invert
         
@@ -240,33 +243,34 @@ void minimum_bin_value(int *vector, int n, int *mbi, int *t)
  */
 void minimum_binary_value(int *vector, int n, int *min_binary_value, int *transposition_factor)
 {
-        unsigned int binary_values[12];
+        unsigned int binary_value = 0;
+        unsigned int rotations[12];
         unsigned int minimum, transposition;
 
 
         /*      Compute binary value
          */
         for (int i = 0; i < n; i++)
-                binary_values[0] += pow(2, vector[i]);
+                binary_value += pow(2, vector[i]);
 
 
-        /*      Rotate to the left
+        /*      Rotate to the right
                 width = AGL
                 Bitwise rotation of binary value is equivalent to transposition
          */
-        for (int i = 1; i < n; i++)
-                binary_values[i] = rotate_right(binary_values[0], vector[i], AGL);
+        for (int i = 0; i < n; i++)
+                rotations[i] = rotate_right(binary_value, vector[i], AGL);
 
 
         /*      Find minimum binary value
          */
-        minimum = binary_values[0];
-        transposition = 0;
+        minimum = rotations[0];
+        transposition = vector[0];
         
         for (int i = 1; i < n; i++) {
-                if (binary_values[i] < minimum) {
-                        minimum = binary_values[i];
-                        transposition = i;
+                if (rotations[i] < minimum) {
+                        minimum = rotations[i];
+                        transposition = vector[i];
                 }
         }
 
