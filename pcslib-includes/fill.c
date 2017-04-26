@@ -168,6 +168,8 @@ int pcs_fill_from_pitch_content(t_pcs *pcs, int *vector, int nelem)
 
 
         /**     Remove EOPs
+         --- removidos los EOPs, deberíamos checkear que el contenido de alturas no esté vacío (npitches < 1);
+                si lo estuviera, no podemos llamar a las otras funciones.
          */
         tmp_pitch_content = remove_eops(vector, nelem, &tmp_npitches);
         
