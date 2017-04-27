@@ -203,6 +203,7 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_patom *argv)
         /*
                 Find complement
          */
+         // replace by literal_complement in basic_funcs
         int err_c = pcs_literal_complement(x->pcs, literal_complement);
         
         if (err_c) {

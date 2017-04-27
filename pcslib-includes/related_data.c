@@ -1,4 +1,8 @@
-
+/*
+	THESE FUNCTIONS SHOULD BE DEPRECATED SOON...
+	To compute literal complement use literal_complement() in basic_funcs
+	To get complement data from a t_pcs search its index in table
+*/
 
 /*      Get individual data from related PCSs
  */
