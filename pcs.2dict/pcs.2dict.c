@@ -10,7 +10,8 @@
 /*
  TODOS LOS COMENTARIOS QUE COMIENZAN CON //- SON MÍOS; EL OBJETIVO DE ESTO ES FACILITAR LA BÚSQUEDA DE ELLOS MIENTRAS ESTOY ESCRIBIENDO; LUEGO DEBERÁN SER BORRADOS O MODIFICADOS
  
- Borrar variables no utilizadas...?
+ ToDo:
+ Agregar atributo "name". Ver ejemplos en dict.group y bach.llll2dict
  */
 
 #include "ext.h"				//	Max headers
