@@ -8,6 +8,9 @@
       location = "container:"
       name = "PCS">
       <FileRef
+         location = "group:../pcs.2dict/pcs.2dict.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:../pcs.zmate/pcs.zmate.xcodeproj">
       </FileRef>
       <FileRef
