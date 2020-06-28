@@ -142,8 +142,24 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_atom *argv) {
     }  //------------ end get --------------
     
     if(x->pcs->find[0]==EOC){
-        post_sym(x, gensym("EOC found"));
-        return;
+//        post_sym(x, gensym("EOC found"));
+	    
+	    x->no_pf = 0;	 /*ordinal number*/
+	    x->nc_pf = 1;	 /*cardinal number*/
+	    atom_setsym(x->pflist, gensym("")); /*prime form*/
+	    for(int i = 0; i < 6; i++) {
+		    atom_setlong(x->ivlist+i, 0);
+	    }
+	    
+	    atom_setsym(x->filist, gensym(""));
+	    
+	    for(int i = 0; i < 6; i++) {
+		    atom_setlong(x->clist + i, 12);
+	    }
+	    atom_setlong(x->tlist + 0, 0);     /*IT [0]=T, [1]=I list*/
+	    atom_setlong(x->tlist + 1, 1);
+	    
+//        return;
     }
     
     pflist=x->pflist;
@@ -208,11 +224,17 @@ void pcs_read_pcs_ptr_mes(t_pcs_read *x, t_symbol *s, long argc, t_atom *argv) {
     //-------------- output data via outlets
     outlet_list (x->co_out, gensym("list"), 12-x->pcs->ncar, x->clist);
     outlet_list (x->iv_out, gensym("list"), ICVL, x->ivlist);
-    outlet_list (x->pf_out, gensym("list"), x->pcs->ncar, x->pflist);
+	if (!x->pcs->ncar)
+		outlet_list (x->pf_out, gensym("list"), 1, x->pflist);	//
+	else
+		outlet_list (x->pf_out, gensym("list"), x->pcs->ncar, x->pflist);	//
     outlet_list (x->ti_out, gensym("list"), 2, x->tlist);
     outlet_int  (x->no_out, x->no_pf);
     outlet_int  (x->nc_out, x->nc_pf);
-    outlet_list (x->fi_out, gensym("list"), n, x->filist);
+	if (!n)
+		outlet_list (x->fi_out, gensym("list"), 1, x->filist);		//
+	else
+		outlet_list (x->fi_out, gensym("list"), n, x->filist);		//
     
     return;
 }
