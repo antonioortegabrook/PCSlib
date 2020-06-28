@@ -39,7 +39,7 @@ void ext_main(void *r)
 
 	c = class_new("pcs.pf", (method)pcs_pf_new, (method)pcs_pf_free, sizeof(t_pcs_pf), 0L, 0);
     
-    class_addmethod(c, (method)pcs_pf_list,          "list",	A_LONG, 0);
+    	class_addmethod(c, (method)pcs_pf_list,          "list",	A_LONG, 0);
 	class_addmethod(c, (method)pcs_pf_assist,        "assist",	A_CANT, 0);	// (optional) assistance method
 
 	class_register(CLASS_BOX, c);
