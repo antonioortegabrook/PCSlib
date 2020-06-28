@@ -400,26 +400,26 @@ void pcs_chain_get_candidates(t_pcs_chain *x)
 
 void pcs_chain_output(t_pcs_chain *x)
 {
-    t_atom chain[PCSL];
-    long aux;          //<-- ex float, cambiado por long
-    int /* i, */ j;                                         //- unused variable i
-    
-    /*size goes out first*/
-    outlet_int(x->chz_out,(float)(x->chn)+1.);                          //- <-- ex outlet_float
-    /*now, output the chain*/
-    if(x->chn==1) { /*first time is a special case*/
-        for(j=0; j<x->ch[0].ncar; ++j){
-            aux=(int)x->ch[0].find[j];
-            atom_setlong(&(chain[j]),aux);
-        }
-        outlet_list(x->ch_out, gensym("list"),j,chain);
-    }
-    for(j=0; j<x->ch[x->chn].ncar; ++j){
-        aux=(int)x->ch[x->chn].find[j];
-        atom_setlong(&(chain[j]),aux);
-    }
-    outlet_list(x->ch_out, gensym("list"),j,chain);
-    return;
+	t_atom chain[PCSL];
+	long aux;          //<-- ex float, cambiado por long
+	int /* i, */ j;                                         //- unused variable i
+	
+	/*size goes out first*/
+	outlet_int(x->chz_out,(float)(x->chn)+1.);                          //- <-- ex outlet_float
+	/*now, output the chain*/
+	if(x->chn==1) { /*first time is a special case*/
+		for(j=0; j<x->ch[0].ncar; ++j){
+			aux=(int)x->ch[0].find[j];
+			atom_setlong(&(chain[j]),aux);
+		}
+		outlet_list(x->ch_out, gensym("list"),j,chain);
+	}
+	for(j=0; j<x->ch[x->chn].ncar; ++j){
+		aux=(int)x->ch[x->chn].find[j];
+		atom_setlong(&(chain[j]),aux);
+	}
+	outlet_list(x->ch_out, gensym("list"),j,chain);
+	return;
 }
 
 void pcs_cand_output(t_pcs_chain *x)                                //- revisar esta función; ver bucles
@@ -709,9 +709,12 @@ void pcs_chain_reset(t_pcs_chain *x) {                                    //-   
     }
     
     x->pcs_received=0;
-    x->chn=0;
+    x->chn=0;						//- chain size
     x->pcs[0].find[0]=EOC;
-    object_post((t_object*)x, "initialized to 0");
+	outlet_int(x->chz_out,(float)(x->chn)+1.); 	//- output new size
+	
+	if(x->verbose)
+		object_post((t_object*)x, "initialized to 0");
     return;
 }
 
